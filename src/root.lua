@@ -1,1 +1,1 @@
-print("<html><body><p>Hello!</p></body></html>")
+print("<html><body></body></html>")
