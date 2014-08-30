@@ -3,10 +3,15 @@
 from bottle import route, run, template, request
 import subprocess
 
+try:
+    LUAJIT = subprocess.check_output(["/usr/bin/env", "luajit"])
+except subprocess.CalledProcessError:
+    LUAJIT = "luajit-2.0.0-beta9"
+
 @route("/")
 def root():
     mheader = request.get_header("host")
-    return subprocess.check_output(["luajit-2.0.0-beta9", "./src/root.lua"])
+    return subprocess.check_output([LUAJIT, "./src/root.lua", "--", mheader])
 
 def main():
     run(host='localhost', port=8080)

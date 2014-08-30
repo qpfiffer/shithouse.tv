@@ -1,1 +1,1 @@
-print("<html><body></body></html>")
+print("<html><body>" .. arg[2] .. "</body></html>")
