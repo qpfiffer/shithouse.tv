@@ -1,12 +1,19 @@
 #!/usr/bin/env python2
 
-from bottle import route, run, template, request
+# GREAT DANE ON THE BEAT
+
+from bottle import error, route, run, template, request, redirect
 import subprocess
 
 try:
     LUAJIT = subprocess.check_output(["/usr/bin/env", "luajit"])
 except subprocess.CalledProcessError:
     LUAJIT = "luajit-2.0.0-beta9"
+
+@error(404)
+def error404(error):
+    return "<h1>\"Welcome to die|</h1>\
+<!-- Jesus this layout -->"
 
 @route("/")
 def root():
