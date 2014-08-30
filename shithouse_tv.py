@@ -2,7 +2,7 @@
 
 # GREAT DANE ON THE BEAT
 
-from bottle import error, route, run, template, request, redirect
+from bottle import error, route, run, template, request, redirect, get, post
 import subprocess
 
 try:
@@ -15,8 +15,13 @@ def error404(error):
     return "<h1>\"Welcome to die|</h1>\
 <!-- Jesus this layout -->"
 
-@route("/")
-def root():
+@post("/")
+def root_post():
+    mheader = request.get_header("host")
+    return subprocess.check_output([LUAJIT, "./src/root.lua", "--", mheader])
+
+@get("/")
+def root_get():
     mheader = request.get_header("host")
     return subprocess.check_output([LUAJIT, "./src/root.lua", "--", mheader])
 
