@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>s h i t h o u s e . t v</title>
+        <style>
+            html {
+            }
+            #main {
+                display: block;
+                width: 500px;
+                margin: 0 auto;
+            }
+            #main form input{
+                display: block;
+                margin-bottom: 2em;
+            }
+            #main h1 {
+                display: inline-block;
+                filter: url("blur.svg#gaussian_blur");
+                -webkit-filter: blur(1px);
+                -o-filter: blur(2px);
+            }
+            #h1{ font-size: 58px;}
+            #h2{ font-size: 46px;}
+            #h3{ font-size: 36px;}
+            #h4{ font-size: 28px;}
+            #h5{ font-size: 22px;}
+            #h6{ font-size: 18px;}
+            #h7{ font-size: 16px;}
+            #h8{ font-size: 16px;}
+            #h9{ font-size: 18px;}
+            #h10{ font-size: 22px;}
+            #h11{ font-size: 28px;}
+            #h12{ font-size: 36px;}
+            #h13{ font-size: 46px;}
+            #h14{ font-size: 58px;}
+        </style>
+    </head>
+    <body>
+        <div id="main">
+            <h1 id="h1" >&#x300E;</h1>
+            <h1 id="h2" >&#xff33;</h1>
+            <h1 id="h3" >&#xff28;</h1>
+            <h1 id="h4" >&#xff29;</h1>
+            <h1 id="h5" >&#xff34;</h1>
+            <h1 id="h6" >&#xff28;</h1>
+            <h1 id="h7" >&#xff2f;</h1>
+            <h1 id="h8" >&#xff35;</h1>
+            <h1 id="h9" >&#xff33;</h1>
+            <h1 id="h10" >&#xff25;</h1>
+            <h1 id="h11" >&#xff0e;</h1>
+            <h1 id="h12" >&#xff34;</h1>
+            <h1 id="h13" >&#xff36;</h1>
+            <h1 id="h14" >&#x300F;</h1>
+            <form method="POST">
+                <label for="subdomain">Subdomain:</label>
+                <input id="subdomain" type="text" />
+
+                <label for="image">Image:</label>
+                <input id="image" type="file" />
+
+                <label for="music">Music (will be truncated to 20 seconds, mp3/ogg only):</label>
+                <input id="music" type="file" />
+
+                <label for="bg-color">Background Color (Hexadecimal):</label>
+                <input id="bg-color" placeholder="#000000" />
+
+                <input type="submit" />
+            </form>
+        </div>
+    </body>
+</html>
