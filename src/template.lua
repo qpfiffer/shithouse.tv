@@ -1,4 +1,4 @@
-local filters = require "src/filters"
+filters = require "src/filters"
 local template_module = {}
 
 function template_module.render(file)
@@ -7,7 +7,10 @@ function template_module.render(file)
     for line in file:lines() do
         filter, text = string.match(line, filters.filter_pattern)
         if filter ~= nil then
-            subbed = string.gsub(line, "yYy .* yYy", text)
+            local filter_func_name = 'filters.' .. filter
+            local results = assert(loadstring('return '.. filter_func_name ..'(...)'))(text)
+
+            subbed = string.gsub(line, "yYy .* yYy", results)
             lines = lines .. subbed
         else
             lines = lines .. line
