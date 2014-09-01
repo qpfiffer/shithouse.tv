@@ -10,3 +10,9 @@ nginx and I already have that shit.
 Serves up basic pages which consist of a single image, some text and some music.
 Thats it. Bumps man, bumps.
 
+# Ideas for Filters
+
+* Black and White
+* #merveilles - Anaglyph shader, centered text, black and white, random kanji
+* Cosby - Rainbow, animated
+* Bump & blur
