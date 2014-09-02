@@ -1,25 +1,39 @@
 local template = require "src/template"
 local HOST = "shitless.com"
+local BUMPS = "./tv"
+local MD_NAME = "meta.DAT"
 
 function bump(hostname)
-    local subdomain = string.match(hostname, "[a-zA-Z]*")
+    local f = io.open("templates/bump.html", "r")
+    local ctext = {}
 
-    if subdomain == string.match(HOST, "[a-zA-Z]*") then
-        local f = io.open("templates/index.html", "r")
-        print(template.render(f))
-        f:close()
-        return
+    local meta_data = io.open(BUMPS .. "/" .. hostname .. "/" .. MD_NAME)
+
+    if meta_data == nil then
+        return root("No such bump. Make it?")
     end
 
-    -- Render the bump instead
-    local f = io.open("templates/bump.html", "r")
-    print(template.render(f))
+    local rendered = template.render(f, ctext)
+    f:close()
+    return rendered
+end
+
+function root(errmsg)
+    local f = io.open("templates/index.html", "r")
+    local rendered = template.render(f, { ["error"] = errmsg })
     f:close()
 
+    return rendered
 end
 
-function root()
-    bump(arg[2])
+function main()
+    local subdomain = string.match(arg[2], "[a-zA-Z]*")
+
+    if subdomain == string.match(HOST, "[a-zA-Z]*") then
+        return root()
+    else
+        return bump(subdomain)
+    end
 end
 
-root()
+print(main())
