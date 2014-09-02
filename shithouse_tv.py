@@ -3,7 +3,7 @@
 # GREAT DANE ON THE BEAT
 
 from bottle import error, route, run, template, request, redirect, get, post
-import subprocess
+import subprocess, json
 
 try:
     LUAJIT = subprocess.check_output(["/usr/bin/env", "luajit"])
@@ -18,7 +18,8 @@ def error404(error):
 @post("/")
 def root_post():
     mheader = request.get_header("host")
-    return subprocess.check_output([LUAJIT, "./src/root.lua", "--", mheader])
+    json_val = json.dumps({k:v for k,v in request.POST.items()})
+    return subprocess.check_output([LUAJIT, "./src/root.lua", "--", mheader, json_val])
 
 @get("/")
 def root_get():

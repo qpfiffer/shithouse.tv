@@ -29,6 +29,10 @@ end
 function main()
     local subdomain = string.match(arg[2], "[a-zA-Z]*")
 
+    if arg[3] ~= nil then
+        print("Got json of " .. arg[3])
+    end
+
     if subdomain == string.match(HOST, "[a-zA-Z]*") then
         return root()
     else
