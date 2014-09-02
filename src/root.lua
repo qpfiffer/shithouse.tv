@@ -3,7 +3,7 @@ local fuck_json = require "src/JSON"
 
 local HOST = "shitless.com"
 local BUMPS = "./tv"
-local MD_NAME = "meta.DAT"
+local MD_NAME = "meta.json"
 
 function bump(hostname)
     local f = io.open("templates/bump.html", "r")
@@ -34,6 +34,9 @@ function main()
     if arg[3] ~= nil then
         local decoded = fuck_json:decode(arg[3])
         -- for key,value in pairs(decoded) do print(key .. ", " .. value .. "\n") end
+        -- 1. Write metadata to metadata file
+        -- 2. Truncate music
+        -- 3. Render template with context of decoded
     end
 
     if subdomain == string.match(HOST, "[a-zA-Z]*") then
