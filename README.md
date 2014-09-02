@@ -12,6 +12,7 @@ Thats it. Bumps man, bumps.
 
 # Ideas for Filters
 
+* webm support, be able to replicate [waifu.webm](http://dequis.org/ayano/)
 * Black and White
 * #merveilles - Anaglyph shader, centered text, black and white, random kanji
 * Cosby - Rainbow, animated

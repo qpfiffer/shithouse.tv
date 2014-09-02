@@ -1,4 +1,6 @@
 local template = require "src/template"
+local fuck_json = require "src/JSON"
+
 local HOST = "shitless.com"
 local BUMPS = "./tv"
 local MD_NAME = "meta.DAT"
@@ -30,7 +32,8 @@ function main()
     local subdomain = string.match(arg[2], "[a-zA-Z]*")
 
     if arg[3] ~= nil then
-        print("Got json of " .. arg[3])
+        local decoded = fuck_json:decode(arg[3])
+        -- for key,value in pairs(decoded) do print(key .. ", " .. value .. "\n") end
     end
 
     if subdomain == string.match(HOST, "[a-zA-Z]*") then
