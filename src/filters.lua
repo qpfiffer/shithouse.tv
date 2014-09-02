@@ -2,7 +2,8 @@ local filters_module = {}
 local normal = [[0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~]]
 local wide = [[０１２３４５６７８９ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ！゛＃＄％＆（）＊＋、ー。／：；〈＝〉？＠［\\］＾＿‘｛｜｝"]]
 
-filters_module.filter_pattern = "yYy ([a-zA-Z]*) ([a-zA-Z :']*) yYy"
+--filters_module.filter_pattern = "yYy ([a-zA-Z]*) ([a-zA-Z ?:']*) yYy"
+filters_module.filter_pattern = "yYy ([a-zA-Z]*) (.*) yYy"
 
 function filters_module.fullwidth(text)
     local new_str = ""

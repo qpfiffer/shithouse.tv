@@ -10,7 +10,7 @@ function bump(hostname)
     local meta_data = io.open(BUMPS .. "/" .. hostname .. "/" .. MD_NAME)
 
     if meta_data == nil then
-        return root("No such bump. Make it?")
+        return root("NO SUCH BUMP PLS MAKE")
     end
 
     local rendered = template.render(f, ctext)
@@ -20,7 +20,7 @@ end
 
 function root(errmsg)
     local f = io.open("templates/index.html", "r")
-    local rendered = template.render(f, { ["error"] = errmsg })
+    local rendered = template.render(f, { ["error_msg"] = errmsg })
     f:close()
 
     return rendered
