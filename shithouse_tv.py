@@ -32,16 +32,13 @@ def error404(error):
 <!-- Jesus this layout -->"
 
 @post("/")
+@get("/")
 @lua_500
 def root_post():
     mheader = request.get_header("host")
-    json_val = json.dumps({k:v for k,v in request.POST.items()})
-    return subprocess.check_output([LUAJIT, "./src/root.lua", "--", mheader, json_val], stderr=subprocess.STDOUT)
-
-@get("/")
-@lua_500
-def root_get():
-    mheader = request.get_header("host")
+    if request.POST:
+        json_val = json.dumps({k:v for k,v in request.POST.items()})
+        return subprocess.check_output([LUAJIT, "./src/root.lua", "--", mheader, json_val], stderr=subprocess.STDOUT)
     return subprocess.check_output([LUAJIT, "./src/root.lua", "--", mheader], stderr=subprocess.STDOUT)
 
 def main():

@@ -70,7 +70,8 @@ function main()
         if not v_image then
             return root("You need image")
         end
-        verified["image"] = decoded["image"]
+        verified["image"] = v_image
+        print("IMAGE IS " .. v_image)
 
         -- 1. Write metadata to metadata file
         -- 2. Truncate music
