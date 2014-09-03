@@ -6,7 +6,10 @@ local BUMPS = "./tv"
 local MD_NAME = "meta.json"
 
 function check_for_bump(name)
-    assert(name ~= nil)
+    if not name then
+        return nil
+    end
+
     local meta_data = io.open(BUMPS .. "/" .. name .. "/" .. MD_NAME)
     return meta_data
 end
