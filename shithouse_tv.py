@@ -44,7 +44,7 @@ def root_post():
         music = request.files.get("music")
         if music:
             json_val["music"] = music.filename
-            image.save("/tmp/")
+            music.save("/tmp/")
         return subprocess.check_output([LUAJIT, "./src/root.lua", "--", mheader, json.dumps(json_val)], stderr=subprocess.STDOUT)
     return subprocess.check_output([LUAJIT, "./src/root.lua", "--", mheader], stderr=subprocess.STDOUT)
 
