@@ -5,10 +5,7 @@
 from bottle import error, route, run, template, request, redirect, get, post
 import subprocess, json
 
-try:
-    LUAJIT = subprocess.check_output(["/usr/bin/env", "luajit"])
-except subprocess.CalledProcessError:
-    LUAJIT = "luajit-2.0.0-beta9"
+LUAJIT = "luajit-2.0.0-beta9"
 
 debug = True
 

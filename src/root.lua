@@ -71,7 +71,7 @@ function main()
             return root("You need image")
         end
         verified["image"] = v_image
-        print("IMAGE IS " .. v_image)
+        --print("IMAGE IS " .. v_image)
 
         -- 1. Write metadata to metadata file
         -- 2. Truncate music
