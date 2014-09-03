@@ -34,8 +34,18 @@ def error404(error):
 def root_post():
     mheader = request.get_header("host")
     if request.POST:
-        json_val = json.dumps({k:v for k,v in request.POST.items()})
-        return subprocess.check_output([LUAJIT, "./src/root.lua", "--", mheader, json_val], stderr=subprocess.STDOUT)
+        json_val = {k:v for k,v in request.forms.items()}
+
+        image = request.files.get("image")
+        if image:
+            json_val["image"] = image.filename
+            image.save("/tmp/")
+
+        music = request.files.get("music")
+        if music:
+            json_val["music"] = music.filename
+            image.save("/tmp/")
+        return subprocess.check_output([LUAJIT, "./src/root.lua", "--", mheader, json.dumps(json_val)], stderr=subprocess.STDOUT)
     return subprocess.check_output([LUAJIT, "./src/root.lua", "--", mheader], stderr=subprocess.STDOUT)
 
 def main():
