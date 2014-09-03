@@ -16,11 +16,26 @@
                 display: block;
                 margin-bottom: 2em;
             }
-            #main h1 {
+            #header {
+                position: absolute;
+                margin-top: -8em;
+            }
+            #header > h1 {
                 display: inline-block;
                 filter: url("blur.svg#gaussian_blur");
                 -webkit-filter: blur(1px);
                 -o-filter: blur(2px);
+                -webkit-animation: bump 1.0s infinite;
+                animation: bump 1.0s infinite;
+            }
+            #stuff { margin-top: 8em; }
+            @keyframes bump {
+                45%, 55% { padding-top: 3px; }
+                50% { padding-top: 6px; text-shadow: 1px 1px 0px #1D1D1D; }
+            }
+            @-webkit-keyframes bump {
+                45%, 55% { padding-top: 3px; }
+                50% { padding-top: 6px; text-shadow: 1px 1px 0px #1D1D1D; }
             }
             #error_msg {
                 color: red;
@@ -43,36 +58,40 @@
     </head>
     <body>
         <div id="main">
-            <h1 id="h1" >&#x300E;</h1>
-            <h1 id="h2" >&#xff33;</h1>
-            <h1 id="h3" >&#xff28;</h1>
-            <h1 id="h4" >&#xff29;</h1>
-            <h1 id="h5" >&#xff34;</h1>
-            <h1 id="h6" >&#xff28;</h1>
-            <h1 id="h7" >&#xff2f;</h1>
-            <h1 id="h8" >&#xff35;</h1>
-            <h1 id="h9" >&#xff33;</h1>
-            <h1 id="h10" >&#xff25;</h1>
-            <h1 id="h11" >&#xff0e;</h1>
-            <h1 id="h12" >&#xff34;</h1>
-            <h1 id="h13" >&#xff36;</h1>
-            <h1 id="h14" >&#x300F;</h1>
-            <p id="error_msg">yYy fullwidth xXx error_msg xXx yYy</p>
-            <form id="new_bump" action="/" method="POST">
-                <label for="subdomain">yYy fullwidth Subdomain: yYy</label>
-                <input id="subdomain" name="subdomain" type="text" />
+            <div id="header">
+                <h1 id="h1" >&#x300E;</h1>
+                <h1 id="h2" >&#xff33;</h1>
+                <h1 id="h3" >&#xff28;</h1>
+                <h1 id="h4" >&#xff29;</h1>
+                <h1 id="h5" >&#xff34;</h1>
+                <h1 id="h6" >&#xff28;</h1>
+                <h1 id="h7" >&#xff2f;</h1>
+                <h1 id="h8" >&#xff35;</h1>
+                <h1 id="h9" >&#xff33;</h1>
+                <h1 id="h10" >&#xff25;</h1>
+                <h1 id="h11" >&#xff0e;</h1>
+                <h1 id="h12" >&#xff34;</h1>
+                <h1 id="h13" >&#xff36;</h1>
+                <h1 id="h14" >&#x300F;</h1>
+            </div>
+            <div id="stuff">
+                <p id="error_msg">yYy fullwidth xXx error_msg xXx yYy</p>
+                <form id="new_bump" action="/" method="POST">
+                    <label for="subdomain">yYy fullwidth Subdomain: yYy</label>
+                    <input id="subdomain" name="subdomain" type="text" />
 
-                <label for="image">yYy fullwidth Image: yYy</label>
-                <input id="image" name="image" type="file" />
+                    <label for="image">yYy fullwidth Image: yYy</label>
+                    <input id="image" name="image" type="file" />
 
-                <label for="music">yYy fullwidth Music: yYy</label>
-                <input id="music" name="music" type="file" />
+                    <label for="music">yYy fullwidth Music: yYy</label>
+                    <input id="music" name="music" type="file" />
 
-                <label for="bg-color">yYy fullwidth BGcolor: yYy</label>
-                <input id="bg-color" name="bg-color" value="000000" />
+                    <label for="bg-color">yYy fullwidth BGcolor: yYy</label>
+                    <input id="bg-color" name="bg-color" value="000000" />
 
-                <input type="submit" value="&#9834; yYy fullwidth Let's Jam yYy" />
-            </form>
+                    <input type="submit" value="&#9834; yYy fullwidth Let's Jam yYy" />
+                </form>
+            </div>
         </div>
     </body>
 </html>
