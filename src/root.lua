@@ -5,11 +5,17 @@ local HOST = "shitless.com"
 local BUMPS = "./tv"
 local MD_NAME = "meta.json"
 
+function check_for_bump(name)
+    assert(name ~= nil)
+    local meta_data = io.open(BUMPS .. "/" .. name .. "/" .. MD_NAME)
+    return meta_data
+end
+
 function bump(hostname)
     local f = io.open("templates/bump.html", "r")
     local ctext = {}
 
-    local meta_data = io.open(BUMPS .. "/" .. hostname .. "/" .. MD_NAME)
+    local meta_data = check_for_bump(name)
 
     if meta_data == nil then
         return root("NO SUCH BUMP PLS MAKE")
@@ -29,20 +35,34 @@ function root(errmsg)
 end
 
 function main()
-    local subdomain = string.match(arg[2], "[a-zA-Z]*")
-
     if arg[3] ~= nil then
         local decoded = fuck_json:decode(arg[3])
-        -- for key,value in pairs(decoded) do print(key .. ", " .. value .. "\n") end
+        local subdomain = decoded["subdomain"]:match("[a-zA-Z-]*")
+        --for key, value in pairs(decoded) do print(key .. ", " .. value .. "\n") end
+
+        -- 0. Verify Data
+        if subdomain == nil or subdomain == "" then
+            return root("You need subdomain")
+        end
+
+        local meta_data = check_for_bump(subdomain)
+        if meta_data ~= nil then
+            meta_data:close()
+            return root("Bump already exists")
+        end
+
         -- 1. Write metadata to metadata file
         -- 2. Truncate music
         -- 3. Render template with context of decoded
+        return bump(subdomain)
     end
 
-    if subdomain == string.match(HOST, "[a-zA-Z]*") then
+    local subdomain_arg = string.match(arg[2], "[a-zA-Z]*")
+
+    if subdomain_arg == string.match(HOST, "[a-zA-Z]*") then
         return root()
     else
-        return bump(subdomain)
+        return bump(subdomain_arg)
     end
 end
 
