@@ -19,7 +19,7 @@ def lua_500(f):
             output = f(*args, **kwargs)
         except subprocess.CalledProcessError, e:
             if debug:
-                output = "<!DOCTYPE html><html><body><pre>" + e.output + "</pre></body></html>"
+                output = "<!DOCTYPE html><html><body><p>Fat error</p><pre>" + e.output + "</pre></body></html>"
             else:
                 output = "Fug"
         return output
@@ -42,7 +42,7 @@ def root_post():
 @lua_500
 def root_get():
     mheader = request.get_header("host")
-    return subprocess.check_output([LUAJIT, "./src/root.lua", "--", mheader])
+    return subprocess.check_output([LUAJIT, "./src/root.lua", "--", mheader], stderr=subprocess.STDOUT)
 
 def main():
     run(host='localhost', port=8080)
