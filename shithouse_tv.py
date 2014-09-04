@@ -5,7 +5,7 @@
 from bottle import error, route, run, template, request, redirect, get, post, HTTPResponse
 import subprocess, json
 
-LUAJIT = "luajit-2.0.0-beta9"
+LUAJIT = "luajit"
 TMPFILE_LOC = "/tmp/"
 
 debug = True
@@ -55,7 +55,7 @@ def root_post():
     return call_lua("./src/root.lua", mheader)
 
 def main():
-    run(host='localhost', debug=debug, port=8080, reloader=True)
+    run(host='localhost', debug=debug, port=8090, reloader=True)
 
 if __name__ == '__main__':
     main()

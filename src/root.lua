@@ -61,7 +61,7 @@ function verify(bump_data)
     end
 
     -- Create bump dir
-    local bump_dir = config.BUMPS .. "/" .. v_subdomain
+    local bump_dir = utils.build_bump_path(v_subdomain)
     local mkdir_output = io.popen("mkdir -p " .. bump_dir)
     print(mkdir_output:read("*all"))
     mkdir_output:close()
