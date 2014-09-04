@@ -45,12 +45,12 @@ def root_post():
         image = request.files.get("image")
         if image:
             json_val["image"] = TMPFILE_LOC + image.filename
-            image.save(TMPFILE_LOC)
+            image.save(TMPFILE_LOC, overwrite=True)
 
         music = request.files.get("music")
         if music:
             json_val["music"] = TMPFILE_LOC + music.filename
-            music.save(TMPFILE_LOC)
+            music.save(TMPFILE_LOC, overwrite=True)
         return call_lua("./src/root.lua", mheader, json.dumps(json_val))
     return call_lua("./src/root.lua", mheader)
 
