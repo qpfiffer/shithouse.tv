@@ -10,7 +10,7 @@ function utils_module.check_for_bump(name)
     return meta_data
 end
 
-function error404()
+function utils_module.error404()
     return "<h1>\"Welcome to die|</h1>\n<!-- Jesus this layout -->"
 end
 

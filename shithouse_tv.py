@@ -2,7 +2,7 @@
 
 # GREAT DANE ON THE BEAT
 
-from bottle import error, route, run, template, request, redirect, get, post
+from bottle import error, route, run, template, request, redirect, get, post, HTTPResponse
 import subprocess, json
 
 LUAJIT = "luajit-2.0.0-beta9"
@@ -24,13 +24,14 @@ def lua_500(f):
 
 
 def call_lua(filename, *args):
-    return subprocess.check_output([LUAJIT, filename, "--", *args], stderr=subprocess.STDOUT)
+    return subprocess.check_output([LUAJIT, filename, "--"] + list(args), stderr=subprocess.STDOUT)
 
 @error(404)
+@lua_500
 def error404(error):
     mheader = request.get_header("host")
-    output = call_lua("./src/static.lua", mheader)
-    return output
+    output = call_lua("./src/static.lua", mheader, request.path)
+    return HTTPResponse(body=output, status=200)
 
 @post("/")
 @get("/")
@@ -53,7 +54,7 @@ def root_post():
     return call_lua("./src/root.lua", mheader)
 
 def main():
-    run(host='localhost', port=8080)
+    run(host='localhost', debug=debug, port=8080, reloader=True)
 
 if __name__ == '__main__':
     main()
