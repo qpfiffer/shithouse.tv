@@ -4,16 +4,18 @@ local config = require "src/config"
 local utils = require "src/utils"
 
 function bump(hostname)
+    assert(hostname)
     local f = io.open("templates/bump.html", "r")
-    local ctext = {}
 
-    local meta_data = utils.check_for_bump(name)
+    local meta_data = utils.check_for_bump(hostname)
 
-    if meta_data == nil then
+    if not meta_data then
         return root("NO SUCH BUMP PLS MAKE")
     end
 
+    local ctext = fuck_json:decode(meta_data:read("*all"))
     local rendered = template.render(f, ctext)
+    meta_data:close()
     f:close()
     return rendered
 end
@@ -28,9 +30,8 @@ end
 
 function verify(bump_data)
     local decoded = fuck_json:decode(bump_data)
-    local v_subdomain = decoded["subdomain"]:match("[a-zA-Z-]*")
+    local v_subdomain = decoded["subdomain"]:match("[a-zA-Z0-9-]*")
     local verified = {}
-    --for key, value in pairs(decoded) do print(key .. ", " .. value .. "\n") end
 
     -- 0. Verify Data
     -- Check for an okay name
@@ -61,31 +62,51 @@ function verify(bump_data)
 
     -- Create bump dir
     local bump_dir = config.BUMPS .. "/" .. v_subdomain
-    if not io.popen("mkdir -p " .. bump_dir) then
-        return root("Could not create bump.")
-    end
+    local mkdir_output = io.popen("mkdir -p " .. bump_dir)
+    print(mkdir_output:read("*all"))
+    mkdir_output:close()
 
     local image_name = utils.get_file_name_from_path(v_image)
-    io.popen("mv " .. v_image .. " " .. bump_dir)
+    io.popen("mv " .. v_image .. " " .. bump_dir .. "/" .. image_name)
+    io.close()
     verified["image"] = utils.get_file_name_from_path(bump_dir .. "/" .. image_name)
 
-    -- 1. Write metadata to metadata file
-    -- 2. Truncate music
-    -- 3. Render template with context of decoded
-    return v_subdomain
+    local v_music = decoded["music"]
+    if v_music  and v_music ~= "" then
+        local music_name = utils.get_file_name_from_path(v_music)
+        local out_name = bump_dir .. "/" .. music_name
+        -- Truncate music to keep the size down.
+        io.popen("ffmpeg -i " .. v_music .. " -t " .. config.TRUNCATE_LENGTH_S .. "s -o " .. outname)
+        io.close()
+        verified["music"] = utils.get_file_name_from_path(out_name)
+    end
+
+    -- Encode verified data and write to disk
+    local e_verified = fuck_json:encode(verified)
+    if not e_verified then
+        return root("Could not encode metadata.")
+    end
+
+    -- Write metadata to metadata file
+    local md_filename = bump_dir .. "/" .. config.MD_NAME
+    --local md_filename = "/tmp/" .. config.MD_NAME
+    local meta_data = io.open(md_filename, "w")
+    if not meta_data then
+        return root("Could not open metadata in " .. md_filename)
+    end
+    meta_data:write(e_verified)
+    meta_data:close()
+
+    -- Render the newly created bump.
+    return bump(v_subdomain)
 end
 
 function main()
     if arg[3] then
-        local new_bump = verify(arg[3])
-        if new_bump then
-            return bump(new_bump)
-        end
-        return root("Could not create bump.")
+        return verify(arg[3])
     end
 
     local subdomain_arg = string.match(arg[2], "[a-zA-Z]*")
-
     if subdomain_arg == string.match(config.HOST, "[a-zA-Z]*") then
         return root()
     else
