@@ -58,8 +58,16 @@ function verify(bump_data)
     if not v_image then
         return root("You need image")
     end
-    verified["image"] = v_image
-    --print("IMAGE IS " .. v_image)
+
+    -- Create bump dir
+    local bump_dir = config.BUMPS .. "/" .. v_subdomain
+    if not io.popen("mkdir -p " .. bump_dir) then
+        return root("Could not create bump.")
+    end
+
+    local image_name = utils.get_file_name_from_path(v_image)
+    io.popen("mv " .. v_image .. " " .. bump_dir)
+    verified["image"] = utils.get_file_name_from_path(bump_dir .. "/" .. image_name)
 
     -- 1. Write metadata to metadata file
     -- 2. Truncate music

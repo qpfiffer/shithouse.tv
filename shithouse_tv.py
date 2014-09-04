@@ -6,6 +6,7 @@ from bottle import error, route, run, template, request, redirect, get, post, HT
 import subprocess, json
 
 LUAJIT = "luajit-2.0.0-beta9"
+TMPFILE_LOC = "/tmp/"
 
 debug = True
 
@@ -43,13 +44,13 @@ def root_post():
 
         image = request.files.get("image")
         if image:
-            json_val["image"] = image.filename
-            image.save("/tmp/")
+            json_val["image"] = TMPFILE_LOC + image.filename
+            image.save(TMPFILE_LOC)
 
         music = request.files.get("music")
         if music:
-            json_val["music"] = music.filename
-            music.save("/tmp/")
+            json_val["music"] = TMPFILE_LOC + music.filename
+            music.save(TMPFILE_LOC)
         return call_lua("./src/root.lua", mheader, json.dumps(json_val))
     return call_lua("./src/root.lua", mheader)
 
