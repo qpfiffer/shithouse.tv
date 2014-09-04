@@ -48,7 +48,7 @@ function verify(bump_data)
     verified["subdomain"] = v_subdomain
 
     -- Make sure that the bg-color is okay
-    local v_bgcolor = decoded["bg-color"]:match("(%d%d%d%d%d%d)")
+    local v_bgcolor = decoded["bg-color"]:match("([a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9])")
     if not v_bgcolor then
         return root("Pick better background color pls")
     end
