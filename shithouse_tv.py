@@ -24,12 +24,12 @@ def lua_500(f):
 
 
 def call_lua(filename, *args):
-    return subprocess.check_output([LUAJIT, filename, *args], stderr=subprocess.STDOUT)
+    return subprocess.check_output([LUAJIT, filename, "--", *args], stderr=subprocess.STDOUT)
 
 @error(404)
 def error404(error):
     mheader = request.get_header("host")
-    output = call_lua("./src/static.lua", "--", mheader)
+    output = call_lua("./src/static.lua", mheader)
     return output
 
 @post("/")
@@ -49,8 +49,8 @@ def root_post():
         if music:
             json_val["music"] = music.filename
             music.save("/tmp/")
-        return subprocess.check_output([LUAJIT, "./src/root.lua", "--", mheader, json.dumps(json_val)], stderr=subprocess.STDOUT)
-    return subprocess.check_output([LUAJIT, "./src/root.lua", "--", mheader], stderr=subprocess.STDOUT)
+        return call_lua("./src/root.lua", mheader, json.dumps(json_val))
+    return call_lua("./src/root.lua", mheader)
 
 def main():
     run(host='localhost', port=8080)

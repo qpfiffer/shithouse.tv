@@ -27,14 +27,14 @@ function apply_substitution_to_line(line, ctext)
 end
 
 function template_module.render(file, ctext)
-    local lines = ""
+    local lines = {}
 
     for line in file:lines() do
         local new_str = apply_filter_to_line(apply_substitution_to_line(line, ctext))
-        lines = lines .. new_str
+        lines[#lines + 1] = new_str
     end
 
-    return lines
+    return table.concat(lines)
 end
 
 return template_module
