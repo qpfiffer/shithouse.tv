@@ -23,10 +23,14 @@ def lua_500(f):
     return wrapped_f
 
 
+def call_lua(filename, *args):
+    return subprocess.check_output([LUAJIT, filename, *args], stderr=subprocess.STDOUT)
+
 @error(404)
 def error404(error):
-    return "<h1>\"Welcome to die|</h1>\
-<!-- Jesus this layout -->"
+    mheader = request.get_header("host")
+    output = call_lua("./src/static.lua", "--", mheader)
+    return output
 
 @post("/")
 @get("/")

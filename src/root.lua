@@ -1,24 +1,13 @@
 local template = require "src/template"
 local fuck_json = require "src/JSON"
-
-local HOST = "shitless.com"
-local BUMPS = "./tv"
-local MD_NAME = "meta.json"
-
-function check_for_bump(name)
-    if not name then
-        return nil
-    end
-
-    local meta_data = io.open(BUMPS .. "/" .. name .. "/" .. MD_NAME)
-    return meta_data
-end
+local config = require "src/config"
+local utils = require "src/utils"
 
 function bump(hostname)
     local f = io.open("templates/bump.html", "r")
     local ctext = {}
 
-    local meta_data = check_for_bump(name)
+    local meta_data = utils.check_for_bump(name)
 
     if meta_data == nil then
         return root("NO SUCH BUMP PLS MAKE")
@@ -81,7 +70,7 @@ function main()
 
     local subdomain_arg = string.match(arg[2], "[a-zA-Z]*")
 
-    if subdomain_arg == string.match(HOST, "[a-zA-Z]*") then
+    if subdomain_arg == string.match(config.HOST, "[a-zA-Z]*") then
         return root()
     else
         return bump(subdomain_arg)
