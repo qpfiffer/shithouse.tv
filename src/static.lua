@@ -4,7 +4,7 @@ local fuck_json = require "src/JSON"
 
 function static(uri)
     local filename = utils.get_file_name_from_path(uri)
-    local subdomain_arg = string.match(arg[2], "[a-zA-Z]*")
+    local subdomain_arg = string.match(arg[2], utils.subdomain_match)
     local meta_data = utils.check_for_bump(subdomain_arg)
 
     if not meta_data then
