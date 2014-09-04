@@ -76,7 +76,7 @@ function verify(bump_data)
         local music_name = utils.get_file_name_from_path(v_music)
         local out_name = bump_dir .. "/" .. music_name
         -- Truncate music to keep the size down.
-        io.popen("ffmpeg -i " .. v_music .. " -t " .. config.TRUNCATE_LENGTH_S .. "s -o " .. outname)
+        io.popen("ffmpeg -i " .. v_music .. " -t " .. config.TRUNCATE_LENGTH_S .. "s -o " .. out_name)
         io.close()
         verified["music"] = utils.get_file_name_from_path(out_name)
     end
