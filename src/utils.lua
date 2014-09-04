@@ -22,4 +22,6 @@ function utils_module.error404()
     return "<h1>\"Welcome to die|</h1>\n<!-- Jesus this layout -->"
 end
 
+utils_module["subdomain_match"] = "[a-zA-Z0-9-]*"
+
 return utils_module

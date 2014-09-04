@@ -30,7 +30,7 @@ end
 
 function verify(bump_data)
     local decoded = fuck_json:decode(bump_data)
-    local v_subdomain = decoded["subdomain"]:match("[a-zA-Z0-9-]*")
+    local v_subdomain = decoded["subdomain"]:match(utils.subdomain_match)
     local verified = {}
 
     -- 0. Verify Data
@@ -106,8 +106,8 @@ function main()
         return verify(arg[3])
     end
 
-    local subdomain_arg = string.match(arg[2], "[a-zA-Z]*")
-    if subdomain_arg == string.match(config.HOST, "[a-zA-Z]*") then
+    local subdomain_arg = string.match(arg[2], utils.subdomain_match)
+    if subdomain_arg == string.match(config.HOST, utils.subdomain_match) then
         return root()
     else
         return bump(subdomain_arg)
