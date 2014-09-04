@@ -98,7 +98,7 @@ function verify(bump_data)
     meta_data:close()
 
     -- Render the newly created bump.
-    return bump(v_subdomain)
+    return root("Good job. Bump " .. v_subdomain .. " created.")
 end
 
 function main()
