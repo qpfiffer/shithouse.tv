@@ -17,25 +17,19 @@
                 margin-bottom: 2em;
             }
             #header {
-                position: absolute;
-                margin-top: -8em;
+            }
+            #stuff {
+                display: inline-block;
+            }
+            #all_bumps {
+                display: inline-block;
+                vertical-align: top;
             }
             #header > h1 {
                 display: inline-block;
                 filter: url("blur.svg#gaussian_blur");
                 -webkit-filter: blur(1px);
                 -o-filter: blur(2px);
-                /* -webkit-animation: bump 1.0s infinite;
-                animation: bump 1.0s infinite; */
-            }
-            #stuff { margin-top: 8em; }
-            @keyframes bump {
-                45%, 55% { padding-top: 3px; }
-                50% { padding-top: 6px; text-shadow: 1px 1px 0px #1D1D1D; }
-            }
-            @-webkit-keyframes bump {
-                45%, 55% { padding-top: 3px; }
-                50% { padding-top: 6px; text-shadow: 1px 1px 0px #1D1D1D; }
             }
             #error_msg {
                 color: red;
@@ -93,6 +87,12 @@
 
                     <input type="submit" value="&#9834; yYy fullwidth Let's Jam yYy" />
                 </form>
+            </div>
+            <div id="all_bumps">
+                <span>yYy fullwidth All Bumps yYy</span>
+                <ul>
+                    yYy all_bumps here yYy
+                </ul>
             </div>
         </div>
     </body>
