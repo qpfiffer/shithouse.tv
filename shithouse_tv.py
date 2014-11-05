@@ -32,7 +32,22 @@ def call_lua(filename, *args):
 def error404(error):
     mheader = request.get_header("host")
     output = call_lua("./src/static.lua", mheader, request.path)
-    return HTTPResponse(body=output, status=200)
+    mimetype="application/octet-stream"
+
+    resp = HTTPResponse(body=output, status=200)
+    mtype = "application/octet-stream"
+    lowered = request.path.lower()
+    if lowered.endswith("jpg") or lowered.endswith("jpeg"):
+        mtype = "image/jpeg"
+    elif lowered.endswith("gif"):
+        mtype = "image/gif"
+    elif lowered.endswith("png"):
+        mtype = "image/png"
+    elif lowered.endswith("webm"):
+        mtype = "video/webm"
+
+    resp.content_type = mtype
+    return resp
 
 @post("/")
 @get("/")
