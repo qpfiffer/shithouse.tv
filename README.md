@@ -24,3 +24,5 @@ Thats it. Bumps man, bumps.
 * #merveilles - Anaglyph shader, centered text, black and white, random kanji
 * Cosby - Rainbow, animated
 * Bump & blur
+* Tiling, repeating, waving background
+* rainbow background color
