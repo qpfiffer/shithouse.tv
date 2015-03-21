@@ -69,10 +69,14 @@ function verify(bump_data)
     local image_name = utils.get_file_name_from_path(v_image)
     io.popen("mv " .. v_image .. " " .. bump_dir .. "/" .. image_name)
     io.close()
-    verified["image"] = utils.get_file_name_from_path(bump_dir .. "/" .. image_name)
+    if string.match(image_name,"[a-zA-Z0-9]*.webm$") then
+        verified["webm"] = utils.get_file_name_from_path(bump_dir .. "/" .. image_name)
+    else
+        verified["image"] = utils.get_file_name_from_path(bump_dir .. "/" .. image_name)
+    end
 
     local v_music = decoded["music"]
-    if v_music  and v_music ~= "" then
+    if v_music and v_music ~= "" then
         local music_name = utils.get_file_name_from_path(v_music)
         local out_name = bump_dir .. "/" .. music_name
         -- Truncate music to keep the size down.
