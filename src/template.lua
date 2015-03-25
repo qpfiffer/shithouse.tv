@@ -34,7 +34,7 @@ function template_module.render(file, ctext)
         lines[#lines + 1] = new_str
     end
 
-    return table.concat(lines)
+    return table.concat(lines, "\n")
 end
 
 return template_module
