@@ -70,7 +70,7 @@ def root_post():
     return call_lua("./src/root.lua", mheader)
 
 def main():
-    run(host='localhost', debug=debug, port=8090, reloader=True)
+    run(server='paste', host='localhost', debug=debug, port=8090, reloader=True)
 
 if __name__ == '__main__':
     main()
