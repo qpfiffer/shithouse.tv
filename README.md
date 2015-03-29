@@ -1,3 +1,5 @@
+# AS OF 0x02:03AM MARCH 29th, 2015 PATCHES ARE NO LONGER WELCOME
+
 You'll need python 2 and LuaJIT. And maybe some gonads.
 
 # What is it
