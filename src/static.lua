@@ -15,7 +15,7 @@ function static(uri)
     -- requested, otherwise 404.
     local decoded = fuck_json:decode(meta_data:read("*all"))
     meta_data:close()
-    if filename == decoded["image"] or filename == decoded["webm"] then
+    if filename == decoded["image"] or filename == decoded["webm"] or filename == decoded["imageRepeat"] then
         local path = utils.build_bump_path(subdomain_arg)
         local f = assert(io.open(path .. "/" .. filename))
         print(f:read("*all"))

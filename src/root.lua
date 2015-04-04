@@ -85,6 +85,13 @@ function verify(bump_data)
         verified["music"] = utils.get_file_name_from_path(out_name)
     end
 
+    local v_imageRepeat = decoded["imageRepeat"]
+    if v_imageRepeat then
+        verified["imageRepeat"] = verified["image"]
+        -- Remove the image because we want one or the other.
+        verified["image"] = nil
+    end
+
     -- Encode verified data and write to disk
     local e_verified = fuck_json:encode(verified)
     if not e_verified then
