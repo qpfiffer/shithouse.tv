@@ -5,6 +5,7 @@
         <script type="text/javascript"> // Why is this all on one line? Because the templating language removes it when it's wrong. 1337 hax, you dumb fuck.
             myAudio = new Audio('xXx MUSIC_SRC xXx'); myAudio.addEventListener('ended', function() { this.currentTime = 0; this.play(); }, false); myAudio.play();
         </script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <style>
             html {
                 background-color: #xXx bg-color xXx;
@@ -24,6 +25,9 @@
                 vertical-align: middle;
                 text-align: center;
                 height: 100%;
+            }
+            video {
+                max-width: 100%;
             }
         </style>
     </head>
