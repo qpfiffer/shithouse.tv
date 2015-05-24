@@ -118,5 +118,29 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
         <svg xmlns="http://www.w3.org/2000/svg">
             <filter id="blur"><feGaussianBlur stdDeviation="1"/></filter>
         </svg>
+
+        <SCRIPT LANGUAGE="JAVASCRIPT">
+
+        /***********************************************
+        * Cool DHTML shithouse script- © Dequisdrive DHTML code library (www.dequis.org)
+        * This notice MAY or MAY NOT stay intact
+        * Visit Dequis Drive at http://www.dequis.org/ for full source code
+        ***********************************************/
+
+        var ie = document.all;
+        var ns6 = document.getElementById && !document.all;
+        if (ie) {
+            alert("XSS");
+        }
+
+        document.forms.new_bump['bg-color'].onkeyup = function() {
+            if (!/^[0-9a-f]*$/i.test(this.value)) {
+                this.value = ("000000" + (Math.random() * (1 << 24) | 0).toString(16)).slice(-6);
+            }
+            document.documentElement.style.background = '#' + this.value;
+        }
+
+        </SCRIPT>
+
     </body>
 </html>
