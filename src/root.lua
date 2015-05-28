@@ -92,6 +92,11 @@ function verify(bump_data)
         verified["image"] = nil
     end
 
+    local v_pickles = decoded["pickles"]
+    if v_pickles then
+        verified["pickles"] = true
+    end
+
     -- Encode verified data and write to disk
     local e_verified = fuck_json:encode(verified)
     if not e_verified then

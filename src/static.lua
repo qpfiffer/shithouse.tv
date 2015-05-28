@@ -7,6 +7,13 @@ function static(uri)
     local subdomain_arg = string.match(arg[2], utils.subdomain_match)
     local meta_data = utils.check_for_bump(subdomain_arg)
 
+    if filename == "pickles.png" then
+        local f = assert(io.open("./pickles.png"))
+        print(f:read("*all"))
+        f:close()
+        return
+    end
+
     if not meta_data then
         return utils.error404()
     end
