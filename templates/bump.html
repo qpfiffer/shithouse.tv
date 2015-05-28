@@ -12,7 +12,6 @@
                 /* DUMB HACKS EVERYWHERE, I LOVE IT :^) */
                 background-image: url("xXx imageRepeat xXx");
                 background-repeat: repeat; /* xXx imageRepeat xXx */
-                background-image: url(pickles.png); background-position: 85% 100%,top left; background-repeat: no-repeat,repeat; /* xXx pickles xXx */
                 height: 100%;
             }
             body {
@@ -30,6 +29,14 @@
             video {
                 max-width: 100%;
             }
+            #pickles {
+                background-image: url(pickles.png); /* xXx pickles xXx */
+                top: 85%;
+                left: 100;
+                background-repeat: no-repeat,repeat;
+                z-index: 100;
+                position: absolute;
+            }
         </style>
     </head>
     <body>
@@ -37,6 +44,7 @@
             <!-- This is a dumb hack, we should only have one or the other from the the template context, so only one of the following will be rendered. -->
             <img src="xXx image xXx" />
             <video autoplay loop id="dx-bb-pls" src="xXx webm xXx" style="position: absolute; bottom: 0; right: 0; min-height: 100vh; min-width: 100vw;" />
+            <div id="pickles"></div>
         </div>
     </body>
 </html>
