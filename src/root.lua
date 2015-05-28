@@ -94,7 +94,7 @@ function verify(bump_data)
 
     local v_pickles = decoded["pickles"]
     if v_pickles then
-        verified["pickles"] = true
+        verified["pickles"] = "true"
     end
 
     -- Encode verified data and write to disk
