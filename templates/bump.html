@@ -7,12 +7,18 @@
         </script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <style>
+            @animation animatedBackground {
+                from { background-position: 0 0; }
+                to { background-position: 100% 100%; }
+            }
             html {
                 background-color: #xXx bg-color xXx;
                 /* DUMB HACKS EVERYWHERE, I LOVE IT :^) */
                 background-image: url("xXx imageRepeat xXx");
                 background-repeat: repeat; /* xXx imageRepeat xXx */
                 height: 100%;
+
+                animation: animatedBackground 40s linear infinite;
             }
             body {
                 display: table;
