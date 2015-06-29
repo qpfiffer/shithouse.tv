@@ -10,7 +10,7 @@ function filters_module.fullwidth(text)
     local new_str = ""
 
     for c in text:gmatch(".") do
-        local idx = string.find(normal, c)
+        local idx = string.find(normal, c, 1, true)
         if idx ~= nil then
             local wide_idx = (idx * 3) - 3
             new_str = new_str .. wide:sub(wide_idx + 1, wide_idx + 3)
