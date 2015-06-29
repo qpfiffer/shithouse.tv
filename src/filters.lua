@@ -1,7 +1,7 @@
 local config = require "src/config"
 local filters_module = {}
 local normal = [[0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~]]
-local wide = [[０１２３４５６７８９ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ！゛＃＄％＆（）＊＋、ー。／：；〈＝〉？＠［\\］＾＿‘｛｜｝"]]
+local wide = [[０１２３４５６７８９ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ！゛＃＄％＆（）＊＋、ー。／：；〈＝〉？＠［［］］＾＿゛｛｜｝]]
 
 --filters_module.filter_pattern = "yYy ([a-zA-Z]*) ([a-zA-Z ?:']*) yYy"
 filters_module.filter_pattern = "yYy ([a-zA-Z_]*) (.*) yYy"
