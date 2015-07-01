@@ -6,7 +6,7 @@ local wide = [[０１２３４５６７８９ａｂｃｄｅｆｇｈｉｊｋ�
 --filters_module.filter_pattern = "yYy ([a-zA-Z]*) ([a-zA-Z ?:']*) yYy"
 filters_module.filter_pattern = "yYy ([a-zA-Z_]*) (.*) yYy"
 
-function filters_module.fullwidth(text)
+function filters_module.fullwidth(text, ctext)
     local new_str = ""
 
     for c in text:gmatch(".") do
@@ -22,7 +22,7 @@ function filters_module.fullwidth(text)
     return new_str
 end
 
-function filters_module.all_bumps(text)
+function filters_module.all_bumps(text, ctext)
     local to_return = {}
     -- Held together with bash, sweet jams and summer dreams.
     local all_bumps = io.popen("ls -clt " .. config.BUMPS .. " | awk '{print $9}' | grep -v '^$'")
@@ -37,6 +37,49 @@ function filters_module.all_bumps(text)
     end
 
     return table.concat(to_return)
+end
+
+-------------------------------------------------------------------------------
+--         __  __         __  __      __                          __  __
+--    __  _\ \/ /_  __   / / / /___  / /   ___  __________   __  _\ \/ /_  __
+--   / / / /\  / / / /  / / / / __ \/ /   / _ \/ ___/ ___/  / / / /\  / / / /
+--  / /_/ / / / /_/ /  / /_/ / / / / /___/  __(__  |__  )  / /_/ / / / /_/ /
+--  \__, / /_/\__, /   \____/_/ /_/_____/\___/____/____/   \__, / /_/\__, /
+-- /____/    /____/                                       /____/    /____/
+--
+-------------------------------------------------------------------------------
+--
+-- "Unless" filter for Lua GRESHUNKEL
+-- Copyright (C) 1606 William Shakespeare. All rights reserved
+--
+-- Inspired by the perl "unless" operator, which means "if not".
+-- There's no "if" filter, "unless not" should be used instead.
+--
+-- Usage:
+--
+--   <a href="/logout">Logout</a> yYy unless not logged_in yYy
+--
+-- To repeat the same condition across several lines, the ~same~ variable
+-- can be used like this:
+--
+--   <ul class="actions-bar"> yYy unless patient yYy
+--       <li>Patient overview</li> xXx ~same~ xXx
+--       <li>Medicine supply management</li> xXx ~same~ xXx
+--       <li>Download MRI scans</li> xXx ~same~ xXx
+--   </ul> xXx ~same~ xXx
+--
+function filters_module.unless(text, ctext)
+    local existence = ctext[text] ~= nil
+    local negation = true
+    text = string.gsub(text, "^not ", function() negation = false; return ""; end)
+
+    if existence == negation then
+        ctext['~line~'] = ''
+        ctext['~same~'] = nil
+    else
+        ctext['~same~'] = ""
+    end
+    return ""
 end
 
 return filters_module
