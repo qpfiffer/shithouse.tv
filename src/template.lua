@@ -1,6 +1,6 @@
 filters = require "src/filters"
 local template_module = {}
-local sub_pattern = "xXx (.*) xXx"
+local sub_pattern = "xXx ([^ ]*) xXx"
 
 function apply_filter_to_line(line, ctext)
     filter, text = string.match(line, filters.filter_pattern)
@@ -16,14 +16,12 @@ function apply_filter_to_line(line, ctext)
 end
 
 function apply_substitution_to_line(line, ctext)
-    local match = string.match(line, sub_pattern)
-    if match ~= nil and ctext[match] ~= nil then
-        subbed = string.gsub(line, "xXx .* xXx", ctext[match])
-        return subbed
-    elseif match ~= nil then
-        return ""
-    end
-    return line
+    local perish = false
+    line = string.gsub(line, sub_pattern, function(match)
+        perish = perish or (ctext[match] == nil)
+        return ctext[match]
+    end)
+    return not perish and line or ""
 end
 
 function template_module.render(file, ctext)
