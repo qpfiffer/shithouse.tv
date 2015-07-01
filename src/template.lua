@@ -5,10 +5,11 @@ local sub_pattern = "xXx ([^ ]*) xXx"
 function apply_filter_to_line(line, ctext)
     filter, text = string.match(line, filters.filter_pattern)
     if filter ~= nil then
+        ctext['~line~'] = line
         local filter_func_name = 'filters.' .. filter
         local results = assert(loadstring('return '.. filter_func_name ..'(...)'))(text, ctext)
 
-        subbed = string.gsub(line, "yYy .* yYy", results)
+        subbed = string.gsub(ctext['~line~'], "yYy .* yYy", results)
         return subbed
     end
 
@@ -26,6 +27,9 @@ end
 
 function template_module.render(file, ctext)
     local lines = {}
+
+    ctext['~lines~'] = lines
+    ctext['~file~'] = file
 
     for line in file:lines() do
         local new_str = apply_filter_to_line(apply_substitution_to_line(line, ctext), ctext)
