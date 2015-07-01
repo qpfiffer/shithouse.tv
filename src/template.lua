@@ -2,11 +2,11 @@ filters = require "src/filters"
 local template_module = {}
 local sub_pattern = "xXx (.*) xXx"
 
-function apply_filter_to_line(line)
+function apply_filter_to_line(line, ctext)
     filter, text = string.match(line, filters.filter_pattern)
     if filter ~= nil then
         local filter_func_name = 'filters.' .. filter
-        local results = assert(loadstring('return '.. filter_func_name ..'(...)'))(text)
+        local results = assert(loadstring('return '.. filter_func_name ..'(...)'))(text, ctext)
 
         subbed = string.gsub(line, "yYy .* yYy", results)
         return subbed
@@ -30,7 +30,7 @@ function template_module.render(file, ctext)
     local lines = {}
 
     for line in file:lines() do
-        local new_str = apply_filter_to_line(apply_substitution_to_line(line, ctext))
+        local new_str = apply_filter_to_line(apply_substitution_to_line(line, ctext), ctext)
         lines[#lines + 1] = new_str
     end
 

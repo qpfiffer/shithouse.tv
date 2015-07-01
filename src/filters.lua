@@ -6,7 +6,7 @@ local wide = [[０１２３４５６７８９ａｂｃｄｅｆｇｈｉｊｋ�
 --filters_module.filter_pattern = "yYy ([a-zA-Z]*) ([a-zA-Z ?:']*) yYy"
 filters_module.filter_pattern = "yYy ([a-zA-Z_]*) (.*) yYy"
 
-function filters_module.fullwidth(text)
+function filters_module.fullwidth(text, ctext)
     local new_str = ""
 
     for c in text:gmatch(".") do
@@ -22,7 +22,7 @@ function filters_module.fullwidth(text)
     return new_str
 end
 
-function filters_module.all_bumps(text)
+function filters_module.all_bumps(text, ctext)
     local to_return = {}
     -- Held together with bash, sweet jams and summer dreams.
     local all_bumps = io.popen("ls -clt " .. config.BUMPS .. " | awk '{print $9}' | grep -v '^$'")
