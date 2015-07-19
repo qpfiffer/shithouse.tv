@@ -2,6 +2,8 @@ local config = require "src/config"
 local filters_module = {}
 local normal = [[0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~]]
 local wide = [[０１２３４５６７８９ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ！゛＃＄％＆（）＊＋、ー。／：；〈＝〉？＠［［］］＾＿゛｛｜｝]]
+local utils = require "src/utils"
+local fuck_json = require "src/JSON"
 
 --filters_module.filter_pattern = "yYy ([a-zA-Z]*) ([a-zA-Z ?:']*) yYy"
 filters_module.filter_pattern = "yYy ([a-zA-Z_]*) (.*) yYy"
@@ -34,6 +36,32 @@ function filters_module.all_bumps_for_tag(tag, ctext)
         to_return[#to_return + 1] = line
         to_return[#to_return + 1] = "</li>"
     end
+
+    return table.concat(to_return)
+end
+
+function filters_module.all_tags_for_bump(bump, ctext)
+    local fixed, what = string.gsub(bump, " ", "")
+    local meta_data = utils.check_for_bump(fixed)
+
+    if not meta_data then
+        return fixed
+    end
+
+    local ctext = fuck_json:decode(meta_data:read("*all"))
+
+    local to_return = {}
+    for dont_care, tag in pairs(ctext["tags"]) do
+        to_return[#to_return + 1] = "<li><a href=\"http://"
+        to_return[#to_return + 1] = config.HOST
+        to_return[#to_return + 1] = "/tags/"
+        to_return[#to_return + 1] = tag
+        to_return[#to_return + 1] = "\">"
+        to_return[#to_return + 1] = tag
+        to_return[#to_return + 1] = "</li>"
+    end
+
+    meta_data:close()
 
     return table.concat(to_return)
 end

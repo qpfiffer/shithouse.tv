@@ -5,7 +5,9 @@ local utils = require "src/utils"
 
 function tag_view(tag_str)
     local f = io.open("templates/tag.html", "r")
-    local rendered = template.render(f, { ["tag"] = tag_str })
+    local rendered = template.render(f, { ["msg"] = "All bumps for tag ",
+                                          ["filter"] = "yYy all_bumps_for_tag ",
+                                          ["tag"] = bump })
     f:close()
 
     return rendered
@@ -19,16 +21,37 @@ function fuck_you(error_msg)
     return rendered
 end
 
+function bumps_tag_view(bump)
+    local f = io.open("templates/tag.html", "r")
+    local rendered = template.render(f, { ["msg"] = "All tags for bump ",
+                                          ["filter"] = "yYy all_tags_for_bump ",
+                                          ["tag"] = bump })
+    f:close()
+
+    return rendered
+end
+
 function main()
     -- Fuck it, it's not a subdomain but it works.
-    local tag = string.match(arg[2], utils.subdomain_match)
+    if arg[2] == "tag" then
+        local tag = string.match(arg[3], utils.subdomain_match)
 
-    if not tag or tag == "" then
-        return fuck_you("no")
+        if not tag or tag == "" then
+            return fuck_you("no")
+        end
+
+        -- HOORAY SANITY
+        return tag_view(tag)
+    else
+        local bump = string.match(arg[3], utils.subdomain_match)
+
+        if not bump or bump == "" then
+            return fuck_you("no")
+        end
+
+        -- HOORAY SANITY
+        return bumps_tag_view(bump)
     end
-
-    -- HOORAY SANITY
-    return tag_view(tag)
 end
 
 print(main())
