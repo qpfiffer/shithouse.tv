@@ -5,6 +5,10 @@ function utils_module.build_bump_path(name)
     return config.BUMPS .. "/" .. name
 end
 
+function utils_module.build_tag_path(name)
+    return config.TAGS .. "/" .. name
+end
+
 function utils_module.check_for_bump(name)
     if not name then
         return nil

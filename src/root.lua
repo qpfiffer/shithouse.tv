@@ -97,12 +97,20 @@ function verify(bump_data)
         verified["pickles"] = "true"
     end
 
+    -- Do tags last, because we know we'll probably actually
+    -- succeed in making this bump.
     local v_tags = decoded["tags"]
     if v_tags then
         i = 0
         tags = {}
         for tag in string.gmatch(v_tags, '([^,]+)') do
-            -- FUCK YOU
+            -- WOW WE ACTUALLY USE mkdir. lol.
+            -- CREATE THE DIRECTORY THAT THIS TAG IS
+            local tag_dir = utils.build_tag_path(tag)
+            local mkdir_output = io.popen("mkdir -p " .. tag_dir)
+            print(mkdir_output:read("*all"))
+            mkdir_output:close()
+
             tags[string.format("%i", i)] = tag
             i = i + 1
         end
@@ -124,6 +132,22 @@ function verify(bump_data)
     end
     meta_data:write(e_verified)
     meta_data:close()
+
+    -- FUCK YOUUUU
+    for k, v in pairs(verified["tags"]) do
+        -- Symlink everything in now.
+        local pwd_output = io.popen("pwd")
+        local REAL_OUTPUT = string.gsub(pwd_output:read("*all"), "\n", "")
+        pwd_output:close()
+
+        local bump_path = utils.build_bump_path(v_subdomain)
+        local tag_dir = utils.build_tag_path(v)
+        -- BEAUTIFUL
+        local ln_output = io.popen("ln -s " .. REAL_OUTPUT .. "/" .. bump_path .. " " .. REAL_OUTPUT .. "/" .. tag_dir .. "/" .. v_subdomain)
+        print(ln_output:read("*all"))
+        ln_output:close()
+        -- SUCCESS, PROBABLY
+    end
 
     -- Render the newly created bump.
     return root("Good job. Bump " .. v_subdomain .. " created.")
