@@ -97,6 +97,18 @@ function verify(bump_data)
         verified["pickles"] = "true"
     end
 
+    local v_tags = decoded["tags"]
+    if v_tags then
+        i = 0
+        tags = {}
+        for tag in string.gmatch(v_tags, '([^,]+)') do
+            -- FUCK YOU
+            tags[string.format("%i", i)] = tag
+            i = i + 1
+        end
+        verified["tags"] = tags
+    end
+
     -- Encode verified data and write to disk
     local e_verified = fuck_json:encode(verified)
     if not e_verified then
