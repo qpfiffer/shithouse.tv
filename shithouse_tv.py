@@ -49,6 +49,10 @@ def error404(error):
     resp.content_type = mtype
     return resp
 
+@get("/tags/<tag>")
+def tag_thing(tag=None):
+    return call_lua("./src/tag.lua", tag)
+
 @post("/")
 @get("/")
 @lua_500
