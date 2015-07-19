@@ -51,6 +51,11 @@ function filters_module.all_tags_for_bump(bump, ctext)
     local ctext = fuck_json:decode(meta_data:read("*all"))
 
     local to_return = {}
+    if not ctext["tags"] then
+        meta_data:close()
+        return " "
+    end
+
     for dont_care, tag in pairs(ctext["tags"]) do
         to_return[#to_return + 1] = "<li><a href=\"http://"
         to_return[#to_return + 1] = config.HOST
