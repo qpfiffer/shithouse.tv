@@ -22,6 +22,22 @@ function filters_module.fullwidth(text, ctext)
     return new_str
 end
 
+function filters_module.all_bumps_for_tag(tag, ctext)
+    local to_return = {}
+    local all_bumps = io.popen("ls -clt " .. config.TAGS .. "/" .. tag .. " | awk '{print $9}' | grep -v '^$'")
+    for line in all_bumps:lines() do
+        to_return[#to_return + 1] = "<li><a href=\"http://"
+        to_return[#to_return + 1] = line
+        to_return[#to_return + 1] = "."
+        to_return[#to_return + 1] = config.HOST
+        to_return[#to_return + 1] = "/\">"
+        to_return[#to_return + 1] = line
+        to_return[#to_return + 1] = "</li>"
+    end
+
+    return table.concat(to_return)
+end
+
 function filters_module.all_bumps(text, ctext)
     local to_return = {}
     -- Held together with bash, sweet jams and summer dreams.
