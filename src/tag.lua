@@ -7,7 +7,7 @@ function tag_view(tag_str)
     local f = io.open("templates/tag.html", "r")
     local rendered = template.render(f, { ["msg"] = "All bumps for tag ",
                                           ["filter"] = "yYy all_bumps_for_tag ",
-                                          ["tag"] = bump })
+                                          ["tag"] = tag_str })
     f:close()
 
     return rendered

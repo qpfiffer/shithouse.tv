@@ -26,7 +26,8 @@ end
 
 function filters_module.all_bumps_for_tag(tag, ctext)
     local to_return = {}
-    local all_bumps = io.popen("ls -clt " .. config.TAGS .. "/" .. tag .. " | awk '{print $9}' | grep -v '^$'")
+    local fixed, what = string.gsub(tag, " ", "")
+    local all_bumps = io.popen("ls -clt " .. config.TAGS .. "/" .. fixed .. " | awk '{print $9}' | grep -v '^$'")
     for line in all_bumps:lines() do
         to_return[#to_return + 1] = "<li><a href=\"http://"
         to_return[#to_return + 1] = line
@@ -82,7 +83,11 @@ function filters_module.all_bumps(text, ctext)
         to_return[#to_return + 1] = config.HOST
         to_return[#to_return + 1] = "/\">"
         to_return[#to_return + 1] = line
-        to_return[#to_return + 1] = "</li>"
+        to_return[#to_return + 1] = "<a class=\"tags\" href=\"http://"
+        to_return[#to_return + 1] = config.HOST
+        to_return[#to_return + 1] = "/bumps_tags/"
+        to_return[#to_return + 1] = line
+        to_return[#to_return + 1] = "\"> TAGS &raquo;</a></li>"
     end
 
     return table.concat(to_return)
