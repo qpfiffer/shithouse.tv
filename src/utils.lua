@@ -14,7 +14,8 @@ function utils_module.check_for_bump(name)
         return nil
     end
 
-    local meta_data = io.open(utils_module.build_bump_path(name) .. "/" .. config.MD_NAME)
+    local lowered = string.lower(name)
+    local meta_data = io.open(utils_module.build_bump_path(lowered) .. "/" .. config.MD_NAME)
     return meta_data
 end
 
