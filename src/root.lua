@@ -5,9 +5,10 @@ local utils = require "src/utils"
 
 function bump(hostname)
     assert(hostname)
+    local lowered_hostname = string.lower(hostname)
     local f = io.open("templates/bump.html", "r")
 
-    local meta_data = utils.check_for_bump(hostname)
+    local meta_data = utils.check_for_bump(lowered_hostname)
 
     if not meta_data then
         return root("NO SUCH BUMP PLS MAKE")
