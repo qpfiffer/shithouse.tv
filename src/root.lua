@@ -30,7 +30,7 @@ end
 
 function verify(bump_data)
     local decoded = fuck_json:decode(bump_data)
-    local v_subdomain = decoded["subdomain"]:match(utils.subdomain_match)
+    local v_subdomain = string.lower(decoded["subdomain"]:match(utils.subdomain_match))
     local verified = {}
 
     -- 0. Verify Data
