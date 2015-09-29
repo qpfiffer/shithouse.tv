@@ -92,6 +92,11 @@ function verify(bump_data)
         verified["image"] = nil
     end
 
+    local v_text = decoded["text"]:match("[a-zA-Z0-9 ]*")
+    if v_text then
+        verified["text"] = v_text
+    end
+
     local v_pickles = decoded["pickles"]
     if v_pickles then
         verified["pickles"] = "true"
