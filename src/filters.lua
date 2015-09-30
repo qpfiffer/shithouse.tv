@@ -123,9 +123,9 @@ end
 --   </ul> xXx ~same~ xXx
 --
 function filters_module.unless(text, ctext)
-    local existence = ctext[text] ~= nil
     local negation = true
     text = string.gsub(text, "^not ", function() negation = false; return ""; end)
+    local existence = ctext[text] ~= nil
 
     if existence == negation then
         ctext['~line~'] = ''
