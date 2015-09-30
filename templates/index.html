@@ -32,6 +32,9 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 display: block;
                 margin-bottom: 2em;
             }
+            #bg-color {
+                text-shadow: 1px 1px #AAAAAA;
+            }
             #stuff {
                 display: inline-block;
             }
@@ -181,7 +184,16 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
             if (!/^[0-9a-f]*$/i.test(this.value)) {
                 this.value = ("000000" + (Math.random() * (1 << 24) | 0).toString(16)).slice(-6);
             }
-            document.documentElement.style.background = '#' + this.value;
+            document.forms.new_bump['bg-color'].style.border = '4px solid #' + this.value;
+            document.forms.new_bump['bg-color'].style.boxShadow = '0 0 25px 5px #' + this.value;
+            document.forms.new_bump['bg-color'].style.background = '#' + this.value;
+            document.forms.new_bump['bg-color'].style.background;
+            document.forms.new_bump['bg-color'].style;
+            document.forms.new_bump['bg-color'];
+            document.forms.new_bump;
+            document.forms;
+            document;
+            ;
         }
         //
 var requestAnimationFrame = window.requestAnimationFrame || 
