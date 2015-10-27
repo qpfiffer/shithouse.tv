@@ -10,14 +10,79 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 font-weight: normal;
                 font-style: normal;
             }
+            .rainbow {
+                -webkit-animation:rainbow 1s infinite;
+                -ms-animation:rainbow 1s infinite;
+                -o-animation:rainbow 1s infinite;
+                animation:rainbow 1s infinite;
+                font-size: 48px;
+                font-family: 'PixelMincho', serif;
+                font-weight: bold;
+                text-shadow: 4px 4px 4px #000;
+            }
+            @-webkit-keyframes rainbow {
+                0% {color: #ff0000; text-shadow: 0 0px 0 #ff0000;    }
+                10% {color: #ff8000; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000;    }
+                20% {color: #ffff00; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00;    }
+                30% {color: #80ff00; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00;    }
+                40% {color: #00ff00; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00;    }
+                50% {color: #00ff80; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80;    }
+                60% {color: #00ffff; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff;    }
+                70% {color: #0080ff; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff, 0 14px 0 #0080ff;    }
+                80% {color: #0000ff; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff, 0 14px 0 #0080ff, 0 16px 0 #0000ff;    }
+                90% {color: #8000ff; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff, 0 14px 0 #0080ff, 0 16px 0 #0000ff, 0 18px 0 #8000ff;    }
+                100% {color: #ff0080; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff, 0 14px 0 #0080ff, 0 16px 0 #0000ff, 0 18px 0 #8000ff, 0 20px 0 #ff0080;    }
+            }
+            @-ms-keyframes rainbow {
+                0% {color: #ff0000; text-shadow: 0 0px 0 #ff0000;    }
+                10% {color: #ff8000; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000;    }
+                20% {color: #ffff00; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00;    }
+                30% {color: #80ff00; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00;    }
+                40% {color: #00ff00; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00;    }
+                50% {color: #00ff80; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80;    }
+                60% {color: #00ffff; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff;    }
+                70% {color: #0080ff; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff, 0 14px 0 #0080ff;    }
+                80% {color: #0000ff; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff, 0 14px 0 #0080ff, 0 16px 0 #0000ff;    }
+                90% {color: #8000ff; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff, 0 14px 0 #0080ff, 0 16px 0 #0000ff, 0 18px 0 #8000ff;    }
+                100% {color: #ff0080; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff, 0 14px 0 #0080ff, 0 16px 0 #0000ff, 0 18px 0 #8000ff, 0 20px 0 #ff0080;    }
+            }
+            @-o-keyframes rainbow {
+                0% {color: #ff0000; text-shadow: 0 0px 0 #ff0000;    }
+                10% {color: #ff8000; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000;    }
+                20% {color: #ffff00; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00;    }
+                30% {color: #80ff00; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00;    }
+                40% {color: #00ff00; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00;    }
+                50% {color: #00ff80; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80;    }
+                60% {color: #00ffff; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff;    }
+                70% {color: #0080ff; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff, 0 14px 0 #0080ff;    }
+                80% {color: #0000ff; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff, 0 14px 0 #0080ff, 0 16px 0 #0000ff;    }
+                90% {color: #8000ff; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff, 0 14px 0 #0080ff, 0 16px 0 #0000ff, 0 18px 0 #8000ff;    }
+                100% {color: #ff0080; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff, 0 14px 0 #0080ff, 0 16px 0 #0000ff, 0 18px 0 #8000ff, 0 20px 0 #ff0080;    }
+            }
+            @keyframes rainbow {
+                0% {color: #ff0000; text-shadow: 0 0px 0 #ff0000;    }
+                10% {color: #ff8000; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000;    }
+                20% {color: #ffff00; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00;    }
+                30% {color: #80ff00; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00;    }
+                40% {color: #00ff00; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00;    }
+                50% {color: #00ff80; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80;    }
+                60% {color: #00ffff; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff;    }
+                70% {color: #0080ff; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff, 0 14px 0 #0080ff;    }
+                80% {color: #0000ff; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff, 0 14px 0 #0080ff, 0 16px 0 #0000ff;    }
+                90% {color: #8000ff; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff, 0 14px 0 #0080ff, 0 16px 0 #0000ff, 0 18px 0 #8000ff;    }
+                100% {color: #ff0080; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff, 0 14px 0 #0080ff, 0 16px 0 #0000ff, 0 18px 0 #8000ff, 0 20px 0 #ff0080;    }
+            }
             html {
                 font-family: 'PixelMincho', serif;
                 font-size: 18px;
                 color: white;
+                background-image: url("http://cblgh.shithouse.tv/cblgh.png");
             }
             #main {
+                background-color: #000;
+                padding: 0.25em;
                 display: block;
-                width: 650px;
+                width: 966px;
                 margin: 0 auto;
             }
             #header {
@@ -26,7 +91,7 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 bottom: 0;
                 left: 0;
                 right: 0;
-                width: 550px;
+                width: 650px;
             }
             #main form input{
                 display: block;
@@ -105,19 +170,42 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                                                    background-size: cover;
                                                      transition: 1s opacity;
             }
+            .mega {
+                font-size: 48px;
+            }
+            .mega > span {
+                font-weight: bold;
+            }
+            .bird {
+                width: 128px;
+                height: 128px;
+                display: inline-block;
+            }
+            .bird-mirrored {
+                        -moz-transform: scaleX(-1);
+                                -o-transform: scaleX(-1);
+                                        -webkit-transform: scaleX(-1);
+                                                transform: scaleX(-1);
+                                                        filter: FlipH;
+                                                                -ms-filter: "FlipH";
+            }
         </style>
     </head>
     <body>
         <div style="position: relative; overflow: hidden;">
-            <video id="bg_video"  autoplay loop muted>
+            <!-- <video id="bg_video"  autoplay loop muted>
                 <source src="http://spooked.shithouse.tv/spooked.webm" type="video/webm">
-            </video>
+            </video> -->
         </div>
         <div id="main">
             <div id="header">
-                <h1><span id="h1" class="skel">yYy fullwidth skeletonhouse yYy</span>.tv</h1>
+                <img class="bird" src="http://bird.shithouse.tv/bird-animated-gif-26.gif" />
+                <h1><span id="h1" class="skel rainbow">yYy fullwidth cblgh yYy</span>
+                    <span id="h1" class="skel">yYy fullwidth house yYy</span>.tv</h1>
+                <img class="bird bird-mirrored" src="http://bird.shithouse.tv/bird-animated-gif-26.gif" />
             </div>
-            <p>This is <span class="skel">skeletonhouse</span>.tv.
+            <p class="mega">We'd like to thank <span class="rainbow">cblgh</span> our <a href="http://vodka.shithouse.tv/" class="gold">Gold Level Support Sponsor</a>&trade; for their kind generosity!</p>
+            <p>This is <span class="skel">cblghhouse</span>.tv.
             It's like a shitty YTMND. Upload an image or a yYy fullwidth webm yYy file and go to town. Max size 10MB.</p>
             <div id="stuff">
                 <p id="error_msg">yYy fullwidth xXx error_msg xXx yYy</p>
@@ -153,7 +241,7 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 </form>
             </div>
             <div id="snowflakeContainer">
-                <p class="skeleton">&#x2620;</p>
+                <!-- <p class="skeleton">&#x2620;</p> -->
             </div>
             <div id="all_bumps">
                 <span>yYy fullwidth All Bumps yYy</span>
@@ -229,7 +317,7 @@ function setup() {
     window.addEventListener("DOMContentLoaded", generateSnowflakes, false);
     window.addEventListener("resize", setResetFlag, false);
 }
-setup();
+//setup();
 
 function getSupportedPropertyName(properties) {
     for (var i = 0; i < properties.length; i++) {
