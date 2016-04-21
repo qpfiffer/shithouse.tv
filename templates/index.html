@@ -72,6 +72,18 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 90% {color: #8000ff; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff, 0 14px 0 #0080ff, 0 16px 0 #0000ff, 0 18px 0 #8000ff;    }
                 100% {color: #ff0080; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff, 0 14px 0 #0080ff, 0 16px 0 #0000ff, 0 18px 0 #8000ff, 0 20px 0 #ff0080;    }
             }
+            .small-rainbow {
+                -webkit-animation:rainbow 2s infinite;
+                -ms-animation:rainbow 2s infinite;
+                -o-animation:rainbow 2s infinite;
+                animation:rainbow 2s infinite;
+                font-family: 'PixelMincho', serif;
+                font-weight: bold;
+                text-shadow: 4px 4px 4px #000;
+            }
+            .nsfw::before {
+                content: "yYy fullwidth !!! NSFW !!! yYy ";
+            }
             html {
                 font-family: 'PixelMincho', serif;
                 font-size: 18px;
@@ -249,6 +261,9 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
 
                     <label for="pickles">yYy fullwidth Pickles yYy</label>
                     <input id="pickles" name="pickles" type="checkbox" />
+
+                    <label for="nsfw">yYy fullwidth NSFW? yYy</label>
+                    <input id="nsfw" name="nsfw" type="checkbox" />
 
 
                     <input type="submit" value="&#9834; yYy fullwidth Let's Jam yYy" />

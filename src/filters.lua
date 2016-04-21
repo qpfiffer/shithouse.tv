@@ -77,7 +77,22 @@ function filters_module.all_bumps(text, ctext)
     -- Held together with bash, sweet jams and summer dreams.
     local all_bumps = io.popen("ls -clt " .. config.BUMPS .. " | awk '{print $9}' | grep -v '^$'")
     for line in all_bumps:lines() do
-        to_return[#to_return + 1] = "<li><a href=\"http://"
+        local meta_data = utils.check_for_bump(line)
+        local is_nsfw = false
+
+        if meta_data then
+            local ctext = fuck_json:decode(meta_data:read("*all"))
+            if ctext["nsfw"] then
+                is_nsfw = ctext["nsfw"]
+            end
+            meta_data.close()
+        end
+
+        if is_nsfw then
+            to_return[#to_return + 1] = "<li><i class=\"nsfw small-rainbow\">&nbsp;</i><a href=\"http://"
+        else
+            to_return[#to_return + 1] = "<li><a href=\"http://"
+        end
         to_return[#to_return + 1] = line
         to_return[#to_return + 1] = "."
         to_return[#to_return + 1] = config.HOST

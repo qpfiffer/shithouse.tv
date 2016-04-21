@@ -102,6 +102,11 @@ function verify(bump_data)
         verified["pickles"] = "true"
     end
 
+    local v_nsfw = decoded["nsfw"]
+    if v_nsfw then
+        verified["nsfw"] = true
+    end
+
     -- Do tags last, because we know we'll probably actually
     -- succeed in making this bump.
     local v_tags = decoded["tags"]
