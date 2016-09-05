@@ -49,62 +49,66 @@ function verify(bump_data)
 
     -- Make sure that the bg-color is okay
     local v_bgcolor = decoded["bg-color"]:match("([a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9][a-fA-F0-9])")
-    if not v_bgcolor then
-        return root("Pick better background color pls")
-    end
-    verified["bg-color"] = v_bgcolor
+        if not v_bgcolor then
+            return root("Pick better background color pls")
+        end
+        verified["bg-color"] = v_bgcolor
 
-    -- Make sure there is at least an image
-    local v_image = decoded["image"]
-    if not v_image then
-        return root("You need image")
-    end
+        -- Make sure there is at least an image
+        local v_image = decoded["image"]
+        if not v_image then
+            return root("You need image")
+        end
 
-    -- Create bump dir
-    local bump_dir = utils.build_bump_path(v_subdomain)
-    local mkdir_output = io.popen("mkdir -p " .. bump_dir)
-    print(mkdir_output:read("*all"))
-    mkdir_output:close()
+        -- Create bump dir
+        local bump_dir = utils.build_bump_path(v_subdomain)
+        local mkdir_output = io.popen("mkdir -p " .. bump_dir)
+        print(mkdir_output:read("*all"))
+        mkdir_output:close()
 
-    local image_name = utils.get_file_name_from_path(v_image)
-    io.popen("mv " .. v_image .. " " .. bump_dir .. "/" .. image_name)
-    io.close()
-    if string.match(image_name,"[a-zA-Z0-9]*.webm$") then
-        verified["webm"] = utils.get_file_name_from_path(bump_dir .. "/" .. image_name)
-    else
-        verified["image"] = utils.get_file_name_from_path(bump_dir .. "/" .. image_name)
-    end
-
-    local v_music = decoded["music"]
-    if v_music and v_music ~= "" then
-        local music_name = utils.get_file_name_from_path(v_music)
-        local out_name = bump_dir .. "/" .. music_name
-        -- Truncate music to keep the size down.
-        io.popen("ffmpeg -i " .. v_music .. " -t " .. config.TRUNCATE_LENGTH_S .. "s " .. out_name)
+        local image_name = utils.get_file_name_from_path(v_image)
+        io.popen("mv " .. v_image .. " " .. bump_dir .. "/" .. image_name)
         io.close()
-        verified["music"] = utils.get_file_name_from_path(out_name)
-    end
+        if string.match(image_name,"[a-zA-Z0-9]*.webm$") then
+            verified["webm"] = utils.get_file_name_from_path(bump_dir .. "/" .. image_name)
+        else
+            verified["image"] = utils.get_file_name_from_path(bump_dir .. "/" .. image_name)
+        end
 
-    local v_imageRepeat = decoded["imageRepeat"]
-    if v_imageRepeat then
-        verified["imageRepeat"] = verified["image"]
-        -- Remove the image because we want one or the other.
-        verified["image"] = nil
-    end
+        local v_music = decoded["music"]
+        if v_music and v_music ~= "" then
+            local music_name = utils.get_file_name_from_path(v_music)
+            local out_name = bump_dir .. "/" .. music_name
+            -- Truncate music to keep the size down.
+            io.popen("ffmpeg -i " .. v_music .. " -t " .. config.TRUNCATE_LENGTH_S .. "s " .. out_name)
+            io.close()
+            verified["music"] = utils.get_file_name_from_path(out_name)
+        end
 
-    local v_text = decoded["text"]:match("[a-zA-Z0-9 ]*")
-    if v_text then
-        verified["text"] = v_text
-    end
+        local v_imageRepeat = decoded["imageRepeat"]
+        if v_imageRepeat then
+            verified["imageRepeat"] = verified["image"]
+            -- Remove the image because we want one or the other.
+            verified["image"] = nil
+        end
 
-    local v_pickles = decoded["pickles"]
-    if v_pickles then
-        verified["pickles"] = "true"
-    end
+        local v_text = decoded["text"]:match("[a-zA-Z0-9 ]*")
+        if v_text then
+            verified["text"] = v_text
+        end
 
-    local v_bullens = decoded["bullens"]
-    if v_bullens then
-        verified["bullens"] = "true"
+        local v_pickles = decoded["pickles"]
+        if v_pickles then
+            verified["pickles"] = "true"
+        end
+
+        local v_bullens = decoded["bullens"]
+        if v_bullens then
+            verified["bullens"] = "true"
+
+        local v_nsfw = decoded["nsfw"]
+        if v_nsfw then
+            verified["nsfw"] = true
     end
 
     -- Do tags last, because we know we'll probably actually

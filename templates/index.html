@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>yYy fullwidth r a c o o n h o u s e t v yYy</title>
+        <title>yYy fullwidth shithouse.tv yYy</title>
         <style>
             @font-face {
                 font-family: 'PixelMincho';
@@ -72,16 +72,28 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 90% {color: #8000ff; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff, 0 14px 0 #0080ff, 0 16px 0 #0000ff, 0 18px 0 #8000ff;    }
                 100% {color: #ff0080; text-shadow: 0 0px 0 #ff0000, 0 2px 0 #ff8000, 0 4px 0 #ffff00, 0 6px 0 #80ff00, 0 8px 0 #00ff00, 0 10px 0 #00ff80, 0 12px 0 #00ffff, 0 14px 0 #0080ff, 0 16px 0 #0000ff, 0 18px 0 #8000ff, 0 20px 0 #ff0080;    }
             }
+            .small-rainbow {
+                -webkit-animation:rainbow 2s infinite;
+                -ms-animation:rainbow 2s infinite;
+                -o-animation:rainbow 2s infinite;
+                animation:rainbow 2s infinite;
+                font-family: 'PixelMincho', serif;
+                font-weight: bold;
+                text-shadow: 4px 4px 4px #000;
+            }
+            .nsfw::before {
+                content: "yYy fullwidth !!! NSFW !!! yYy ";
+            }
             html {
                 font-family: 'PixelMincho', serif;
                 font-size: 18px;
                 color: #40B8B8;
                 /* background-image: url("http://cblgh.shithouse.tv/cblgh.png"); */
                 /* background-image: url("http://mom.shithouse.tv/38-PM.png"); */
-                background-image: url("http://racoons.shithouse.tv/00-13-00.jpg");
+                /* background-image: url("http://racoons.shithouse.tv/00-13-00.jpg"); */
             }
             ul {
-                list-style-image: url("http://racoonlist.shithouse.tv/racoon-img.png");
+                /* list-style-image: url("http://racoonlist.shithouse.tv/racoon-img.png"); */
             }
             #main {
                 background-color: #333333;
@@ -113,12 +125,12 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 vertical-align: top;
             }
             a {
-                /* color: #93f036; */
-                color: #f22e69;
+                color: #93f036;
+                /* color: #f22e69; */
             }
             a:visited {
-                /* color: #f22e69; */
-                color: #8F748A;
+                color: #f22e69;
+                /* color: #8F748A; */
             }
             #header > h1 {
                 display: inline-block;
@@ -207,17 +219,18 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
         </div>
         <div id="main">
             <div id="header">
+                <h1><span id="h1" class="skel">yYy fullwidth shithouse yYy</span>.tv</h1>
                 <!-- <h1><span id="h1" class="skel">yYy fullwidth momhouse yYy</span>.tv</h1> -->
                 <!-- <img class="bird" src="http://bird.shithouse.tv/bird-animated-gif-26.gif" />
                 <h1><span id="h1" class="skel rainbow">yYy fullwidth cblgh yYy</span>
                     <span id="h1" class="skel">yYy fullwidth house yYy</span>.tv</h1>
                     <img class="bird bird-mirrored" src="http://bird.shithouse.tv/bird-animated-gif-26.gif" /> -->
-                <img class="bird" src="http://racoon.shithouse.tv/racoon.png" />
+                <!-- <img class="bird" src="http://racoon.shithouse.tv/racoon.png" />
                 <h1><span id="h1" class="skel rainbow">yYy fullwidth racoon yYy</span>
                     <span id="h1" class="skel">yYy fullwidth house yYy</span>.tv</h1>
-                    <img class="bird bird-mirrored" src="http://racoon.shithouse.tv/racoon.png" />
+                    <img class="bird bird-mirrored" src="http://racoon.shithouse.tv/racoon.png" /> -->
             </div>
-            <p>This is <span class="skel">racoonhouse</span>.tv.</p>
+            <p>This is <span class="skel">shithouse</span>.tv.</p>
             <!-- <p class="mega">We'd like to thank <span class="rainbow">cblgh</span> our <a href="http://vodka.shithouse.tv/" class="gold">Gold Level Support Sponsor</a>&trade; for their kind generosity!</p>
             <p>This is <span class="skel">cblghhouse</span>.tv.
             It's like a shitty YTMND. Upload an image or a yYy fullwidth webm yYy file and go to town. Max size 10MB.</p> -->
@@ -253,13 +266,16 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                     <label for="bullens">yYy fullwidth Bullens yYy</label>
                     <input id="bullens" name="bullens" type="checkbox" />
 
+                    <label for="nsfw">yYy fullwidth NSFW? yYy</label>
+                    <input id="nsfw" name="nsfw" type="checkbox" />
+
 
                     <input type="submit" value="&#9834; yYy fullwidth Let's Jam yYy" />
                 </form>
             </div>
-            <div id="snowflakeContainer">
+            <!-- <div id="snowflakeContainer">
                 <img src="http://trashcan2.shithouse.tv/trashcan2.png" class="skeleton"/>
-            </div>
+                </div> -->
             <div id="all_bumps">
                 <span>yYy fullwidth All Bumps yYy</span>
                 <ul>
