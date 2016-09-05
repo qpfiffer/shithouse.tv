@@ -14,6 +14,13 @@ function static(uri)
         return
     end
 
+    if filename == "bullens.png" then
+        local f = assert(io.open("./bullens.png"))
+        print(f:read("*all"))
+        f:close()
+        return
+    end
+
     if not meta_data then
         return utils.error404()
     end
