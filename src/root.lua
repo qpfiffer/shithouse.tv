@@ -105,11 +105,12 @@ function verify(bump_data)
         local v_bullens = decoded["bullens"]
         if v_bullens then
             verified["bullens"] = "true"
+        end
 
         local v_nsfw = decoded["nsfw"]
         if v_nsfw then
             verified["nsfw"] = true
-    end
+        end
 
     -- Do tags last, because we know we'll probably actually
     -- succeed in making this bump.
