@@ -1,7 +1,6 @@
 You'll need python 2 and LuaJIT. And maybe some gonads.
 
-# What is it
-
+# What is it 
 This is shithouse.tv. I didn't want to install Lapis because that depends on
 nginx and I already have that shit.
 
@@ -15,7 +14,7 @@ Thats it. Bumps man, bumps.
 * Proper music support
 * List of recent bumps
 * Auto-increment visits per bump?
-* List of all bumps
+* ~~List of all bumps~~ ☑️
 
 # Ideas for Filters
 
@@ -25,4 +24,7 @@ Thats it. Bumps man, bumps.
 * Cosby - Rainbow, animated
 * Bump & blur
 * Tiling, repeating, waving background
-* rainbow background color
+* rainbow background color 
+
+
+#
