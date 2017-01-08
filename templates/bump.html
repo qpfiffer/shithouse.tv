@@ -130,9 +130,6 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 text-align: center;
                 height: 100%;
             }
-            video {
-                max-width: 100%;
-            }
             #pickles {
                 background-image: url(pickles.png); /* xXx pickles xXx */
                 z-index: 100;
@@ -157,7 +154,7 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
         <div class="center-inner">
             <!-- This is a dumb hack, we should only have one or the other from the the template context, so only one of the following will be rendered. -->
             <img src="xXx image xXx" />
-            <video autoplay loop id="dx-bb-pls" src="xXx webm xXx" style="position: absolute; bottom: 0; right: 0; min-height: 100vh; min-width: 100vw;" />
+            <video autoplay loop id="dx-bb-pls" src="xXx webm xXx" width="100%" height="auto"/>
             <p class="rainbow">xXx text xXx</p>
         </div>
         <div id="pickles"></div><!-- xXx pickles xXx -->
