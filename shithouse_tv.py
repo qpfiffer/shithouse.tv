@@ -75,7 +75,14 @@ def root_post():
             json_val["music"] = TMPFILE_LOC + music.filename
             music.save(TMPFILE_LOC, overwrite=True)
         return call_lua("./src/root.lua", mheader, json.dumps(json_val))
-    return call_lua("./src/root.lua", mheader)
+
+    output = call_lua("./src/root.lua", mheader)
+    resp = HTTPResponse(body=output, status=200)
+
+    if mheader.startswith('api.'):
+        resp.content_type = 'application/json'
+
+    return resp
 
 def main():
     run(server='paste', host='localhost', debug=debug, port=8090, reloader=True)
