@@ -23,8 +23,7 @@ end
 function api()
     local f = io.open("templates/api.html", "r")
 
-    local ctext = fuck_json:decode(meta_data:read("*all"))
-    local rendered = template.render(f, ctext)
+    local rendered = template.render(f, nil)
     f:close()
     return rendered
 end
