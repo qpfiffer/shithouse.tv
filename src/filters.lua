@@ -108,7 +108,7 @@ function filters_module.all_bumps(text, ctext)
     return table.concat(to_return)
 end
 
-function filters_module.all_bumps(text, ctext)
+function filters_module.all_bumps_json(text, ctext)
     local to_return = {}
     local first = true
     -- Held together with bash, sweet jams and summer dreams.
