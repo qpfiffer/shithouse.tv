@@ -108,6 +108,41 @@ function filters_module.all_bumps(text, ctext)
     return table.concat(to_return)
 end
 
+function filters_module.all_bumps(text, ctext)
+    local to_return = {}
+    local first = true
+    -- Held together with bash, sweet jams and summer dreams.
+    local all_bumps = io.popen("ls -clt " .. config.BUMPS .. " | awk '{print $9}' | grep -v '^$'")
+    for line in all_bumps:lines() do
+        local meta_data = utils.check_for_bump(line)
+        local is_nsfw = false
+
+        if meta_data then
+            local ctext = fuck_json:decode(meta_data:read("*all"))
+            if ctext["nsfw"] then
+                is_nsfw = ctext["nsfw"]
+            end
+            meta_data.close()
+        end
+
+        if not first then
+            to_return[#to_return + 1] = ", "
+        else
+            first = false
+        end
+
+        if is_nsfw then
+            to_return[#to_return + 1] = "{ \"nsfw\": true, \"name\": "
+        else
+            to_return[#to_return + 1] = "{ \"nsfw\": false, \"name\": \""
+        end
+        to_return[#to_return + 1] = line
+        to_return[#to_return + 1] = "\"}"
+    end
+
+    return table.concat(to_return)
+end
+
 -------------------------------------------------------------------------------
 --         __  __         __  __      __                          __  __
 --    __  _\ \/ /_  __   / / / /___  / /   ___  __________   __  _\ \/ /_  __

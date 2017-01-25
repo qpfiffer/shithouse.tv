@@ -20,6 +20,15 @@ function bump(hostname)
     return rendered
 end
 
+function api()
+    local f = io.open("templates/api.html", "r")
+
+    local ctext = fuck_json:decode(meta_data:read("*all"))
+    local rendered = template.render(f, ctext)
+    f:close()
+    return rendered
+end
+
 function root(errmsg)
     local f = io.open("templates/index.html", "r")
     local rendered = template.render(f, { ["error_msg"] = errmsg })
@@ -176,6 +185,8 @@ function main()
     local subdomain_arg = string.match(arg[2], utils.subdomain_match)
     if subdomain_arg == string.match(config.HOST, utils.subdomain_match) then
         return root()
+    elseif subdomain_arg == "api" then
+        return api()
     else
         return bump(subdomain_arg)
     end
