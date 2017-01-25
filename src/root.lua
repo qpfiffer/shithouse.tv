@@ -23,7 +23,7 @@ end
 function api()
     local f = io.open("templates/api.html", "r")
 
-    local rendered = template.render(f, nil)
+    local rendered = template.render(f, {})
     f:close()
     return rendered
 end
