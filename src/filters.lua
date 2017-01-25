@@ -132,7 +132,7 @@ function filters_module.all_bumps_json(text, ctext)
         end
 
         if is_nsfw then
-            to_return[#to_return + 1] = "{ \"nsfw\": true, \"name\": "
+            to_return[#to_return + 1] = "{ \"nsfw\": true, \"name\": \""
         else
             to_return[#to_return + 1] = "{ \"nsfw\": false, \"name\": \""
         end
