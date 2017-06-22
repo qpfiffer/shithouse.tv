@@ -84,12 +84,37 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
             .nsfw::before {
                 content: "yYy fullwidth !!! NSFW !!! yYy ";
             }
+            @animation animatedBackground {
+                from { background-position: 0 0; }
+                to { background-position: 100% 100%; }
+            }
+            @keyframes animatedBackground {
+                from { background-position: 0 0; }
+                to { background-position: 100% 100%; }
+            }
+            @-webkit-keyframes animatedBackground {
+                from { background-position: 0 0; }
+                to { background-position: 100% 100%; }
+            }
+            @-ms-keyframes animatedBackground {
+                from { background-position: 0 0; }
+                to { background-position: 100% 100%; }
+            }
+            @-moz-keyframes animatedBackground {
+                from { background-position: 0 0; }
+                to { background-position: 100% 100%; }
+            }
             html {
-                background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAZABkDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAwQCBQYI/8QALRAAAgECBAMFCQAAAAAAAAAAAQIAAxEEEyExIkFhBRIzUXEUIzRTVJGSobH/xAAXAQEBAQEAAAAAAAAAAAAAAAAAAQIE/8QAGhEBAAMBAQEAAAAAAAAAAAAAAQACESESQf/aAAwDAQACEQMRAD8A61qV76AWPIc4AglxXAuicBP9Mjh6TuFNRlRSASE3+8swQoCqoCAaCc9TV7NrkUpVihtuOY84TOT5b/qK16NnOUwKEnhbYehiGbiPpqf5SV34w5LLEocM1w3uybq1tuhkMx+7pe3RtI7iPAaZQ+LK1PWQPJoKAOIYorC2zMNgPIdY57PQguzPgx6CHitapIrs/9k=');
-                background-repeat: repeat;
                 font-family: 'PixelMincho', serif;
                 font-size: 18px;
                 color: #40B8B8;
+                background-image: url("http://dancin.shithouse.tv/giphy.gif"); */
+                background-repeat: repeat;
+                height: 100%;
+                animation: animatedBackground 20s linear infinite;
+                -ms-animation: animatedBackground 20s linear infinite;
+                -moz-animation: animatedBackground 20s linear infinite;
+                -webkit-animation: animatedBackground 20s linear infinite;
                 /* background-image: url("http://cblgh.shithouse.tv/cblgh.png"); */
                 /* background-image: url("http://mom.shithouse.tv/38-PM.png"); */
                 /* background-image: url("http://racoons.shithouse.tv/00-13-00.jpg"); */
@@ -289,6 +314,7 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
             <filter id="blur"><feGaussianBlur stdDeviation="1"/></filter>
         </svg>
 
+        <img style="z-index: 100; position: absolute; left: 0; bottom: 0;" id="me_watchin_you" src="http://its-my-face.shithouse.tv/me.png"/>
         <SCRIPT LANGUAGE="JAVASCRIPT">
 
         /***********************************************
