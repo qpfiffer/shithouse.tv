@@ -142,7 +142,7 @@ function filters_module.all_bumps_json(text, ctext)
         end
         to_return[#to_return + 1] = line
         to_return[#to_return + 1] = "\", \"text\": \""
-        to_return[#to_return + 1] = text
+        to_return[#to_return + 1] = string.gsub(text, "\"", "\\\"")
         to_return[#to_return + 1] = "\"}"
     end
 
