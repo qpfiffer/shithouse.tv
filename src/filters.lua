@@ -116,11 +116,15 @@ function filters_module.all_bumps_json(text, ctext)
     for line in all_bumps:lines() do
         local meta_data = utils.check_for_bump(line)
         local is_nsfw = false
+        local text = ""
 
         if meta_data then
             local ctext = fuck_json:decode(meta_data:read("*all"))
             if ctext["nsfw"] then
                 is_nsfw = ctext["nsfw"]
+            end
+            if ctext["text"] then
+                text = ctext["text"]
             end
             meta_data.close()
         end
@@ -137,6 +141,8 @@ function filters_module.all_bumps_json(text, ctext)
             to_return[#to_return + 1] = "{ \"nsfw\": false, \"name\": \""
         end
         to_return[#to_return + 1] = line
+        to_return[#to_return + 1] = "\", \"text\": \""
+        to_return[#to_return + 1] = text
         to_return[#to_return + 1] = "\"}"
     end
 
