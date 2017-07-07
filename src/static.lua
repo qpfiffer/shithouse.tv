@@ -21,6 +21,13 @@ function static(uri)
         return
     end
 
+    if filename == "unreg.jpg" then
+        local f = assert(io.open("./unreg.jpg"))
+        print(f:read("*all"))
+        f:close()
+        return
+    end
+
     if not meta_data then
         return utils.error404()
     end
