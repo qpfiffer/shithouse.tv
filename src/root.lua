@@ -115,6 +115,11 @@ function verify(bump_data)
             verified["bullens"] = "true"
         end
 
+        local v_unreg = decoded["unreg"]
+        if v_unreg then
+            verified["unreg"] = "true"
+        end
+
         local v_nsfw = decoded["nsfw"]
         if v_nsfw then
             verified["nsfw"] = true
