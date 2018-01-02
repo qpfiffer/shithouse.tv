@@ -28,6 +28,55 @@ function static(uri)
         return
     end
 
+    if filename == "skele1.gif" then
+        local f = assert(io.open("./coolpics/skele1.gif"))
+        print(f:read("*all"))
+        f:close()
+        return
+    end
+
+    if filename == "skele2.gif" then
+        local f = assert(io.open("./coolpics/skele2.gif"))
+        print(f:read("*all"))
+        f:close()
+        return
+    end
+
+    if filename == "skele3.gif" then
+        local f = assert(io.open("./coolpics/skele3.gif"))
+        print(f:read("*all"))
+        f:close()
+        return
+    end
+
+    if filename == "skele4.gif" then
+        local f = assert(io.open("./coolpics/skele4.gif"))
+        print(f:read("*all"))
+        f:close()
+        return
+    end
+
+    if filename == "skele5.gif" then
+        local f = assert(io.open("./coolpics/skele5.gif"))
+        print(f:read("*all"))
+        f:close()
+        return
+    end
+
+    if filename == "skele6.gif" then
+        local f = assert(io.open("./coolpics/skele6.gif"))
+        print(f:read("*all"))
+        f:close()
+        return
+    end
+
+    if filename == "skele7.gif" then
+        local f = assert(io.open("./coolpics/skele7.gif"))
+        print(f:read("*all"))
+        f:close()
+        return
+    end
+
     if not meta_data then
         return utils.error404()
     end
