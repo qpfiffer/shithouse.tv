@@ -54,7 +54,7 @@ def tag_thing(tag=None):
     return call_lua("./src/tag.lua", "tag", tag)
 
 @get("/bumps_tags/<bump>")
-def tag_thing(bump=None):
+def bump_tags_thing(bump=None):
     return call_lua("./src/tag.lua", "bump", bump)
 
 @post("/")
