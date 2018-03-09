@@ -115,6 +115,11 @@ function verify(bump_data)
             verified["bullens"] = "true"
         end
 
+        local v_skelly = decoded["skelly"]
+        if v_skelly then
+            verified["skelly"] = "true"
+        end
+
         local v_unreg = decoded["unreg"]
         if v_unreg then
             verified["unreg"] = "true"
