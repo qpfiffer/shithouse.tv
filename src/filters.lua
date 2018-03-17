@@ -29,7 +29,7 @@ function filters_module.all_bumps_for_tag(tag, ctext)
     local fixed, what = string.gsub(tag, " ", "")
     local all_bumps = io.popen("ls -clt " .. config.TAGS .. "/" .. fixed .. " | awk '{print $9}' | grep -v '^$'")
     for line in all_bumps:lines() do
-        to_return[#to_return + 1] = "<li><a href=\"http://"
+        to_return[#to_return + 1] = "<li><a href=\"httpss://"
         to_return[#to_return + 1] = line
         to_return[#to_return + 1] = "."
         to_return[#to_return + 1] = config.HOST
@@ -58,7 +58,7 @@ function filters_module.all_tags_for_bump(bump, ctext)
     end
 
     for dont_care, tag in pairs(ctext["tags"]) do
-        to_return[#to_return + 1] = "<li><a href=\"http://"
+        to_return[#to_return + 1] = "<li><a href=\"https://"
         to_return[#to_return + 1] = config.HOST
         to_return[#to_return + 1] = "/tags/"
         to_return[#to_return + 1] = tag
@@ -90,16 +90,16 @@ function filters_module.all_bumps(text, ctext)
 
         if is_nsfw then
             -- to_return[#to_return + 1] = "<li><i class=\"nsfw small-rainbow\">&nbsp;</i><a href=\"http://"
-            to_return[#to_return + 1] = "<li><img class=\"nsfw_gif\" src=\"http://new-nsfw-gif.shithouse.tv/Peek-2017-12-08-13-46.gif\"></img><a href=\"http://"
+            to_return[#to_return + 1] = "<li><img class=\"nsfw_gif\" src=\"https://new-nsfw-gif.shithouse.tv/Peek-2017-12-08-13-46.gif\"></img><a href=\"https://"
         else
-            to_return[#to_return + 1] = "<li><a href=\"http://"
+            to_return[#to_return + 1] = "<li><a href=\"https://"
         end
         to_return[#to_return + 1] = line
         to_return[#to_return + 1] = "."
         to_return[#to_return + 1] = config.HOST
         to_return[#to_return + 1] = "/\">"
         to_return[#to_return + 1] = line
-        to_return[#to_return + 1] = "<a class=\"tags\" href=\"http://"
+        to_return[#to_return + 1] = "<a class=\"tags\" href=\"https://"
         to_return[#to_return + 1] = config.HOST
         to_return[#to_return + 1] = "/bumps_tags/"
         to_return[#to_return + 1] = line
