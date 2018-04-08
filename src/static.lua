@@ -13,6 +13,10 @@ local function has_value(tab, val)
 end
 
 function attempt_read_static_file(filename)
+    if filename == nil then
+        return false
+    end
+
     local whitelist = {
         "pickles.png",
         "bullens.png",
@@ -28,11 +32,18 @@ function attempt_read_static_file(filename)
 
 
     if has_value(whitelist, filename) then
-        local f = assert(io.open("./coolpics/" .. filename))
+        local f = io.open("./coolpics/" .. filename)
+
+        if f == nil then
+            return false
+        end
+
         print(f:read("*all"))
         f:close()
         return true
     end
+
+    return false
 end
 
 function static(uri)
@@ -40,7 +51,7 @@ function static(uri)
     local subdomain_arg = string.match(arg[2], utils.subdomain_match)
     local meta_data = utils.check_for_bump(subdomain_arg)
 
-    if attempt_read_static_file(file) == true then
+    if attempt_read_static_file(filename) == true then
         return
     end
 
