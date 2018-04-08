@@ -2,78 +2,45 @@ local config = require "src/config"
 local utils = require "src/utils"
 local fuck_json = require "src/JSON"
 
+local function has_value(tab, val)
+    for index, value in ipairs(tab) do
+        if value == val then
+            return true
+        end
+    end
+
+    return false
+end
+
+function attempt_read_static_file(filename)
+    local whitelist = {
+        "pickles.png",
+        "bullens.png",
+        "unreg.jpg",
+        "skele1.gif",
+        "skele2.gif",
+        "skele3.gif",
+        "skele4.gif",
+        "skele5.gif",
+        "skele6.gif",
+        "skele7.gif"
+    }
+
+
+    if has_value(whitelist, filename) then
+        local f = assert(io.open("./coolpics/" .. filename))
+        print(f:read("*all"))
+        f:close()
+        return true
+    end
+end
+
 function static(uri)
     local filename = utils.get_file_name_from_path(uri)
     local subdomain_arg = string.match(arg[2], utils.subdomain_match)
     local meta_data = utils.check_for_bump(subdomain_arg)
 
-    if filename == "pickles.png" then
-        local f = assert(io.open("./pickles.png"))
-        print(f:read("*all"))
-        f:close()
-        return
-    end
-
-    if filename == "bullens.png" then
-        local f = assert(io.open("./bullens.png"))
-        print(f:read("*all"))
-        f:close()
-        return
-    end
-
-    if filename == "unreg.jpg" then
-        local f = assert(io.open("./unreg.jpg"))
-        print(f:read("*all"))
-        f:close()
-        return
-    end
-
-    if filename == "skele1.gif" then
-        local f = assert(io.open("./coolpics/skele1.gif"))
-        print(f:read("*all"))
-        f:close()
-        return
-    end
-
-    if filename == "skele2.gif" then
-        local f = assert(io.open("./coolpics/skele2.gif"))
-        print(f:read("*all"))
-        f:close()
-        return
-    end
-
-    if filename == "skele3.gif" then
-        local f = assert(io.open("./coolpics/skele3.gif"))
-        print(f:read("*all"))
-        f:close()
-        return
-    end
-
-    if filename == "skele4.gif" then
-        local f = assert(io.open("./coolpics/skele4.gif"))
-        print(f:read("*all"))
-        f:close()
-        return
-    end
-
-    if filename == "skele5.gif" then
-        local f = assert(io.open("./coolpics/skele5.gif"))
-        print(f:read("*all"))
-        f:close()
-        return
-    end
-
-    if filename == "skele6.gif" then
-        local f = assert(io.open("./coolpics/skele6.gif"))
-        print(f:read("*all"))
-        f:close()
-        return
-    end
-
-    if filename == "skele7.gif" then
-        local f = assert(io.open("./coolpics/skele7.gif"))
-        print(f:read("*all"))
-        f:close()
+    if attempt_read_static_file(file) == true then
         return
     end
 

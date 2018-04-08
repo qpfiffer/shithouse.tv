@@ -2,7 +2,7 @@
 
 # GREAT DANE ON THE BEAT
 
-from bottle import error, route, run, template, request, redirect, get, post, HTTPResponse
+from bottle import error, run, request, get, post, HTTPResponse
 import subprocess, json
 
 LUAJIT = "luajit"
@@ -32,7 +32,6 @@ def call_lua(filename, *args):
 def error404(error):
     mheader = request.get_header("host")
     output = call_lua("./src/static.lua", mheader, request.path)
-    mimetype="application/octet-stream"
 
     resp = HTTPResponse(body=output, status=200)
     mtype = "application/octet-stream"
