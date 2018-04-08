@@ -7,6 +7,19 @@ local fuck_json = require "src/JSON"
 
 --filters_module.filter_pattern = "yYy ([a-zA-Z]*) ([a-zA-Z ?:']*) yYy"
 filters_module.filter_pattern = "yYy ([a-zA-Z_]*) (.*) yYy"
+math.randomseed(os.time())
+
+function filters_module.randomfromargs(text, ctext)
+    local arr = {}
+    local i = 1
+
+    for x in string.gmatch(text, "%S+") do
+        arr[i] = x
+        i = i + 1
+    end
+
+    return arr[math.random(#arr)]
+end
 
 function filters_module.fullwidth(text, ctext)
     local new_str = ""

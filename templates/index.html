@@ -137,9 +137,18 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 */
                 font-family: 'PixelMincho', serif;
                 font-size: 18px;
+                /*
                 color: #40B8B8;
-                /* background-image: url("http://dancin.shithouse.tv/giphy.gif"); */
+                */
+                color: #FF4742;
+                background: url("yYy randomfromargs bg1.jpg bg2.jpg bg3.jpg bg4.jpg bg5.jpg yYy") no-repeat center center fixed;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+                /*
                 background-repeat: repeat;
+                */
                 height: 100%;
                 /*
                 -webkit-animation:spinning-bullshit 10s infinite cubic-bezier(0.86, 0, 0.07, 1);
@@ -161,17 +170,12 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 /* list-style-image: url("http://racoonlist.shithouse.tv/racoon-img.png"); */
             }
             #main {
-                /*
-                background-color: #333333;
-                */
+                background-color: rgba(1,1,1,0.5);
                 padding: 0.25em;
                 display: block;
                 width: 966px;
                 margin: 0 auto;
             }
-            <!-- a, p {
-                background-color: #333333;
-            } -->
             #header {
                 margin: 0 auto;
                 top: 0;
@@ -288,61 +292,65 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                         animation: spinning-bullshit 10s infinite cubic-bezier(0.2, 0, 0.5, 1);
             }
 
-span, label, p, h1 {
-  color:black;
-  
-  font-family: 'Oswald', sans-serif;
-  line-height:1;
-  margin:0;
-  padding:0;
-  
-  -webkit-transform: rotateX(25deg) rotateY(20deg) rotateZ(-3deg); 
-  transform: rotateX(25deg) rotateY(20deg) rotateZ(-3deg);  
-  
-  -webkit-animation: anim 3s;
-  -webkit-animation-timing-function: linear;
-  -webkit-animation-iteration-count:infinite;
-  
-  animation: anim 3s;
-  animation-timing-function: linear;
-  animation-iteration-count:infinite;
-}
+            /* 
+               span, label, p, h1 {
+                   color:black;
 
-@-webkit-keyframes anim {
-    0%{text-shadow:-6px 4px 0px red;}
-    10% {text-shadow:4px -6px 0px green;}
-    20% {text-shadow:-9px 4px 0px blue;}
-    30% {text-shadow:4px -6px 0px yellow;}
-    40% {text-shadow:-8px 4px 0px orange;}
-    50% {text-shadow:4px 5px 0px purple;}
-    60% {text-shadow:-6px 4px 0px brown;}
-    70% {text-shadow:4px 7px 0px pink;}
-    80% {text-shadow:-9px -4px 0px lime;}
-    90% {text-shadow:4px -6px 0px cyan;}
-    100% {text-shadow:-9px 4px 0px teal;}
-} 
+                   font-family: 'Oswald', sans-serif;
+                   line-height:1;
+                   margin:0;
+                   padding:0;
 
-@keyframes anim {
-    0%{text-shadow:-6px 4px 0px red;}
-    10% {text-shadow:4px -6px 0px green;}
-    20% {text-shadow:-9px 4px 0px blue;}
-    30% {text-shadow:4px -6px 0px yellow;}
-    40% {text-shadow:-8px 4px 0px orange;}
-    50% {text-shadow:4px 5px 0px purple;}
-    60% {text-shadow:-6px 4px 0px brown;}
-    70% {text-shadow:4px 7px 0px pink;}
-    80% {text-shadow:-9px -4px 0px lime;}
-    90% {text-shadow:4px -6px 0px cyan;}
-    100% {text-shadow:-9px 4px 0px teal;}
-} 
+                   -webkit-transform: rotateX(25deg) rotateY(20deg) rotateZ(-3deg); 
+                   transform: rotateX(25deg) rotateY(20deg) rotateZ(-3deg);  
+
+                   -webkit-animation: anim 3s;
+                   -webkit-animation-timing-function: linear;
+                   -webkit-animation-iteration-count:infinite;
+
+                   animation: anim 3s;
+                   animation-timing-function: linear;
+                   animation-iteration-count:infinite;
+               }
+
+               @-webkit-keyframes anim {
+                   0%{text-shadow:-6px 4px 0px red;}
+                   10% {text-shadow:4px -6px 0px green;}
+                   20% {text-shadow:-9px 4px 0px blue;}
+                   30% {text-shadow:4px -6px 0px yellow;}
+                   40% {text-shadow:-8px 4px 0px orange;}
+                   50% {text-shadow:4px 5px 0px purple;}
+                   60% {text-shadow:-6px 4px 0px brown;}
+                   70% {text-shadow:4px 7px 0px pink;}
+                   80% {text-shadow:-9px -4px 0px lime;}
+                   90% {text-shadow:4px -6px 0px cyan;}
+                   100% {text-shadow:-9px 4px 0px teal;}
+               } 
+
+               @keyframes anim {
+                   0%{text-shadow:-6px 4px 0px red;}
+                   10% {text-shadow:4px -6px 0px green;}
+                   20% {text-shadow:-9px 4px 0px blue;}
+                   30% {text-shadow:4px -6px 0px yellow;}
+                   40% {text-shadow:-8px 4px 0px orange;}
+                   50% {text-shadow:4px 5px 0px purple;}
+                   60% {text-shadow:-6px 4px 0px brown;}
+                   70% {text-shadow:4px 7px 0px pink;}
+                   80% {text-shadow:-9px -4px 0px lime;}
+                   90% {text-shadow:4px -6px 0px cyan;}
+                   100% {text-shadow:-9px 4px 0px teal;}
+               } 
+               */
 
         </style>
     </head>
     <body>
         <div style="position: relative; overflow: hidden;">
+            <!--
             <video id="bg_video" autoplay loop muted>
                 <source src="http://shitpoist.shithouse.tv/shitpoist.webm" type="video/webm">
-                </video>
+            </video>
+            -->
         </div>
         <img id="bones"
         	 src="skele1.gif"
