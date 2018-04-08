@@ -29,7 +29,7 @@ function filters_module.all_bumps_for_tag(tag, ctext)
     local fixed, what = string.gsub(tag, " ", "")
     local all_bumps = io.popen("ls -clt " .. config.TAGS .. "/" .. fixed .. " | awk '{print $9}' | grep -v '^$'")
     for line in all_bumps:lines() do
-        to_return[#to_return + 1] = "<li><a href=\"httpss://"
+        to_return[#to_return + 1] = "<li><a href=\"https://"
         to_return[#to_return + 1] = line
         to_return[#to_return + 1] = "."
         to_return[#to_return + 1] = config.HOST
