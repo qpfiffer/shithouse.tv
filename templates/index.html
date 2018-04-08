@@ -109,25 +109,49 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
             .nsfw::before {
                 content: "yYy fullwidth !!! NSFW !!! yYy ";
             }
+            .raindrop{
+                position:absolute;
+                top:$height/2;
+                left:$width/2;
+
+                width:$drop-width;
+                height:$drop-height;
+
+                // border radius 100% instead of 100px, so the raindrop is elliptical rather than a capsule-shaped
+                border-radius:100%;
+                background-image:url($image);
+                background-size:$width*0.05 $height*0.05;
+                transform:rotate(180deg);
+            }
             @animation animatedBackground {
                 from { background-position: 0 0; }
-                to { background-position: 100% 100%; }
+                to { background-position: 100% 100%; 
+                    filter:blur(1px);
+                }
             }
             @keyframes animatedBackground {
                 from { background-position: 0 0; }
-                to { background-position: 100% 100%; }
+                to { background-position: 100% 100%; 
+                    filter:blur(1px);
+                }
             }
             @-webkit-keyframes animatedBackground {
                 from { background-position: 0 0; }
-                to { background-position: 100% 100%; }
+                to { background-position: 100% 100%; 
+                    filter:blur(1px);
+                }
             }
             @-ms-keyframes animatedBackground {
                 from { background-position: 0 0; }
-                to { background-position: 100% 100%; }
+                to { background-position: 100% 100%; 
+                    filter:blur(1px);
+                }
             }
             @-moz-keyframes animatedBackground {
                 from { background-position: 0 0; }
-                to { background-position: 100% 100%; }
+                to { background-position: 100% 100%; 
+                    filter:blur(1px);
+                }
             }
             html {
                 /*
@@ -146,9 +170,6 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 -moz-background-size: cover;
                 -o-background-size: cover;
                 background-size: cover;
-                /*
-                background-repeat: repeat;
-                */
                 height: 100%;
                 /*
                 -webkit-animation:spinning-bullshit 10s infinite cubic-bezier(0.86, 0, 0.07, 1);
@@ -156,12 +177,10 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 -o-animation:spinning-bullshit 10s infinite cubic-bezier(0.86, 0, 0.07, 1);
                 animation:spinning-bullshit 10s infinite cubic-bezier(0.86, 0, 0.07, 1);
                 */
-                /*
                 animation: animatedBackground 20s linear infinite;
                 -ms-animation: animatedBackground 20s linear infinite;
                 -moz-animation: animatedBackground 20s linear infinite;
                 -webkit-animation: animatedBackground 20s linear infinite;
-                */
                 /* background-image: url("http://cblgh.shithouse.tv/cblgh.png"); */
                 /* background-image: url("http://mom.shithouse.tv/38-PM.png"); */
                 /* background-image: url("http://racoons.shithouse.tv/00-13-00.jpg"); */
