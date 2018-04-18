@@ -177,10 +177,12 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 -o-animation:spinning-bullshit 10s infinite cubic-bezier(0.86, 0, 0.07, 1);
                 animation:spinning-bullshit 10s infinite cubic-bezier(0.86, 0, 0.07, 1);
                 */
+                /*
                 animation: animatedBackground 20s linear infinite;
                 -ms-animation: animatedBackground 20s linear infinite;
                 -moz-animation: animatedBackground 20s linear infinite;
                 -webkit-animation: animatedBackground 20s linear infinite;
+                */
                 /* background-image: url("http://cblgh.shithouse.tv/cblgh.png"); */
                 /* background-image: url("http://mom.shithouse.tv/38-PM.png"); */
                 /* background-image: url("http://racoons.shithouse.tv/00-13-00.jpg"); */
@@ -194,6 +196,9 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 display: block;
                 width: 966px;
                 margin: 0 auto;
+
+                border: 24px solid transparent;
+                border-image: url("w95border.png") 24 stretch;
             }
             #header {
                 margin: 0 auto;
@@ -378,6 +383,7 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
         <div id="main">
         	<div style="position: relative; width: 100%; height: 0;">
 	        	<button style="position: absolute; right: 0;" onclick="cycleBones()">yYy fullwidth CYCLE BONES yYy</button>
+	        	<span style="position: absolute; top: -26px; left: 0px; color: white;">yYy fullwidth shithouse.tv yYy</span>
 	        </div>
             <div id="header">
                 <h1><span id="h1" class="skel">yYy fullwidth shithouse yYy</span>.tv</h1>
