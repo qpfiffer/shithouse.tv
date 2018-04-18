@@ -32,7 +32,10 @@ function attempt_read_static_file(filename)
         "skele4.gif",
         "skele5.gif",
         "skele6.gif",
-        "skele7.gif"
+        "skele7.gif",
+        "w95border.png",
+        "w95close.png"
+        ""
     }
 
 
