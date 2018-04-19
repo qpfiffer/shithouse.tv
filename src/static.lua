@@ -34,7 +34,9 @@ function attempt_read_static_file(filename)
         "skele6.gif",
         "skele7.gif",
         "w95border.png",
-        "sh-banner.gif"
+        "295close.png",
+        "sh-banner.gif",
+        "sh-nsfw-new.gif"
     }
 
 
