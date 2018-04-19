@@ -103,7 +103,7 @@ function filters_module.all_bumps(text, ctext)
 
         if is_nsfw then
             -- to_return[#to_return + 1] = "<li><i class=\"nsfw small-rainbow\">&nbsp;</i><a href=\"//"
-            to_return[#to_return + 1] = "<li><img class=\"nsfw_gif\" src=\"//new-nsfw-gif.shithouse.tv/Peek-2017-12-08-13-46.gif\"></img><a href=\"//"
+            to_return[#to_return + 1] = "<li><img class=\"nsfw_gif\" src=\"sh-nsfw-new.gif\"></img><a href=\"//"
         else
             to_return[#to_return + 1] = "<li><a href=\"//"
         end
