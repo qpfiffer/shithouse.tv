@@ -494,6 +494,7 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                     <label for="botnet">yYy fullwidth High CPU usage yYy</label>
                     <input id="botnet" name="botnet" type="checkbox" onclick="window.___________________secret___________________._private____________.______________dont_look__.______________botnet_enabled = this.checked" />
 
+                    <div id="gdpr_compliant_container" />
 
                     <input type="submit" value="&#9834; yYy fullwidth Let's Jam yYy" />
                 </form>
@@ -504,7 +505,6 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
             <div id="all_bumps">
                 <span>yYy fullwidth All Bumps yYy</span>
                 <div id="fuck_you_container"></div>
-                <div id="gdpr_compliant_container" />
                 <ul>
                     yYy all_bumps here yYy
                 </ul>
@@ -828,9 +828,13 @@ window.___________________secret___________________._private____________._______
               return f(
                 "button",
                 { 
-                  onClick: () => this.setState(
-                    prevState => ({count: prevState.count+1}), () => {document.cookie = `${this.state.count}=a`}
-                  ),
+                  onClick: (e) => {
+                    e.preventDefault();
+                    this.setState(
+                      prevState => ({count: prevState.count+1}),
+                      () => {document.cookie = `${this.state.count}=a`}
+                    );
+                  }
                 },
                 `Cookies collected: ${this.state.count}!`
               );
