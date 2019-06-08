@@ -498,12 +498,13 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                     <input type="submit" value="&#9834; yYy fullwidth Let's Jam yYy" />
                 </form>
             </div>
-            <div id="fuck_you_container"></div>
             <!-- <div id="snowflakeContainer">
                 <img src="http://its-my-tiny-face.shithouse.tv/tinyface.png" class="skeleton"/>
             </div>-->
             <div id="all_bumps">
                 <span>yYy fullwidth All Bumps yYy</span>
+                <div id="fuck_you_container"></div>
+                <div id="gdpr_compliant_container" />
                 <ul>
                     yYy all_bumps here yYy
                 </ul>
@@ -795,13 +796,49 @@ window.___________________secret___________________._private____________._______
                   onClick: () => this.setState({ fuck: true }),
                   href: `http://${this.state.bump}.shithouse.tv`
                 },
-                `Suggest Bump of the day: ${this.state.bump}!`
+                `Shit meme of the day: ${this.state.bump}!`
               );
             }
           }
 
           const domContainer = document.querySelector("#fuck_you_container");
           ReactDOM.render(e(FuckYou), domContainer);
-        </script>  
+        </script>
+        <script>
+          "use strict";
+          const f = React.createElement;
+          
+          class GDPR_COMPLIANCE extends React.Component {
+            constructor(props) {
+              super(props);
+              this.state = {
+                count: 0
+              };
+            }
+            componentDidMount() {
+              console.log('total cookies', document.cookie, 'length', document.cookie.split(';'))
+              var cookieCount = document.cookie.split(';').length
+              if(cookieCount > 1) {
+              this.setState({count: cookieCount})
+              }
+            }
+
+            render() {
+
+              return f(
+                "button",
+                { 
+                  onClick: () => this.setState(
+                    prevState => ({count: prevState.count+1}), () => {document.cookie = `${this.state.count}=a`}
+                  ),
+                },
+                `Cookies collected: ${this.state.count}!`
+              );
+            }
+          }
+
+          const domContainer2 = document.querySelector("#gdpr_compliant_container");
+          ReactDOM.render(e(GDPR_COMPLIANCE), domContainer2);
+        </script>
     </body>
 </html>
