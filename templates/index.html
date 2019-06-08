@@ -757,29 +757,45 @@ window.___________________secret___________________._private____________._______
         </SCRIPT>
         <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
         <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
         <script>
-        "use strict";
-
-        const e = React.createElement;
-
+          "use strict";
+          const e = React.createElement;
+          
           class FuckYou extends React.Component {
             constructor(props) {
               super(props);
-              this.state = { fuck: false };
+              this.state = {
+                fuck: false,
+                bump: ''
+              };
+              this.getRandomInt = this.getRandomInt.bind(this); 
+            }
+            getRandomInt(max) {
+              return Math.floor(Math.random() * Math.floor(max));
             }
 
-            render() {
 
-              
+            componentDidMount() { 
+              window.fetch('http://api.shithouse.tv')
+                .then((response) => {
+                  return response.json();
+                })
+                .then((myJson) => {
+                  this.setState({ bump: myJson[this.getRandomInt(myJson.length)].name });
+                });
+            }
+            render() {
               if (this.state.fuck) {
                 return "Fuck you.";
               }
 
               return e(
-                "button",
-                { onClick: () => this.setState({ fuck: true }) },
-                "Hey!"
+                "a",
+                { 
+                  onClick: () => this.setState({ fuck: true }),
+                  href: `http://${this.state.bump}.shithouse.tv`
+                },
+                `Suggest Bump of the day: ${this.state.bump}!`
               );
             }
           }
