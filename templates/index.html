@@ -494,6 +494,7 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                     <label for="botnet">yYy fullwidth High CPU usage yYy</label>
                     <input id="botnet" name="botnet" type="checkbox" onclick="window.___________________secret___________________._private____________.______________dont_look__.______________botnet_enabled = this.checked" />
 
+
                     <div id="gdpr_compliant_container" />
 
                     <input type="submit" value="&#9834; yYy fullwidth Let's Jam yYy" />
@@ -807,36 +808,73 @@ window.___________________secret___________________._private____________._______
         <script>
           "use strict";
           const f = React.createElement;
-          
+
           class GDPR_COMPLIANCE extends React.Component {
             constructor(props) {
               super(props);
               this.state = {
-                count: 0
+                count: 0,
+                level: 0,
+                levelCount: 0,
+                levelUpReq: 0,
               };
+              this.getRandomLevelReq = this.getRandomLevelReq.bind(this);
+            }
+
+            getRandomLevelReq(count) {
+              return count + Math.random() * (count*.30 - count*.10) + count*.10;
             }
             componentDidMount() {
-              console.log('total cookies', document.cookie, 'length', document.cookie.split(';'))
-              var cookieCount = document.cookie.split(';').length
-              if(cookieCount > 1) {
-              this.setState({count: cookieCount})
+              const cookieArr = document.cookie.split(';')
+              var level = 0;
+              if (cookieArr[0]) {
+                level = cookieArr.length;
               }
+              cookieArr.forEach((cookie) => {
+                var cookieCount = cookie.split("=")[1]
+                if (cookieCount) {
+                  this.setState(prevState => ({
+                    count: prevState.count + parseInt(cookieCount, 10),
+                    levelCount: parseInt(cookieCount, 10),
+                  }))
+                } else if (!cookieCount && level < 1){
+                  this.setState({count: 0})
+                }                
+              })
+              this.setState({
+                level: level,
+              },
+              () => this.setState({levelUpReq: this.getRandomLevelReq(this.state.count)}))
             }
 
             render() {
-
               return f(
                 "button",
                 { 
                   onClick: (e) => {
                     e.preventDefault();
                     this.setState(
-                      prevState => ({count: prevState.count+1}),
-                      () => {document.cookie = `${this.state.count}=a`}
+                      prevState => {
+                        if(prevState.levelUpReq < prevState.count || prevState.count === 0) {
+                          return ({
+                            level: prevState.level+1,
+                            levelCount: 1,
+                            count: prevState.count+1,
+                            levelUpReq: this.getRandomLevelReq(prevState.count)
+                          })
+                        } else {
+                          return ({
+                            count: prevState.count+1,
+                            levelCount: prevState.levelCount+1
+                          })
+                        }
+                      },
+                      () => {document.cookie = `${this.state.level}=${this.state.levelCount}`}
                     );
                   }
                 },
-                `Cookies collected: ${this.state.count}!`
+                `I've acknowledged this site uses cookies ${this.state.count} times.
+                GDPR COMPLIANCE LEVEL ${this.state.level}`
               );
             }
           }
