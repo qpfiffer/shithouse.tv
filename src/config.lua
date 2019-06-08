@@ -1,6 +1,6 @@
 local config_module = {}
 
-config_module["HOST"] = "shithouse.tv"
+config_module["HOST"] = "shittest.com"
 config_module["TAGS"] = "./tags"
 config_module["BUMPS"] = "./tv"
 config_module["MD_NAME"] = "meta.json"

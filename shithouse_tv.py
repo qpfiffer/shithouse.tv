@@ -84,7 +84,7 @@ def root_post():
     return resp
 
 def main():
-    run(server='paste', host='localhost', debug=debug, port=8090, reloader=True)
+    run(host='shittest.com', debug=debug, port=8090, reloader=True)
 
 if __name__ == '__main__':
     main()
