@@ -200,7 +200,7 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 border: 24px solid transparent;
                 border-image: url("w95border.png") 24 stretch;
             }
-            #gdpr_compliant_container {
+            .gdpr_compliant_container {
                 background-color: rgba(108, 108, 108, 1);
                 display: inline-flex;
                 width: 200px;
@@ -211,6 +211,12 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
 
                 border: 24px solid transparent;
                 border-image: url("w95border.png") 24 stretch;
+            }
+            .minimized {
+              height: 0px;
+              position: relative;
+              top: 0;
+              left: 0;
             }
             #header {
                 margin: 0 auto;
@@ -520,10 +526,7 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 </ul>
             </div>
         </div>
-        <div id="gdpr_compliant_container" >
-          //todo convert to react component
-          <button class="ms-exit" style="position: absolute; top: -19px; right: -18px;" onclick="cycleBones()">&#x2715;</button>
-        <div>
+        <div id="gdpr_compliant_container" class="gdpr_compliant_container" />
         <svg xmlns="http://www.w3.org/2000/svg">
             <filter id="blur"><feGaussianBlur stdDeviation="1"/></filter>
         </svg>
@@ -830,10 +833,11 @@ window.___________________secret___________________._private____________._______
                 level: 0,
                 levelCount: 0,
                 levelUpReq: 0,
+                visible: true,
               };
               this.getRandomLevelReq = this.getRandomLevelReq.bind(this);
             }
-
+            
             getRandomLevelReq(count) {
               return count + Math.random() * (count*.30 - count*.10) + count*.10;
             }
@@ -859,12 +863,21 @@ window.___________________secret___________________._private____________._______
               },
               () => this.setState({levelUpReq: this.getRandomLevelReq(this.state.count)}))
             }
-
-            render() {
-              
+            static getDerivedStateFromProps(props, state) {
+              if (state.visible) {
+                document.querySelector("#gdpr_compliant_container").classList.remove('minimized');
+                console.log('fuck');
+                return null
+              } else {
+                document.querySelector("#gdpr_compliant_container").classList.add('minimized');
+                return null
+              }
+            }
+            render() {  
               const gdprButton = f(
                 "button",
                 { 
+                  key: 'gdprButton',
                   onClick: (e) => {
                     e.preventDefault();
                     this.setState(
@@ -887,12 +900,47 @@ window.___________________secret___________________._private____________._______
                     );
                   }
                 },
-                `I've acknowledged this site uses cookies ${this.state.count} times.
-                GDPR COMPLIANCE LEVEL ${this.state.level}`
+                `I've acknowledged this site uses cookies ${this.state.count} times.`
               );
+              const closeButton = f(
+                'button',
+                {
+                  onClick: (e)=> {
+                    e.preventDefault();
+                    this.setState({ visible: false })
+                  },
+                  key: 'closeButton',
+                  className: "ms-exit",
+                  style: {
+                    position: 'absolute',
+                    top: '-19px',
+                    right: '-19px',
+                    padding: '2px 2px'
+                  }
+                },
+                '✕'
+              );
+              const minimizeButton = f(
+                'button',
+                {
+                  onClick: (e)=> {
+                    e.preventDefault();
+                    this.setState(prevState => ({ visible: !prevState.visible }))
+                  },
+                  key: 'minimizeButton',
+                  className: "ms-exit",
+                  style: {
+                    position: 'absolute',
+                    top: '-19px',
+                    right: '-2px',
+                    padding: '2px 2px'
+                  }
+                },
+                '🗕'
+              );
+              const titleText = f('p', {key: 'levelText'}, `GDPR COMPLIANCE LEVEL ${this.state.level}`);
 
-              const titleText = f('p', {}, 'Aeiou');
-              return f('div', {}, [gdprButton, titleText])
+              return this.state.visible ? f('div', {}, [gdprButton, titleText, closeButton, minimizeButton]) : f('div', {}, minimizeButton) 
             }
           }
 
