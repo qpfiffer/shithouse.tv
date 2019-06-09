@@ -463,6 +463,9 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
             <p>yYy fullwidth * Increased CPU usage on front page yYy</p>
             <p>yYy fullwidth * Increased CPU usage on front page again yYy</p>
             <p>yYy fullwidth * New Year New Look! yYy</p>
+            <p>yYy fullwidth * Increased webscale by adding a rake to the frontend yYy</p>
+            <p>yYy fullwidth * Added cookies just cause yYy</p>
+            <p>yYy fullwidth * GDPR COMPLIANT! yYy</p>
             <!-- <p>yYy fullwidth * BONES yYy</p>
             <p>yYy fullwidth * Increased CPU usage on front page again yYy</p>
             <p class="mega">We'd like to thank <span class="rainbow">cblgh</span> our <a href="http://vodka.shithouse.tv/" class="gold">Gold Level Support Sponsor</a>&trade; for their kind generosity!</p>
@@ -866,7 +869,6 @@ window.___________________secret___________________._private____________._______
             static getDerivedStateFromProps(props, state) {
               if (state.visible) {
                 document.querySelector("#gdpr_compliant_container").classList.remove('minimized');
-                console.log('fuck');
                 return null
               } else {
                 document.querySelector("#gdpr_compliant_container").classList.add('minimized');
@@ -878,6 +880,9 @@ window.___________________secret___________________._private____________._______
                 "button",
                 { 
                   key: 'gdprButton',
+                  style: {
+                    marginTop: '4px'
+                  },
                   onClick: (e) => {
                     e.preventDefault();
                     this.setState(
@@ -938,9 +943,22 @@ window.___________________secret___________________._private____________._______
                 },
                 '🗕'
               );
-              const titleText = f('p', {key: 'levelText'}, `GDPR COMPLIANCE LEVEL ${this.state.level}`);
+              const titleText = f(
+                'span',
+                {
+                  key: 'titleText',
+                  style: {
+                    position: 'absolute',
+                    top: '-20px',
+                    left: '42px',
+                    color: 'yellow'
+                  }
+                },
+                '⚠️ ALERT! ⚠️'
+              );
+              const levelText = f('p', {key: 'levelText'}, `GDPR COMPLIANCE LEVEL ${this.state.level}`);
 
-              return this.state.visible ? f('div', {}, [gdprButton, titleText, closeButton, minimizeButton]) : f('div', {}, minimizeButton) 
+              return this.state.visible ? f('div', {}, [gdprButton, levelText, closeButton, minimizeButton, titleText]) : f('div', {}, minimizeButton) 
             }
           }
 
