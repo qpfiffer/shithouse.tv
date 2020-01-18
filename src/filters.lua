@@ -131,6 +131,8 @@ function filters_module.all_bumps_json(text, ctext)
         local meta_data = utils.check_for_bump(line)
         local is_nsfw = false
         local text = ""
+        local video = ""
+        local image = ""
 
         if meta_data then
             local ctext = fuck_json:decode(meta_data:read("*all"))
@@ -139,6 +141,12 @@ function filters_module.all_bumps_json(text, ctext)
             end
             if ctext["text"] then
                 text = ctext["text"]
+            end
+            if ctext["video"] then
+                video = ctext["video"]
+            end
+            if ctext["image"] then
+                image = ctext["image"]
             end
             meta_data.close()
         end
@@ -157,6 +165,10 @@ function filters_module.all_bumps_json(text, ctext)
         to_return[#to_return + 1] = line
         to_return[#to_return + 1] = "\", \"text\": \""
         to_return[#to_return + 1] = string.gsub(text, "\"", "\\\"")
+        to_return[#to_return + 1] = "\", \"video\": \""
+        to_return[#to_return + 1] = string.gsub(video, "\"", "\\\"")
+        to_return[#to_return + 1] = "\", \"image\": \""
+        to_return[#to_return + 1] = string.gsub(image, "\"", "\\\"")
         to_return[#to_return + 1] = "\"}"
     end
 
