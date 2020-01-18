@@ -142,8 +142,8 @@ function filters_module.all_bumps_json(text, ctext)
             if ctext["text"] then
                 text = ctext["text"]
             end
-            if ctext["video"] then
-                video = ctext["video"]
+            if ctext["webm"] then
+                video = ctext["webm"]
             end
             if ctext["image"] then
                 image = ctext["image"]
