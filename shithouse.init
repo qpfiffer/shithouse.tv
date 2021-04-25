@@ -1,0 +1,19 @@
+#!/sbin/openrc-run
+command=cd /srv/shithouse && /usr/bin/shithouse_tv.py
+command_args="${foo_args}"
+pidfile=/var/run/shithouse.pid
+name="shithouse.tv"
+
+start() {
+  ebegin "Starting $name"
+  start-stop-daemon --start --exec $command \
+    --pidfile $pidfile
+  eend $?
+}
+
+stop() {
+  ebegin "Stopping $name"
+  start-stop-daemon --stop --exec $command \
+    --pidfile $pidfile
+  eend $?
+}
