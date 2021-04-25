@@ -1,18 +1,4 @@
 #!/sbin/openrc-run
-command=shithouse_tv
-pidfile=/var/run/shithouse.pid
-name="shithouse.tv"
-
-start() {
-  ebegin "Starting $name"
-  start-stop-daemon -b -r /srv/shithouse --start --exec $command \
-    --pidfile $pidfile
-  eend $?
-}
-
-stop() {
-  ebegin "Stopping $name"
-  start-stop-daemon -b -r /srv/shithouse --stop --exec $command \
-    --pidfile $pidfile
-  eend $?
-}
+command="/usr/sbin/shithouse_tv"
+command_args="-s /srv/shithouse"
+supervisor="supervise-daemon"

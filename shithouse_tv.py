@@ -3,12 +3,14 @@
 # GREAT DANE ON THE BEAT
 
 from bottle import error, run, request, get, post, HTTPResponse
-import subprocess, json
+import os, subprocess, json, sys
 
 LUAJIT = "luajit"
 TMPFILE_LOC = "/tmp/"
+SRV_DIR="./"
 
-debug = True
+debug = False
+reloader = False
 
 def lua_500(f):
     def wrapped_f(*args, **kwargs):
@@ -84,7 +86,17 @@ def root_post():
     return resp
 
 def main():
-    run(server='paste', host='localhost', debug=debug, port=8090, reloader=True)
+    print(f"Moving to {SRV_DIR}")
+    os.chdir(SRV_DIR)
+    run(server='paste', host='localhost', debug=debug, port=8090, reloader=reloader)
 
 if __name__ == '__main__':
+    for i, arg in enumerate(sys.argv):
+        if arg in("-s", "--serve-dir"):
+            print(f"SETTINGS SRV_DIR TO {sys.argv[i+1]}")
+            SRV_DIR = sys.argv[i+1]
+        elif arg in("-d", "--debug"):
+            debug = True
+        elif arg in("-r", "--reloader"):
+            reloader = True
     main()
