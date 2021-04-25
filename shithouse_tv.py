@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 
 # GREAT DANE ON THE BEAT
 
@@ -15,7 +15,7 @@ def lua_500(f):
         output = None
         try:
             output = f(*args, **kwargs)
-        except subprocess.CalledProcessError, e:
+        except subprocess.CalledProcessError as e:
             if debug:
                 output = "<!DOCTYPE html><html><body><p>Fat error</p><pre>" + e.output + "</pre></body></html>"
             else:
