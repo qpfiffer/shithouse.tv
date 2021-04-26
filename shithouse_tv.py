@@ -19,7 +19,7 @@ def lua_500(f):
             output = f(*args, **kwargs)
         except subprocess.CalledProcessError as e:
             if debug:
-                output = "<!DOCTYPE html><html><body><p>Fat error</p><pre>" + e.output + "</pre></body></html>"
+                output = f"<!DOCTYPE html><html><body><p>Fat error</p><pre>{e.output}</pre></body></html>"
             else:
                 output = "Fug"
         return output
