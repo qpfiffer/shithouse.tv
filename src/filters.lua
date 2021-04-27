@@ -88,7 +88,7 @@ end
 function filters_module.all_bumps(text, ctext)
     local to_return = {}
     -- Held together with bash, sweet jams and summer dreams.
-    local all_bumps = io.popen("ls -clt " .. config.BUMPS .. " | awk '{print $9}' | grep -v '^$'")
+    local all_bumps = io.popen("ls -lt " .. config.BUMPS .. " | awk '{print $9}' | grep -v '^$'")
     for line in all_bumps:lines() do
         local meta_data = utils.check_for_bump(line)
         local is_nsfw = false
