@@ -1,10 +1,10 @@
 class API
   def get
-    return "API Get."
+    return "API Get from Ruby."
   end
 
   def post
-    return "API Post."
+    return "API Post from Ruby."
   end
 end
 
