@@ -3,3 +3,7 @@
 *.swo
 ./tv/*
 ./tags/*
+*.o
+*.so
+.gdb_history
+*.so.*

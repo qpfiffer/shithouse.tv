@@ -2,106 +2,140 @@
 
 # GREAT DANE ON THE BEAT
 
-from bottle import error, run, request, get, post, HTTPResponse
-from lupa import LuaRuntime
-import os, subprocess, json, sys
+import json
+import os
+import subprocess
+import sys
+import threading
+from ctypes import (CDLL, POINTER, Structure, byref, c_char, c_char_p, c_int64,
+                    c_size_t, c_void_p)
 
-LUAJIT = "luajit"
+from bottle import HTTPResponse, error, get, post, request, run
+
+LUA_ENTRYPOINT = "./src/shithouse_tv.lua"
 TMPFILE_LOC = "/tmp/"
-SRV_DIR="./"
+SRV_DIR = "./"
 
-debug = False
+debug = True
 reloader = False
 
-def lua_500(f):
-    def wrapped_f(*args, **kwargs):
-        output = None
-        try:
-            output = f(*args, **kwargs)
-        except subprocess.CalledProcessError as e:
-            if debug:
-                output = f"<!DOCTYPE html><html><body><p>Fat error</p><pre>{e.output}</pre></body></html>"
-            else:
-                output = "Fug"
-        return output
-    return wrapped_f
+
+class ShithouseRequest(Structure):
+    _fields_ = [
+        ("verb", c_char_p),
+        ("path", c_char_p),
+        ("host", c_char_p),
+        ("post_data_json", c_char_p),
+    ]
 
 
-def call_lua(filename, *args):
-    return subprocess.check_output([LUAJIT, filename, "--"] + list(args), stderr=subprocess.STDOUT)
+class ShithouseResponse(Structure):
+    _fields_ = [
+        ("status_code", c_int64),
+        ("body_len", c_size_t),
+        ("body", c_void_p),
+        ("ctype_len", c_size_t),
+        ("ctype", c_char_p),
+    ]
+
+
+class ShithouseApp(Structure):
+    pass
+
+
+libshithouse = CDLL("libshithouse.so")
+
+libshithouse.sh_process_request.restype = POINTER(ShithouseResponse)
+
+libshithouse.sh_free_response.argtypes = [POINTER(ShithouseResponse)]
+
+libshithouse.sh_app.restype = POINTER(ShithouseApp)
+libshithouse.sh_app.argtypes = [c_char_p]
+
+sh_app = libshithouse.sh_app(LUA_ENTRYPOINT.encode())
+if not sh_app:
+    print("Could not init app.")
+    sys.exit(1)
+
+libshithouse_lock = threading.Lock()
+
+
+def bottle_request_2_lua(req, post_data_json: str) -> ShithouseRequest:
+    return ShithouseRequest(
+        req.method.encode(),
+        req.path.encode(),
+        req.urlparts.netloc.split(":")[0].encode(),
+        post_data_json,
+    )
+
+
+def good_old_500():
+    output = (
+        f"<!DOCTYPE html><html><body><p>Fat error with Lua somewhere</p></body></html>"
+    )
+    resp = HTTPResponse(body=output, status=500)
+    return resp
+
 
 @error(404)
-@lua_500
-def error404(error):
-    mheader = request.get_header("host")
-    output = call_lua("./src/static.lua", mheader, request.path)
-
-    resp = HTTPResponse(body=output, status=200)
-    mtype = "application/octet-stream"
-    lowered = request.path.lower()
-    if lowered.endswith("jpg") or lowered.endswith("jpeg"):
-        mtype = "image/jpeg"
-    elif lowered.endswith("gif"):
-        mtype = "image/gif"
-    elif lowered.endswith("png"):
-        mtype = "image/png"
-    elif lowered.endswith("webm"):
-        mtype = "video/webm"
-
-    resp.content_type = mtype
-    return resp
-
-@get("/tags/<tag>")
-def tag_thing(tag=None):
-    return call_lua("./src/tag.lua", "tag", tag)
-
-@get("/bumps_tags/<bump>")
-def bump_tags_thing(bump=None):
-    return call_lua("./src/tag.lua", "bump", bump)
-
-@post("/")
-@get("/")
-@lua_500
-def root_post():
-    mheader = request.get_header("host")
+def catchall_route(error):
+    json_val = None
     if request.POST:
-        json_val = {k:v for k,v in request.forms.items()}
+        json_val = {k: v for k, v in request.forms.items()}
 
-        image = request.files.get("image")
-        if image:
-            json_val["image"] = TMPFILE_LOC + image.filename
-            image.save(TMPFILE_LOC, overwrite=True)
+        for k in ("image", "music"):
+            fil = request.files.get(k)
+            if fil:
+                json_val[k] = TMPFILE_LOC + fil.filename
+                fil.save(TMPFILE_LOC, overwrite=True)
 
-        music = request.files.get("music")
-        if music:
-            json_val["music"] = TMPFILE_LOC + music.filename
-            music.save(TMPFILE_LOC, overwrite=True)
-        return call_lua("./src/root.lua", mheader, json.dumps(json_val))
+    s_req = bottle_request_2_lua(request, json.dumps(json_val).encode())
+    resp = None
 
-    output = call_lua("./src/root.lua", mheader)
-    resp = HTTPResponse(body=output, status=200)
+    with libshithouse_lock:
+        s_resp = libshithouse.sh_process_request(sh_app, byref(s_req))
 
-    if mheader.startswith('api.'):
-        resp.content_type = 'application/json'
-        resp.headers['Access-Control-Allow-Origin'] = '*'
-        resp.headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
-        resp.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
+        unwrapped = s_resp.contents
+        buf = (c_char * unwrapped.body_len).from_address(s_resp.contents.body)
+        new_barray = bytes(bytearray(buf))
 
+        headers = {"Content-Length": unwrapped.body_len}
+        resp = HTTPResponse(
+            body=new_barray,
+            status=unwrapped.status_code,
+            content_type=unwrapped.ctype,
+            headers=headers,
+        )
+        libshithouse.sh_free_response(s_resp)
+
+    if not resp.body:
+        return good_old_500()
+
+    if request.get_header("host", "").startswith("api."):
+        resp.content_type = "application/json"
+        resp.headers["Access-Control-Allow-Origin"] = "*"
+        resp.headers["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+        resp.headers[
+            "Access-Control-Allow-Headers"
+        ] = "Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token"
 
     return resp
+
 
 def main():
     print(f"Moving to {SRV_DIR}")
     os.chdir(SRV_DIR)
-    run(server='paste', host='localhost', debug=debug, port=8090, reloader=reloader)
+    run(server="paste", host="localhost", debug=debug, port=8090, reloader=reloader)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     for i, arg in enumerate(sys.argv):
-        if arg in("-s", "--serve-dir"):
+        if arg in ("-s", "--serve-dir"):
             print(f"SETTINGS SRV_DIR TO {sys.argv[i+1]}")
-            SRV_DIR = sys.argv[i+1]
-        elif arg in("-d", "--debug"):
+            SRV_DIR = sys.argv[i + 1]
+        elif arg in ("-d", "--debug"):
             debug = True
-        elif arg in("-r", "--reloader"):
+        elif arg in ("-r", "--reloader"):
             reloader = True
+
     main()

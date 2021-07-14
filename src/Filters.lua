@@ -1,15 +1,17 @@
-local config = require "src/config"
-local filters_module = {}
+local Filters = {}
+Filters.__index = Filters
+
+local config = require("src/config")
 local normal = [[0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!'"#$%&()*+,-./:;<=>?@[\\]^_`{|}~]]
 local wide = [[０１２３４５６７８９ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ！＇゛＃＄％＆（）＊＋、ー。／：；〈＝〉？＠［［］］＾＿゛｛｜｝]]
-local utils = require "src/utils"
-local fuck_json = require "src/JSON"
+local Utils = require("src/Utils")
+local fuck_json = require("src/JSON")
 
 --filters_module.filter_pattern = "yYy ([a-zA-Z]*) ([a-zA-Z ?:']*) yYy"
-filters_module.filter_pattern = "yYy ([a-zA-Z_]*) (.*) yYy"
+Filters.filter_pattern = "yYy ([a-zA-Z_]*) (.*) yYy"
 math.randomseed(os.time())
 
-function filters_module.randomfromargs(text, ctext)
+function Filters.randomfromargs(text, ctext)
     local arr = {}
     local i = 1
 
@@ -21,7 +23,7 @@ function filters_module.randomfromargs(text, ctext)
     return arr[math.random(#arr)]
 end
 
-function filters_module.fullwidth(text, ctext)
+function Filters.fullwidth(text, ctext)
     local new_str = ""
 
     for c in text:gmatch(".") do
@@ -37,7 +39,7 @@ function filters_module.fullwidth(text, ctext)
     return new_str
 end
 
-function filters_module.all_bumps_for_tag(tag, ctext)
+function Filters.all_bumps_for_tag(tag, ctext)
     local to_return = {}
     local fixed, what = string.gsub(tag, " ", "")
     local all_bumps = io.popen("ls -clt " .. config.TAGS .. "/" .. fixed .. " | awk '{print $9}' | grep -v '^$'")
@@ -51,12 +53,13 @@ function filters_module.all_bumps_for_tag(tag, ctext)
         to_return[#to_return + 1] = "</li>"
     end
 
+    all_bumps:close()
     return table.concat(to_return)
 end
 
-function filters_module.all_tags_for_bump(bump, ctext)
+function Filters.all_tags_for_bump(bump, ctext)
     local fixed, what = string.gsub(bump, " ", "")
-    local meta_data = utils.check_for_bump(fixed)
+    local meta_data = Utils.check_for_bump(fixed)
 
     if not meta_data then
         return fixed
@@ -73,7 +76,7 @@ function filters_module.all_tags_for_bump(bump, ctext)
     for dont_care, tag in pairs(ctext["tags"]) do
         to_return[#to_return + 1] = "<li><a href=\"//"
         to_return[#to_return + 1] = config.HOST
-        to_return[#to_return + 1] = "/tags/"
+        to_return[#to_return + 1] = "/tag/"
         to_return[#to_return + 1] = tag
         to_return[#to_return + 1] = "\">"
         to_return[#to_return + 1] = tag
@@ -85,12 +88,12 @@ function filters_module.all_tags_for_bump(bump, ctext)
     return table.concat(to_return)
 end
 
-function filters_module.all_bumps(text, ctext)
+function Filters.all_bumps(text, ctext)
     local to_return = {}
     -- Held together with bash, sweet jams and summer dreams.
     local all_bumps = io.popen("ls -lt " .. config.BUMPS .. " | awk '{print $9}' | grep -v '^$'")
     for line in all_bumps:lines() do
-        local meta_data = utils.check_for_bump(line)
+        local meta_data = Utils.check_for_bump(line)
         local is_nsfw = false
 
         if meta_data then
@@ -114,21 +117,22 @@ function filters_module.all_bumps(text, ctext)
         to_return[#to_return + 1] = line
         to_return[#to_return + 1] = "</a><a class=\"tags\" href=\"//"
         to_return[#to_return + 1] = config.HOST
-        to_return[#to_return + 1] = "/bumps_tags/"
+        to_return[#to_return + 1] = "/bumps_with_tag/"
         to_return[#to_return + 1] = line
         to_return[#to_return + 1] = "\"> TAGS &raquo;</a></li>"
     end
 
+    all_bumps:close()
     return table.concat(to_return)
 end
 
-function filters_module.all_bumps_json(text, ctext)
+function Filters.all_bumps_json(text, ctext)
     local to_return = {}
     local first = true
     -- Held together with bash, sweet jams and summer dreams.
     local all_bumps = io.popen("ls -clt " .. config.BUMPS .. " | awk '{print $9}' | grep -v '^$'")
     for line in all_bumps:lines() do
-        local meta_data = utils.check_for_bump(line)
+        local meta_data = Utils.check_for_bump(line)
         local is_nsfw = false
         local text = ""
         local video = ""
@@ -172,6 +176,7 @@ function filters_module.all_bumps_json(text, ctext)
         to_return[#to_return + 1] = "\"}"
     end
 
+    all_bumps:close()
     return table.concat(to_return)
 end
 
@@ -204,7 +209,7 @@ end
 --       <li>Download MRI scans</li> xXx ~same~ xXx
 --   </ul> xXx ~same~ xXx
 --
-function filters_module.unless(text, ctext)
+function Filters.unless(text, ctext)
     local negation = true
     text = string.gsub(text, "^not ", function() negation = false; return ""; end)
     local existence = ctext[text] ~= nil
@@ -218,4 +223,4 @@ function filters_module.unless(text, ctext)
     return ""
 end
 
-return filters_module
+return Filters

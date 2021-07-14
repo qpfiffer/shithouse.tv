@@ -1,5 +1,6 @@
 local utils_module = {}
-local config = require "src/config"
+local config = require("src/config")
+local Response = require("src/Response")
 
 function utils_module.build_bump_path(name)
     return config.BUMPS .. "/" .. name
@@ -24,7 +25,7 @@ function utils_module.get_file_name_from_path(path)
 end
 
 function utils_module.error404()
-    return "<h1>\"Welcome to die|</h1>\n<!-- Jesus this layout -->"
+    return Response:init("<h1>\"Welcome to die|</h1>\n<!-- Jesus this layout -->", 404)
 end
 
 utils_module["subdomain_match"] = "[a-zA-Z0-9-]*"
