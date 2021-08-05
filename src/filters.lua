@@ -112,7 +112,7 @@ function filters_module.all_bumps(text, ctext)
         to_return[#to_return + 1] = config.HOST
         to_return[#to_return + 1] = "/\">"
         to_return[#to_return + 1] = line
-        to_return[#to_return + 1] = "<a class=\"tags\" href=\"//"
+        to_return[#to_return + 1] = "</a><a class=\"tags\" href=\"//"
         to_return[#to_return + 1] = config.HOST
         to_return[#to_return + 1] = "/bumps_tags/"
         to_return[#to_return + 1] = line
