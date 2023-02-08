@@ -30,7 +30,7 @@ end
 
 function root(errmsg)
     local f = io.open("templates/index.html", "r")
-    local rendered = template.render(f, { ["error_msg"] = errmsg })
+    local rendered = template.render(f, { ["api_url"] = config.API_URL, ["error_msg"] = errmsg })
     f:close()
 
     return rendered

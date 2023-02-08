@@ -3,6 +3,7 @@
 # GREAT DANE ON THE BEAT
 
 from bottle import error, run, request, get, post, HTTPResponse
+from lupa import LuaRuntime
 import os, subprocess, json, sys
 
 LUAJIT = "luajit"
@@ -82,6 +83,11 @@ def root_post():
 
     if mheader.startswith('api.'):
         resp.content_type = 'application/json'
+        api_url = call_lua('./src/get_config_item.lua', 'HOST')
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        resp.headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
+        resp.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
+
 
     return resp
 

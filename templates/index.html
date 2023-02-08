@@ -441,10 +441,10 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 <!-- <h1><span id="h1" class="skel">yYy fullwidth shithouse yYy</span>.tv</h1> -->
                 <!-- <h1><span id="h1" class="skel">yYy fullwidth momhouse yYy</span>.tv</h1> -->
                 <img class="bird" src="//bird.shithouse.tv/bird-animated-gif-26.gif" />
-                <h1><span id="h1" class="skel rainbow">yYy fullwidth cblgh yYy</span>
+                <h1><span id="h1" class="skel rainbow">yYy fullwidth shit yYy</span>
                     <span id="h1" class="skel">yYy fullwidth house yYy</span>.tv</h1>
-                    <img class="bird bird-mirrored" src="//bird.shithouse.tv/bird-animated-gif-26.gif" />
-                <img class="bird" src="//racoon.shithouse.tv/racoon.png" /> -->
+                <img class="bird bird-mirrored" src="//bird.shithouse.tv/bird-animated-gif-26.gif" />
+                <img class="bird" src="//racoon.shithouse.tv/racoon.png" />
                 <!-- <h1><span id="h1" class="skel rainbow">yYy fullwidth racoon yYy</span>
                     <span id="h1" class="skel">yYy fullwidth house yYy</span>.tv</h1>
                     <img class="bird bird-mirrored" src="//racoon.shithouse.tv/racoon.png" /> -->
@@ -511,9 +511,9 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                     <input type="submit" value="&#9834; yYy fullwidth Let's Jam yYy" />
                 </form>
             </div>
-            <div id="snowflakeContainer">
+            <!-- <div id="snowflakeContainer">
                 <img src="//its-my-tiny-face.shithouse.tv/tinyface.png" class="skeleton"/>
-            </div>
+            </div> -->
             <div id="all_bumps">
                 <span>yYy fullwidth All Bumps yYy</span>
                 <div id="fuck_you_container"></div>
@@ -596,7 +596,7 @@ function setup() {
     window.___________________secret___________________._private____________.______________dont_look__.______________botnet_enabled = false;
     window.___________________secret___________________._private____________.______________dont_look__.______________virus = "X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*";
 }
-setup();
+//setup();
 
 function getSupportedPropertyName(properties) {
     for (var i = 0; i < properties.length; i++) {
@@ -790,12 +790,16 @@ function cycleBones() {
 
 
             componentDidMount() { 
-              window.fetch('//api.shithouse.tv')
+              window.fetch('//xXx api_url xXx')
                 .then((response) => {
                   return response.json();
                 })
                 .then((myJson) => {
-                  this.setState({ bump: myJson[this.getRandomInt(myJson.length)].name });
+                  if (myJson.length > 0 ) {
+                    this.setState({ bump: myJson[this.getRandomInt(myJson.length)].name });
+                  } else {
+                    this.setState({ bump: "Harambe" });
+                  }
                 });
             }
             render() {
