@@ -162,7 +162,16 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 background-size: cover;
                 height: 100%;
             }
-			#window-title::before {
+            button.ms-exit {
+                padding: 1px 2px;
+                line-height: 8px;
+                font-size: 10px;
+                font-weight: bold;
+            }
+            button.ms-exit:active {
+                background-color: #C0C0C0
+            }
+			.window-title::before {
 				height: 11px;
 				width: 40%;
 				display: inline-block;
@@ -170,7 +179,7 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
 				background: url("data:image/gif;base64,R0lGODlhAQAMAPEDAHd3d3h4eP7+/v///yH5BAAAAAAAIf8LSW1hZ2VNYWdpY2sOZ2FtbWE9MC40NTQ1NDUALAAAAAABAAwAAAIFVASoCQUAOw==") repeat;
 				margin-right: 8px;
 			}
-			#window-title::after {
+			.window-title::after {
 				height: 11px;
 				width: 40%;
 				display: inline-block;
@@ -178,7 +187,7 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
 				background: url("data:image/gif;base64,R0lGODlhAQAMAPEDAHd3d3h4eP7+/v///yH5BAAAAAAAIf8LSW1hZ2VNYWdpY2sOZ2FtbWE9MC40NTQ1NDUALAAAAAABAAwAAAIFVASoCQUAOw==") repeat;
 				margin-left: 8px;
 			}
-			#window-title {
+			.window-title {
                 display: inline-block;
                 width: 100%;
 				text-align: center;
@@ -206,6 +215,7 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 box-shadow: 1px 1px #111;
             }
             .gdpr_compliant_container {
+                z-index: 5;
                 background-color: rgba(108, 108, 108, 1);
                 display: inline-flex;
                 width: 200px;
@@ -213,8 +223,12 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 top: 40vh;
                 left: 40vw;
                 margin: 0 auto;
-
                 border: 24px solid transparent;
+                border-image-outset: 0;
+                border-image-repeat: stretch;
+                border-image-slice: 100%;
+                border-image-source: none;
+                border-image-width: 1;
                 border-image: url("w95border.png") 24 stretch;
             }
             .minimized {
@@ -255,6 +269,7 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 color: #8F748A;
             }
             #header > h1 {
+                color: #000;
                 margin-top: 0;
                 margin-left: 2em;
                 display: inline-block;
@@ -424,39 +439,21 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 <a href="#" class="closebox-innr" onclick="cycleBones()">Close</a>
             </div>
             <div class="maxbox"><div class="maxbox-innr"></div></div>
-            <span id="window-title">This is shithouse.tv</span>
+            <span class="window-title">This is shithouse.tv</span>
 
             <div id="padded-main">
                 <div style="display: inline-block;">
                     <img width="32" height="32" style="background-image: url(data:image/gif;base64,R0lGODlhIAAgAPMPAAAAAAAAABkZGTMzMyUjUEFBQXl5eSQAilBKw52dna+vr4qF/8PDw8PB/+vr6////yH5BAEAAAAALAAAAAAgACAAAAT/EMhJZbj41s0nNo0TNs1ynF13kaHjjuRiEilFkO77ibFM17fWKKBwMAIGXu/HORCchxbR8XgcYQuGr7nANZyNANXFEChL2gVTcuiOeASC6+FIBGCx9DrKEvkbcgwJBnIsWloKahNtbiyOhAQCBCAiDA2HMooAbY5eSgICCoUkmImaUY2dJAQMD3YjlpgJCwibMiWqXwetDwqShlkLpghxCLepX1XKdggIl8FaCcZPmV3WJAMHA7y+BazQwjLEBMaZuI27VczEaOHSam3lx9fpvQIFCAPO4cPFtNXXTPBaR4zfAmnj/skDWK9bMwIyEr3zRk4hQBn1mNHKJ1GcNwAVgI2JVNjwXrOCsxD+IDeypUB1AUQWPChy5UmLIkvie0iT1kcJLF0ayxjzJESZa4K2RKCtigMFA4r6a/ZzgtJ/9XIICkAuwMaqNk6ePMC1LIGy46iuqaBUrFtyXR/WAPmWmF24add2iIO3792zZzXMBcm3MF+zGQIMthoHceDEFCIAADs=)"></img>
                 </div>
                 <div id="header">
-                    <!-- <h1><span id="h1" class="skel">yYy fullwidth shithouse yYy</span>.tv</h1> -->
-                    <!-- <h1><span id="h1" class="skel">yYy fullwidth momhouse yYy</span>.tv</h1> -->
-                    <!-- <img class="bird" src="//bird.shithouse.tv/bird-animated-gif-26.gif" /> -->
                     <h1><span id="h1" class="skel rainbow">yYy fullwidth shit yYy</span>
                         <span id="h1" class="skel">yYy fullwidth house yYy</span>.tv</h1>
-                    <!-- <img class="bird bird-mirrored" src="//bird.shithouse.tv/bird-animated-gif-26.gif" /> -->
-                    <!-- <img class="bird" src="//racoon.shithouse.tv/racoon.png" /> -->
-                    <!-- <h1><span id="h1" class="skel rainbow">yYy fullwidth racoon yYy</span>
-                        <span id="h1" class="skel">yYy fullwidth house yYy</span>.tv</h1>
-                        <img class="bird bird-mirrored" src="//racoon.shithouse.tv/racoon.png" /> -->
                 </div>
-                <!-- <p>This is <span class="skel">shithouse</span>.tv.</p> -->
                 <p>yYy fullwidth We cow to now one yYy</p>
-                <!-- <p>yYy fullwidth Changelog: yYy</p>
-                <p>yYy fullwidth * Reduced CPU usage on front page yYy</p>
-                <p>yYy fullwidth * Increased CPU usage on front page yYy</p>
-                <p>yYy fullwidth * Increased CPU usage on front page again yYy</p>
-                <p>yYy fullwidth * New Year New Look! yYy</p>
-                <p>yYy fullwidth * Increased webscale by adding a rake to the frontend yYy</p>
-                <p>yYy fullwidth * Added cookies just cause yYy</p>
-                <p>yYy fullwidth * GDPR COMPLIANT! yYy</p> -->
-                <!-- <p>yYy fullwidth * BONES yYy</p>
-                <p>yYy fullwidth * Increased CPU usage on front page again yYy</p>
-                <p class="mega">We'd like to thank <span class="rainbow">cblgh</span> our <a href="//vodka.shithouse.tv/" class="gold">Gold Level Support Sponsor</a>&trade; for their kind generosity!</p>
-                <p>This is <span class="skel">cblghhouse</span>.tv.
-                It's like a shitty YTMND. Upload an image or a yYy fullwidth webm yYy file and go to town. Max size 10MB.</p> -->
+
+                <p>This is <span class="skel">shithouse</span>.tv.
+                It's like a shitty YTMND. Upload an image or a yYy fullwidth webm yYy file and go to town. Max size 10MB.</p>
+
                 <div id="stuff">
                     <p id="error_msg">yYy fullwidth xXx error_msg xXx yYy</p>
                     <form id="new_bump" action="/" method="POST" enctype="multipart/form-data">
@@ -906,7 +903,7 @@ function cycleBones() {
                     this.setState({ visible: false })
                   },
                   key: 'closeButton',
-                  className: "closebox",
+                  className: "ms-exit",
                   style: {
                     position: 'absolute',
                     top: '-19px',
@@ -924,7 +921,7 @@ function cycleBones() {
                     this.setState(prevState => ({ visible: !prevState.visible }))
                   },
                   key: 'minimizeButton',
-                  className: "closebox",
+                  className: "ms-exit",
                   style: {
                     position: 'absolute',
                     top: '-19px',
@@ -932,7 +929,7 @@ function cycleBones() {
                     padding: '2px 2px'
                   }
                 },
-                '🗕'
+                '＿'
               );
               const titleText = f(
                 'span',
