@@ -1,4 +1,4 @@
-VERSION=1.4.0
+VERSION=1.4.1
 CFLAGS=-Werror -Wno-ignored-qualifiers -Wno-missing-field-initializers -Wextra -Wall -O3 -ffunction-sections -fdata-sections -g
 INCLUDES=-I./c_include/ `pkg-config --cflags luajit`
 LIBFLAGS=`pkg-config --libs luajit`

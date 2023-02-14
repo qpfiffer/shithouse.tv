@@ -12,9 +12,9 @@ from ctypes import (CDLL, POINTER, Structure, byref, c_char, c_char_p, c_int64,
 
 from bottle import HTTPResponse, error, get, post, request, run
 
-LUA_ENTRYPOINT = "./src/shithouse_tv.lua"
 TMPFILE_LOC = "/tmp/"
 SRV_DIR = "./"
+LUA_ENTRYPOINT = f"{SRV_DIR}src/shithouse_tv.lua"
 
 debug = True
 reloader = False
@@ -52,10 +52,16 @@ libshithouse.sh_free_response.argtypes = [POINTER(ShithouseResponse)]
 libshithouse.sh_app.restype = POINTER(ShithouseApp)
 libshithouse.sh_app.argtypes = [c_char_p]
 
-sh_app = libshithouse.sh_app(LUA_ENTRYPOINT.encode())
-if not sh_app:
-    print("Could not init app.")
-    sys.exit(1)
+_sh_app = None
+def get_sh_app():
+    global _sh_app
+    if not _sh_app:
+        _sh_app = libshithouse.sh_app(LUA_ENTRYPOINT.encode())
+        if not _sh_app:
+            print("Could not init app.")
+            sys.exit(1)
+
+    return _sh_app
 
 libshithouse_lock = threading.Lock()
 
@@ -79,6 +85,7 @@ def good_old_500():
 
 @error(404)
 def catchall_route(error):
+    sh_app = get_sh_app()
     json_val = None
     if request.POST:
         json_val = {k: v for k, v in request.forms.items()}
@@ -125,6 +132,7 @@ def catchall_route(error):
 def main():
     print(f"Moving to {SRV_DIR}")
     os.chdir(SRV_DIR)
+    print("New vars are:\n  - SRV_DIR: {}\n  - LUA_ENTRYPOINT: {}".format(SRV_DIR, LUA_ENTRYPOINT))
     run(server="paste", host="localhost", debug=debug, port=8090, reloader=reloader)
 
 
@@ -133,6 +141,7 @@ if __name__ == "__main__":
         if arg in ("-s", "--serve-dir"):
             print(f"SETTINGS SRV_DIR TO {sys.argv[i+1]}")
             SRV_DIR = sys.argv[i + 1]
+            LUA_ENTRYPOINT = os.path.join(f"{SRV_DIR}", "src/shithouse_tv.lua")
         elif arg in ("-d", "--debug"):
             debug = True
         elif arg in ("-r", "--reloader"):
