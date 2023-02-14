@@ -85,7 +85,6 @@ def good_old_500():
 
 @error(404)
 def catchall_route(error):
-    sh_app = get_sh_app()
     json_val = None
     if request.POST:
         json_val = {k: v for k, v in request.forms.items()}
@@ -100,6 +99,7 @@ def catchall_route(error):
     resp = None
 
     with libshithouse_lock:
+        sh_app = get_sh_app()
         s_resp = libshithouse.sh_process_request(sh_app, byref(s_req))
 
         unwrapped = s_resp.contents
