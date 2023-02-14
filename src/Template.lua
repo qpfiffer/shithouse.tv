@@ -1,12 +1,14 @@
-filters = require "src/filters"
-local template_module = {}
+local Template = {}
+
+-- This needs to be global for apply_filter_to_line to work:
+Filters = require("src/Filters")
 local sub_pattern = "xXx ([^ ]*) xXx"
 
-function apply_filter_to_line(line, ctext)
-    filter, text = string.match(line, filters.filter_pattern)
+function Template._apply_filter_to_line(line, ctext)
+    filter, text = string.match(line, Filters.filter_pattern)
     if filter ~= nil then
         ctext['~line~'] = line
-        local filter_func_name = 'filters.' .. filter
+        local filter_func_name = 'Filters.' .. filter
         local results = assert(loadstring('return '.. filter_func_name ..'(...)'))(text, ctext)
 
         subbed = string.gsub(ctext['~line~'], "yYy .* yYy", results)
@@ -16,27 +18,27 @@ function apply_filter_to_line(line, ctext)
     return line
 end
 
-function apply_substitution_to_line(line, ctext)
+function Template._apply_substitution_to_line(line, ctext)
     local perish = false
-    line = string.gsub(line, sub_pattern, function(match)
+    local new_line = string.gsub(line, sub_pattern, function(match)
         perish = perish or (ctext[match] == nil)
         return ctext[match]
     end)
-    return not perish and line or ""
+    return not perish and new_line or ""
 end
 
-function template_module.render(file, ctext)
+function Template.render(file, ctext)
     local lines = {}
 
     ctext['~lines~'] = lines
     ctext['~file~'] = file
 
     for line in file:lines() do
-        local new_str = apply_filter_to_line(apply_substitution_to_line(line, ctext), ctext)
+        local new_str = Template._apply_filter_to_line(Template._apply_substitution_to_line(line, ctext), ctext)
         lines[#lines + 1] = new_str
     end
 
     return table.concat(lines, "\n")
 end
 
-return template_module
+return Template
