@@ -31,7 +31,7 @@ function Tag:get(request, errmsg)
         return self:_fuck_you(request, "no")
     end
 
-    local f = io.open("templates/tag.html", "r")
+    local f = assert(io.open("templates/tag.html", "r"))
     local rendered = Template.render(f, { ["msg"] = "All bumps for tag ",
                                           ["filter"] = "yYy all_bumps_for_tag ",
                                           ["tag"] = bump })

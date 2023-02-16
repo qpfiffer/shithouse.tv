@@ -20,7 +20,7 @@ function Bump:init(host, path)
 end
 
 function Bump:get(request)
-    local f = io.open("templates/bump.html", "r")
+    local f = assert(io.open("templates/bump.html", "r"))
 
     local subdomain = request:get_subdomain()
     local meta_data = Utils.check_for_bump(subdomain)

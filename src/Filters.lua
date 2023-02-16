@@ -43,6 +43,7 @@ function Filters.all_bumps_for_tag(tag, ctext)
     local to_return = {}
     local fixed, what = string.gsub(tag, " ", "")
     local all_bumps = io.popen("ls -clt " .. config.TAGS .. "/" .. fixed .. " | awk '{print $9}' | grep -v '^$'")
+    all_bumps:flush()
     for line in all_bumps:lines() do
         to_return[#to_return + 1] = "<li><a href=\"//"
         to_return[#to_return + 1] = line
@@ -92,6 +93,7 @@ function Filters.all_bumps(text, ctext)
     local to_return = {}
     -- Held together with bash, sweet jams and summer dreams.
     local all_bumps = io.popen("ls -lt " .. config.BUMPS .. " | awk '{print $9}' | grep -v '^$'")
+    all_bumps:flush()
     for line in all_bumps:lines() do
         local meta_data = Utils.check_for_bump(line)
         local is_nsfw = false
@@ -131,6 +133,7 @@ function Filters.all_bumps_json(text, ctext)
     local first = true
     -- Held together with bash, sweet jams and summer dreams.
     local all_bumps = io.popen("ls -clt " .. config.BUMPS .. " | awk '{print $9}' | grep -v '^$'")
+    all_bumps:flush()
     if not all_bumps then
         -- Not sure why this is ever nil, but here we are.
         return ""

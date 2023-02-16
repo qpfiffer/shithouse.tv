@@ -16,7 +16,7 @@ function Api:init(host, path)
 end
 
 function Api:get()
-    local f = io.open("templates/api.html", "r")
+    local f = assert(io.open("templates/api.html", "r"))
     local rendered = Template.render(f, {})
     f:close()
 

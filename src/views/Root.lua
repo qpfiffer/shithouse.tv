@@ -54,11 +54,13 @@ function Root:post(request)
         -- Create bump dir
         local bump_dir = Utils.build_bump_path(v_subdomain)
         local mkdir_output = io.popen("mkdir -p " .. bump_dir)
+        mkdir_output:flush()
         mkdir_output:read("*all")
         mkdir_output:close()
 
         local image_name = Utils.get_file_name_from_path(v_image)
-        io.popen("mv " .. v_image .. " " .. bump_dir .. "/" .. image_name)
+        local mv_f = io.popen("mv " .. v_image .. " " .. bump_dir .. "/" .. image_name)
+        mv_f:flush()
         io.close()
         if string.match(image_name,"[a-zA-Z0-9]*.webm$") then
             verified["webm"] = Utils.get_file_name_from_path(bump_dir .. "/" .. image_name)
@@ -71,7 +73,8 @@ function Root:post(request)
             local music_name = Utils.get_file_name_from_path(v_music)
             local out_name = bump_dir .. "/" .. music_name
             -- Truncate music to keep the size down.
-            io.popen("ffmpeg -i " .. v_music .. " -t " .. config.TRUNCATE_LENGTH_S .. "s " .. out_name)
+            local ffmpeg_f = io.popen("ffmpeg -i " .. v_music .. " -t " .. config.TRUNCATE_LENGTH_S .. "s " .. out_name)
+            ffmpeg_f:flush()
             io.close()
             verified["music"] = Utils.get_file_name_from_path(out_name)
         end
@@ -124,6 +127,7 @@ function Root:post(request)
             -- CREATE THE DIRECTORY THAT THIS TAG IS
             local tag_dir = Utils.build_tag_path(tag)
             local mkdir_output = io.popen("mkdir -p " .. tag_dir)
+            mkdir_output:flush()
             mkdir_output:read("*all")
             mkdir_output:close()
 
@@ -142,7 +146,7 @@ function Root:post(request)
     -- Write metadata to metadata file
     local md_filename = bump_dir .. "/" .. config.MD_NAME
     --local md_filename = "/tmp/" .. config.MD_NAME
-    local meta_data = io.open(md_filename, "w")
+    local meta_data = assert(io.open(md_filename, "w"))
     if not meta_data then
         return root("Could not open metadata in " .. md_filename)
     end
@@ -153,6 +157,7 @@ function Root:post(request)
     for k, v in pairs(verified["tags"]) do
         -- Symlink everything in now.
         local pwd_output = io.popen("pwd")
+        pwd_output:flush()
         local REAL_OUTPUT = string.gsub(pwd_output:read("*all"), "\n", "")
         pwd_output:close()
 
@@ -160,6 +165,7 @@ function Root:post(request)
         local tag_dir = Utils.build_tag_path(v)
         -- BEAUTIFUL
         local ln_output = io.popen("ln -s " .. REAL_OUTPUT .. "/" .. bump_path .. " " .. REAL_OUTPUT .. "/" .. tag_dir .. "/" .. v_subdomain)
+        ln_output:flush()
         ln_output:read("*all")
         ln_output:close()
         -- SUCCESS, PROBABLY
@@ -170,7 +176,7 @@ function Root:post(request)
 end
 
 function Root:get(request, errmsg)
-    local f = io.open("templates/index.html", "r")
+    local f = assert(io.open("templates/index.html", "r"))
     local ctext = {
         ["api_url"] = config.API_URL,
         ["host"] = config.HOST,
