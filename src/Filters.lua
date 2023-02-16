@@ -103,7 +103,7 @@ function Filters.all_bumps(text, ctext)
             if ctext["nsfw"] then
                 is_nsfw = ctext["nsfw"]
             end
-            meta_data.close()
+            meta_data:close()
         end
 
         if is_nsfw then
@@ -160,7 +160,7 @@ function Filters.all_bumps_json(text, ctext)
             if ctext["image"] then
                 image = ctext["image"]
             end
-            meta_data.close()
+            meta_data:close()
         end
 
         if not first then
