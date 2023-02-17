@@ -51,7 +51,7 @@ function Filters.all_bumps_for_tag(tag, ctext)
         to_return[#to_return + 1] = config.HOST
         to_return[#to_return + 1] = "/\">"
         to_return[#to_return + 1] = line
-        to_return[#to_return + 1] = "</li>"
+        to_return[#to_return + 1] = "</a></li>"
     end
 
     all_bumps:close()
@@ -77,11 +77,11 @@ function Filters.all_tags_for_bump(bump, ctext)
     for dont_care, tag in pairs(ctext["tags"]) do
         to_return[#to_return + 1] = "<li><a href=\"//"
         to_return[#to_return + 1] = config.HOST
-        to_return[#to_return + 1] = "/tag/"
+        to_return[#to_return + 1] = "/bumps_with_tag/"
         to_return[#to_return + 1] = tag
         to_return[#to_return + 1] = "\">"
         to_return[#to_return + 1] = tag
-        to_return[#to_return + 1] = "</li>"
+        to_return[#to_return + 1] = "</a></li>"
     end
 
     meta_data:close()
@@ -119,7 +119,7 @@ function Filters.all_bumps(text, ctext)
         to_return[#to_return + 1] = line
         to_return[#to_return + 1] = "</a><a class=\"tags\" href=\"//"
         to_return[#to_return + 1] = config.HOST
-        to_return[#to_return + 1] = "/bumps_with_tag/"
+        to_return[#to_return + 1] = "/tag/"
         to_return[#to_return + 1] = line
         to_return[#to_return + 1] = "\"> TAGS &raquo;</a></li>"
     end

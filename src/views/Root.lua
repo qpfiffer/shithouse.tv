@@ -120,7 +120,6 @@ function Root:post(request)
     -- succeed in making this bump.
     local v_tags = decoded["tags"]
     if v_tags then
-        i = 0
         tags = {}
         for tag in string.gmatch(v_tags, '([^,]+)') do
             -- WOW WE ACTUALLY USE mkdir. lol.
@@ -131,8 +130,7 @@ function Root:post(request)
             mkdir_output:read("*all")
             mkdir_output:close()
 
-            tags[string.format("%i", i)] = tag
-            i = i + 1
+            tags[#tags + 1] = tag
         end
         verified["tags"] = tags
     end

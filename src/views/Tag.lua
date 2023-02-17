@@ -34,7 +34,7 @@ function Tag:get(request, errmsg)
     local f = assert(io.open("templates/tag.html", "r"))
     local rendered = Template.render(f, { ["msg"] = "All bumps for tag ",
                                           ["filter"] = "yYy all_bumps_for_tag ",
-                                          ["tag"] = bump })
+                                          ["tag"] = tag })
     f:close()
 
     return Response:init(rendered, 200)

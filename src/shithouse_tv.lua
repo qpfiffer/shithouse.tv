@@ -18,8 +18,8 @@ function main()
     app.router:add_route(Static:init("*", "^/([a-zA-Z0-9_-]+%.[a-zA-Z]+)$"))
     app.router:add_route(Bump:init("*", "/"))
 
-    app.router:add_route(Tag:init(config.HOST, "^/tag/" .. Utils.subdomain_match .."$"))
-    app.router:add_route(BumpTag:init(config.HOST, "^/bumps_with_tag/" .. Utils.subdomain_match .."$"))
+    app.router:add_route(BumpTag:init(config.HOST, "^/tag/" .. Utils.subdomain_match .."$"))
+    app.router:add_route(Tag:init(config.HOST, "^/bumps_with_tag/" .. Utils.subdomain_match .."$"))
 
     app.router:add_route(Root:init(config.HOST, "/"))
     app.router:add_route(Api:init(config.API_URL, "/"))

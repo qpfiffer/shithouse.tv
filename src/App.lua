@@ -22,8 +22,6 @@ function App:handle_request(host, path, verb, post_data_json)
     end
 
     if not cls[_verb] then
-        local dbg = require("debugger")
-        dbg()
         return Response:init("Welcome to Die (No method matching " .. _verb .. " found.)", 404)
     end
 

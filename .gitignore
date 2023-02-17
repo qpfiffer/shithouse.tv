@@ -1,8 +1,8 @@
 *.pyc
 *.swp
 *.swo
-./tv/*
-./tags/*
+tv
+tags
 *.o
 *.so
 .gdb_history
