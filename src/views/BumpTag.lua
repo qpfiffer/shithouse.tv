@@ -42,11 +42,11 @@ function BumpTag:get(request, errmsg)
 end
 
 function BumpTag:post(request)
+    local bump = request.path:match(Utils.subdomain_match .. "$")
     local decoded = fuck_json:decode(request.post_data_json)
     print (decoded, request.post_data_json)
     -- Do tags last, because we know we'll probably actually
     -- succeed in making this bump.
-    local bump = decoded["bump"]
     local v_tags = decoded["tags"]
     if not v_tags or not bump then
         return self:get(request, "FIX YOUR FUCKIN INPUTS")
@@ -97,15 +97,14 @@ function BumpTag:post(request)
     local bump_dir = Utils.build_bump_path(bump)
     local md_filename = bump_dir .. "/" .. config.MD_NAME
     --local md_filename = "/tmp/" .. config.MD_NAME
-    local meta_data = io.open(Utils.build_bump_path(bump) .. "/" .. config.MD_NAME, "w")
-    print("new", new_md)
+    local lowered = string.lower(bump)
+    local meta_data = io.open(Utils.build_bump_path(lowered) .. "/" .. config.MD_NAME, "w")
     if not meta_data then
         return self:get(request, "Could not open metadata in " .. md_filename)
     end
 
     meta_data:write(new_md)
     meta_data:close()
-    print(new_tags)
 
     -- FUCK YOUUUU
     for k, v in pairs(new_tags) do
