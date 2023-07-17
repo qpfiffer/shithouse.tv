@@ -20,7 +20,7 @@ function Root:init(host, path)
 end
 
 function Root:post(request)
-    local decoded = fuck_json:decode(request.post_data_json)
+    local decoded = fuck_json.decode(request.post_data_json)
     local v_subdomain = string.lower(decoded["subdomain"]:match(Utils.subdomain_match))
     local verified = {}
 
@@ -136,7 +136,7 @@ function Root:post(request)
     end
 
     -- Encode verified data and write to disk
-    local e_verified = fuck_json:encode(verified)
+    local e_verified = fuck_json.encode(verified)
     if not e_verified then
         return self:get(request, "Could not encode metadata.")
     end

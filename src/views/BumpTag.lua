@@ -43,7 +43,7 @@ end
 
 function BumpTag:post(request)
     local bump = request.path:match(Utils.subdomain_match .. "$")
-    local decoded = fuck_json:decode(request.post_data_json)
+    local decoded = fuck_json.decode(request.post_data_json)
     print (decoded, request.post_data_json)
     -- Do tags last, because we know we'll probably actually
     -- succeed in making this bump.
@@ -57,7 +57,7 @@ function BumpTag:post(request)
         md:close()
         return self:get(request, "WHERE'S THE FUCKIN BUMP, SHITHEAD")
     end
-    local decoded_md = fuck_json:decode(md:read())
+    local decoded_md = fuck_json.decode(md:read())
     local tag_set = {}
 
     local decoded_tags = decoded_md["tags"]
@@ -88,7 +88,7 @@ function BumpTag:post(request)
     end
 
     -- Encode verified data and write to disk
-    local new_md = fuck_json:encode(decoded_md)
+    local new_md = fuck_json.encode(decoded_md)
     if not new_md then
         return self:get(request, "Could not encode metadata.")
     end

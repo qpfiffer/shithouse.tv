@@ -29,7 +29,7 @@ function Bump:get(request)
         return Root:init():get(request, "NO SUCH BUMP PLS MAKE")
     end
 
-    local ctext = fuck_json:decode(meta_data:read("*all"))
+    local ctext = fuck_json.decode(meta_data:read("*all"))
     local rendered = Template.render(f, ctext)
     meta_data:close()
     f:close()

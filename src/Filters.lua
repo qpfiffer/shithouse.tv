@@ -66,7 +66,7 @@ function Filters.all_tags_for_bump(bump, ctext)
         return fixed
     end
 
-    local ctext = fuck_json:decode(meta_data:read("*all"))
+    local ctext = fuck_json.decode(meta_data:read("*all"))
 
     local to_return = {}
     if not ctext["tags"] then
@@ -99,7 +99,7 @@ function Filters.all_bumps(text, ctext)
         local is_nsfw = false
 
         if meta_data then
-            local ctext = fuck_json:decode(meta_data:read("*all"))
+            local ctext = fuck_json.decode(meta_data:read("*all"))
             if ctext["nsfw"] then
                 is_nsfw = ctext["nsfw"]
             end
@@ -147,7 +147,7 @@ function Filters.all_bumps_json(text, ctext)
         local image = ""
 
         if meta_data then
-            local ctext = fuck_json:decode(meta_data:read("*all"))
+            local ctext = fuck_json.decode(meta_data:read("*all"))
             if ctext["nsfw"] then
                 is_nsfw = ctext["nsfw"]
             end

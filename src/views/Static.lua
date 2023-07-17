@@ -105,7 +105,7 @@ function Static:get(request, file)
 
     -- TODO: Search through metadata for assoc. files and return the one
     -- requested, otherwise 404.
-    local decoded = fuck_json:decode(meta_data:read("*all"))
+    local decoded = fuck_json.decode(meta_data:read("*all"))
     meta_data:close()
     if filename == decoded["image"] or filename == decoded["webm"] or filename == decoded["imageRepeat"] then
         local path = Utils.build_bump_path(subdomain_arg)

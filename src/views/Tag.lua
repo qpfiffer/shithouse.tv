@@ -2,7 +2,6 @@ local Tag = {}
 Tag.__index = Tag
 
 local config = require("src/config")
-local fuck_json = require("src/JSON")
 local Utils = require("src/Utils")
 local Template = require("src/Template")
 
