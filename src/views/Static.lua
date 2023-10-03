@@ -81,9 +81,10 @@ function Static:_attempt_read_static_file(filename)
         end
 
         local bytes = f:read("*all")
+        local siz = f:seek("end")
         f:close()
 
-        return Response:init(bytes, 200, self:_get_ctype_from_filename(filename), string.len(bytes) + 1)
+        return Response:init(bytes, 200, self:_get_ctype_from_filename(filename), siz)
     end
 
     return nil
@@ -111,8 +112,9 @@ function Static:get(request, file)
         local path = Utils.build_bump_path(subdomain_arg)
         local f = assert(io.open(path .. "/" .. filename))
         local bytes = f:read("*all")
+        local siz = f:seek("end")
         f:close()
-        return Response:init(bytes, 200, "application/octet-stream", string.len(bytes) + 1)
+        return Response:init(bytes, 200, self:_get_ctype_from_filename(filename), siz)
     end
     return Utils.error404()
 end
