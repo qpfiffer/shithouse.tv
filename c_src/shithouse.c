@@ -1,4 +1,5 @@
 // vim: noet ts=4 sw=4
+#include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdlib.h>
@@ -9,11 +10,67 @@
 
 #include "shithouse.h"
 
+static int l_dir(lua_State *L) {
+	/* Straight out of the docs */
+	/* https://www.lua.org/pil/29.1.html */
+	const char *path = luaL_checkstring(L, 1);
+
+	/* create a userdatum to store a DIR address */
+	DIR **d = (DIR **)lua_newuserdata(L, sizeof(DIR *));
+
+	/* set its metatable */
+	luaL_getmetatable(L, "LuaBook.dir");
+	lua_setmetatable(L, -2);
+
+	/* try to open the given directory */
+	*d = opendir(path);
+	if (*d == NULL)  /* error opening the directory? */
+		luaL_error(L, "cannot open %s: %s", path, strerror(errno));
+
+	/* creates and returns the iterator function
+	   (its sole upvalue, the directory userdatum,
+	   is already on the stack top */
+	lua_pushcclosure(L, dir_iter, 1);
+	return 1;
+}
+
+static int dir_iter(lua_State *L) {
+	DIR *d = *(DIR **)lua_touserdata(L, lua_upvalueindex(1));
+	struct dirent *entry;
+	while ((entry = readdir(d)) != NULL) {
+		if (entry->d_name[0] != '.')
+			break;
+	}
+
+	if (entry) {
+		lua_pushstring(L, entry->d_name);
+		return 1;
+	}
+	else return 0;  /* no more values to return */
+}
+
+static int dir_gc(lua_State *L) {
+	DIR *d = *(DIR **)lua_touserdata(L, 1);
+	if (d) closedir(d);
+	return 0;
+}
+
 struct sh_app *sh_app(const char *entry_point) {
 	struct sh_app *new_app = calloc(sizeof(struct sh_app), 1);
 
 	lua_State *L = lua_open();
 	luaL_openlibs(L);
+
+	luaL_newmetatable(L, "LuaBook.dir");
+
+	/* set its __gc field */
+	lua_pushstring(L, "__gc");
+	lua_pushcfunction(L, dir_gc);
+	lua_settable(L, -3);
+
+	/* register the `dir' function */
+	lua_pushcfunction(L, l_dir);
+	lua_setglobal(L, "dir");
 
 	if (luaL_loadfile(L, entry_point)) {
 		luaL_error(L, "Cannot load %s: %s", entry_point, lua_tostring(L, -1));

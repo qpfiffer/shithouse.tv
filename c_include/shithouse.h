@@ -27,3 +27,5 @@ struct sh_response {
 struct sh_app *sh_app(const char *entry_point);
 struct sh_response *sh_process_request(struct sh_app *app, const struct sh_request *req);
 void sh_free_response(struct sh_response *r);
+
+static int dir_iter(lua_State *L);

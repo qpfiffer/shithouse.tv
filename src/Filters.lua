@@ -42,9 +42,11 @@ end
 function Filters.all_bumps_for_tag(tag, ctext)
     local to_return = {}
     local fixed, what = string.gsub(tag, " ", "")
-    local all_bumps = io.popen("ls -clt " .. config.TAGS .. "/" .. fixed .. " | awk '{print $9}' | grep -v '^$'")
-    all_bumps:flush()
-    for line in all_bumps:lines() do
+    local all_bumps = {}
+    for fname in dir(config.BUMPS) do
+        table.insert(all_bumps, fname)
+    end
+    for dont_care, line in pairs(all_bumps) do
         to_return[#to_return + 1] = "<li><a href=\"//"
         to_return[#to_return + 1] = line
         to_return[#to_return + 1] = "."
@@ -54,7 +56,6 @@ function Filters.all_bumps_for_tag(tag, ctext)
         to_return[#to_return + 1] = "</a></li>"
     end
 
-    all_bumps:close()
     return table.concat(to_return)
 end
 
@@ -92,9 +93,12 @@ end
 function Filters.all_bumps(text, ctext)
     local to_return = {}
     -- Held together with bash, sweet jams and summer dreams.
-    local all_bumps = io.popen("ls -lt " .. config.BUMPS .. " | awk '{print $9}' | grep -v '^$'")
-    all_bumps:flush()
-    for line in all_bumps:lines() do
+    local all_bumps = {}
+    for fname in dir(config.BUMPS) do
+        table.insert(all_bumps, fname)
+    end
+
+    for dont_care, line in pairs(all_bumps) do
         local meta_data = Utils.check_for_bump(line)
         local is_nsfw = false
 
@@ -124,7 +128,6 @@ function Filters.all_bumps(text, ctext)
         to_return[#to_return + 1] = "\"> TAGS &raquo;</a></li>"
     end
 
-    all_bumps:close()
     return table.concat(to_return)
 end
 
@@ -133,14 +136,18 @@ function Filters.all_bumps_json(text, ctext)
     local to_return = {}
     local first = true
     -- Held together with bash, sweet jams and summer dreams.
-    local all_bumps = io.popen("ls -clt " .. config.BUMPS .. " | awk '{print $9}' | grep -v '^$'")
-    all_bumps:flush()
+
+    local all_bumps = {}
+    for fname in dir(config.BUMPS) do
+        table.insert(all_bumps, fname)
+    end
+
     if not all_bumps then
         -- Not sure why this is ever nil, but here we are.
         return ""
     end
 
-    for line in all_bumps:lines() do
+    for dont_care, line in pairs(all_bumps) do
         local meta_data = Utils.check_for_bump(line)
         local obj = {}
 
@@ -201,7 +208,6 @@ function Filters.all_bumps_json(text, ctext)
         to_return[#to_return + 1] = "\"}"
     end
 
-    all_bumps:close()
     return table.concat(to_return)
 end
 
