@@ -148,7 +148,6 @@ function Filters.all_bumps_json(text, ctext)
     end
 
     for dont_care, line in pairs(all_bumps) do
-        local meta_data = Utils.check_for_bump(line)
         local obj = {}
 
         local is_nsfw = false
@@ -162,29 +161,32 @@ function Filters.all_bumps_json(text, ctext)
             is_nsfw = cached_bump["is_nsfw"]
             video = cached_bump["video"]
             image = cached_bump["image"]
-        elseif meta_data then
-            local ctext = fuck_json.decode(meta_data:read("*all"))
-            bump_cache[line] = {text = "", is_nsfw = false, video = "", image = ""}
-            if ctext["nsfw"] then
-                is_nsfw = ctext["nsfw"]
-                bump_cache[line]["nsfw"] = is_nsfw
+        else
+            local meta_data = Utils.check_for_bump(line)
+            if meta_data then
+                local ctext = fuck_json.decode(meta_data:read("*all"))
+                bump_cache[line] = {text = "", is_nsfw = false, video = "", image = ""}
+                if ctext["nsfw"] then
+                    is_nsfw = ctext["nsfw"]
+                    bump_cache[line]["nsfw"] = is_nsfw
+                end
+                if ctext["text"] then
+                    text = ctext["text"]
+                    bump_cache[line]["text"] = text
+                end
+                if ctext["webm"] then
+                    video = ctext["webm"]
+                    bump_cache[line]["video"] = video
+                end
+                if ctext["image"] then
+                    image = ctext["image"]
+                    bump_cache[line]["image"] = image
+                elseif ctext["imageRepeat"] then
+                    image = ctext["imageRepeat"]
+                    bump_cache[line]["image"] = image
+                end
+                meta_data:close()
             end
-            if ctext["text"] then
-                text = ctext["text"]
-                bump_cache[line]["text"] = text
-            end
-            if ctext["webm"] then
-                video = ctext["webm"]
-                bump_cache[line]["video"] = video
-            end
-            if ctext["image"] then
-                image = ctext["image"]
-                bump_cache[line]["image"] = image
-            elseif ctext["imageRepeat"] then
-                image = ctext["imageRepeat"]
-                bump_cache[line]["image"] = image
-            end
-            meta_data:close()
         end
 
         if not first then
