@@ -24,7 +24,7 @@ clean:
 	$(CC) $(CFLAGS) $(INCLUDES) -c -fPIC $<
 
 lib: $(REALNAME)
-$(REALNAME): shithouse.o
+$(REALNAME): vector.o shithouse.o
 	$(CC) $(CFLAGS) $(LIB_INCLUDES) $(INCLUDES) -o $(REALNAME) -shared -Wl,-soname,${SONAME} $^ $(LIBFLAGS)
 
 install: all

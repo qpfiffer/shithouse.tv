@@ -9,6 +9,18 @@
 #include <stdint.h>
 
 #include "shithouse.h"
+#include "vector.h"
+
+struct dir_iterator {
+	char *path;
+	vector *files;
+	uint64_t iter;
+};
+
+struct file {
+	struct stat sb;
+	char name[256];
+};
 
 static int l_dir(lua_State *L) {
 	/* Straight out of the docs */
@@ -16,16 +28,47 @@ static int l_dir(lua_State *L) {
 	const char *path = luaL_checkstring(L, 1);
 
 	/* create a userdatum to store a DIR address */
-	DIR **d = (DIR **)lua_newuserdata(L, sizeof(DIR *));
+	struct dir_iterator *d = (struct dir_iterator *)lua_newuserdata(L,
+			sizeof(struct dir_iterator *));
+	strcpy(d->path, path);
+
+	d->iter = 0;
+	d->files = vector_new(sizeof(struct file), 2048);
 
 	/* set its metatable */
 	luaL_getmetatable(L, "LuaBook.dir");
 	lua_setmetatable(L, -2);
 
-	/* try to open the given directory */
-	*d = opendir(path);
-	if (*d == NULL)  /* error opening the directory? */
+	DIR *dir = opendir(path);
+	if (!dir) {
+		luaL_error(L, "Cannot open dir %s: %s", path, strerror(errno));
+	}
+
+	struct dirent *entry = NULL;
+	while ((entry = readdir(dir))) {
+		char pathname[1024] = {0};
+		int ret = 0;
+		struct file fil = {0};
+
+		strncpy(fil.name, entry->d_name, sizeof(fil.name));
+		snprintf(pathname, sizeof(pathname), "%s/%s", path, entry->d_name);
+
+		ret = stat(pathname, &fil.sb);
+		if (ret) {
+			/* TODO: Clear out buffers, manage memory, return nothing. */
+			luaL_error(L, "Cannot stat %s: %s", pathname, strerror(errno));
+		}
+
+		vector_append(d->files, &fil, sizeof(struct file));
+	}
+
+	closedir(dir);
+
+	/*
+	d->count = scandir(path, &d->dirs, NULL, datesort);
+	if (d->count < 0)
 		luaL_error(L, "cannot open %s: %s", path, strerror(errno));
+	*/
 
 	/* creates and returns the iterator function
 	   (its sole upvalue, the directory userdatum,
@@ -35,23 +78,24 @@ static int l_dir(lua_State *L) {
 }
 
 static int dir_iter(lua_State *L) {
-	DIR *d = *(DIR **)lua_touserdata(L, lua_upvalueindex(1));
-	struct dirent *entry;
-	while ((entry = readdir(d)) != NULL) {
-		if (entry->d_name[0] != '.')
-			break;
-	}
+	struct dir_iterator *dirs = (struct dir_iterator *)lua_touserdata(L, lua_upvalueindex(1));
 
-	if (entry) {
-		lua_pushstring(L, entry->d_name);
+	if (dirs->iter < dirs->files->count) {
+		const struct file *fil = vector_get(dirs->files, dirs->iter);
+		lua_pushstring(L, fil->name);
+		dirs->iter++;
 		return 1;
 	}
-	else return 0;  /* no more values to return */
+
+	return 0;
 }
 
 static int dir_gc(lua_State *L) {
-	DIR *d = *(DIR **)lua_touserdata(L, 1);
-	if (d) closedir(d);
+	struct dir_iterator *d = (struct dir_iterator *)lua_touserdata(L, 1);
+	if (d->files)
+		vector_free(d->files);
+	if (d->path)
+		free(d->path);
 	return 0;
 }
 
