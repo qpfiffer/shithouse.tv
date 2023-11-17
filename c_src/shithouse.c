@@ -2,25 +2,32 @@
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <stdint.h>
 
 #include "shithouse.h"
 #include "vector.h"
 
 struct dir_iterator {
+	uint64_t iter;
 	char *path;
 	vector *files;
-	uint64_t iter;
 };
 
 struct file {
 	struct stat sb;
 	char name[256];
 };
+
+static int ctime_compare(const void *item_a, const void *item_b) {
+	const struct file *file_a = (struct file *)item_a;
+	const struct file *file_b = (struct file *)item_b;
+
+	return file_a->sb.st_ctim.tv_sec < file_b->sb.st_ctim.tv_sec;
+}
 
 static int l_dir(lua_State *L) {
 	/* Straight out of the docs */
@@ -29,8 +36,8 @@ static int l_dir(lua_State *L) {
 
 	/* create a userdatum to store a DIR address */
 	struct dir_iterator *d = (struct dir_iterator *)lua_newuserdata(L,
-			sizeof(struct dir_iterator *));
-	strcpy(d->path, path);
+			sizeof(struct dir_iterator));
+	d->path = strdup(path);
 
 	d->iter = 0;
 	d->files = vector_new(sizeof(struct file), 2048);
@@ -50,6 +57,10 @@ static int l_dir(lua_State *L) {
 		int ret = 0;
 		struct file fil = {0};
 
+		if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, "..")) {
+			continue;
+		}
+
 		strncpy(fil.name, entry->d_name, sizeof(fil.name));
 		snprintf(pathname, sizeof(pathname), "%s/%s", path, entry->d_name);
 
@@ -62,24 +73,16 @@ static int l_dir(lua_State *L) {
 		vector_append(d->files, &fil, sizeof(struct file));
 	}
 
+	qsort(d->files->items, d->files->count, d->files->item_size, &(ctime_compare));
+
 	closedir(dir);
 
-	/*
-	d->count = scandir(path, &d->dirs, NULL, datesort);
-	if (d->count < 0)
-		luaL_error(L, "cannot open %s: %s", path, strerror(errno));
-	*/
-
-	/* creates and returns the iterator function
-	   (its sole upvalue, the directory userdatum,
-	   is already on the stack top */
 	lua_pushcclosure(L, dir_iter, 1);
 	return 1;
 }
 
 static int dir_iter(lua_State *L) {
 	struct dir_iterator *dirs = (struct dir_iterator *)lua_touserdata(L, lua_upvalueindex(1));
-
 	if (dirs->iter < dirs->files->count) {
 		const struct file *fil = vector_get(dirs->files, dirs->iter);
 		lua_pushstring(L, fil->name);
