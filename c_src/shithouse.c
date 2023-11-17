@@ -2,13 +2,32 @@
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <stdint.h>
 
 #include "shithouse.h"
+#include "vector.h"
+
+struct dir_iterator {
+	uint64_t iter;
+	char *path;
+	vector *files;
+};
+
+struct file {
+	struct stat sb;
+	char name[256];
+};
+
+static int ctime_compare(const void *item_a, const void *item_b) {
+	const struct file *file_a = (struct file *)item_a;
+	const struct file *file_b = (struct file *)item_b;
+
+	return file_a->sb.st_ctim.tv_sec < file_b->sb.st_ctim.tv_sec;
+}
 
 static int l_dir(lua_State *L) {
 	/* Straight out of the docs */
@@ -16,42 +35,70 @@ static int l_dir(lua_State *L) {
 	const char *path = luaL_checkstring(L, 1);
 
 	/* create a userdatum to store a DIR address */
-	DIR **d = (DIR **)lua_newuserdata(L, sizeof(DIR *));
+	struct dir_iterator *d = (struct dir_iterator *)lua_newuserdata(L,
+			sizeof(struct dir_iterator));
+	d->path = strdup(path);
+
+	d->iter = 0;
+	d->files = vector_new(sizeof(struct file), 2048);
 
 	/* set its metatable */
 	luaL_getmetatable(L, "LuaBook.dir");
 	lua_setmetatable(L, -2);
 
-	/* try to open the given directory */
-	*d = opendir(path);
-	if (*d == NULL)  /* error opening the directory? */
-		luaL_error(L, "cannot open %s: %s", path, strerror(errno));
+	DIR *dir = opendir(path);
+	if (!dir) {
+		luaL_error(L, "Cannot open dir %s: %s", path, strerror(errno));
+	}
 
-	/* creates and returns the iterator function
-	   (its sole upvalue, the directory userdatum,
-	   is already on the stack top */
+	struct dirent *entry = NULL;
+	while ((entry = readdir(dir))) {
+		char pathname[1024] = {0};
+		int ret = 0;
+		struct file fil = {0};
+
+		if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, "..")) {
+			continue;
+		}
+
+		strncpy(fil.name, entry->d_name, sizeof(fil.name));
+		snprintf(pathname, sizeof(pathname), "%s/%s", path, entry->d_name);
+
+		ret = stat(pathname, &fil.sb);
+		if (ret) {
+			/* TODO: Clear out buffers, manage memory, return nothing. */
+			luaL_error(L, "Cannot stat %s: %s", pathname, strerror(errno));
+		}
+
+		vector_append(d->files, &fil, sizeof(struct file));
+	}
+
+	qsort(d->files->items, d->files->count, d->files->item_size, &(ctime_compare));
+
+	closedir(dir);
+
 	lua_pushcclosure(L, dir_iter, 1);
 	return 1;
 }
 
 static int dir_iter(lua_State *L) {
-	DIR *d = *(DIR **)lua_touserdata(L, lua_upvalueindex(1));
-	struct dirent *entry;
-	while ((entry = readdir(d)) != NULL) {
-		if (entry->d_name[0] != '.')
-			break;
-	}
-
-	if (entry) {
-		lua_pushstring(L, entry->d_name);
+	struct dir_iterator *dirs = (struct dir_iterator *)lua_touserdata(L, lua_upvalueindex(1));
+	if (dirs->iter < dirs->files->count) {
+		const struct file *fil = vector_get(dirs->files, dirs->iter);
+		lua_pushstring(L, fil->name);
+		dirs->iter++;
 		return 1;
 	}
-	else return 0;  /* no more values to return */
+
+	return 0;
 }
 
 static int dir_gc(lua_State *L) {
-	DIR *d = *(DIR **)lua_touserdata(L, 1);
-	if (d) closedir(d);
+	struct dir_iterator *d = (struct dir_iterator *)lua_touserdata(L, 1);
+	if (d->files)
+		vector_free(d->files);
+	if (d->path)
+		free(d->path);
 	return 0;
 }
 
