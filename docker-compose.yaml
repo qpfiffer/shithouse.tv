@@ -1,0 +1,14 @@
+version: '3'
+services:
+  shithouse:
+    image: shithouse:latest
+    build: .
+    platform: linux/amd64
+    container_name: shithouse
+    environment:
+      SHITHOUSE_HOST: localhost
+      SHITHOUSE_API_URL: api.localhost
+    ports:
+      - 8090:8090
+    volumes:
+      - ./tv:/usr/src/app/tv
