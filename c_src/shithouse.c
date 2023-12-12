@@ -26,7 +26,7 @@ static int ctime_compare(const void *item_a, const void *item_b) {
 	const struct file *file_a = (struct file *)item_a;
 	const struct file *file_b = (struct file *)item_b;
 
-	return file_a->sb.st_ctim.tv_sec < file_b->sb.st_ctim.tv_sec;
+	return file_a->sb.st_mtim.tv_sec < file_b->sb.st_mtim.tv_sec;
 }
 
 static int l_dir(lua_State *L) {
