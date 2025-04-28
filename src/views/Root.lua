@@ -173,6 +173,10 @@ function Root:post(request)
     return self:get("Good job. Bump " .. v_subdomain .. " created.")
 end
 
+function Root:head(request, errmsg)
+    return Response:init("OK", 200)
+end
+
 function Root:get(request, errmsg)
     local f = assert(io.open("templates/index.html", "r"))
     local ctext = {

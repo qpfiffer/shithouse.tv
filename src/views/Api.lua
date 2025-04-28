@@ -23,4 +23,8 @@ function Api:get()
     return Response:init(rendered, 200, "application/json")
 end
 
+function Api:head()
+    return Response:init("OK", 200, "application/json")
+end
+
 return Api
