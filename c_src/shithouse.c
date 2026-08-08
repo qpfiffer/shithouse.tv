@@ -103,7 +103,7 @@ static int dir_gc(lua_State *L) {
 }
 
 struct sh_app *sh_app(const char *entry_point) {
-	struct sh_app *new_app = calloc(sizeof(struct sh_app), 1);
+	struct sh_app *new_app = calloc(1, sizeof(struct sh_app));
 
 	lua_State *L = lua_open();
 	luaL_openlibs(L);
@@ -160,7 +160,7 @@ struct sh_response *sh_process_request(struct sh_app *app, const struct sh_reque
 		return NULL;
 	}
 
-	struct sh_response *new_response = calloc(sizeof(struct sh_response), 1);
+	struct sh_response *new_response = calloc(1, sizeof(struct sh_response));
 	const char *body, *ctype = NULL;
 
 	lua_pushstring(app->L, "body_len");
@@ -188,7 +188,7 @@ struct sh_response *sh_process_request(struct sh_app *app, const struct sh_reque
 		new_response->body_len = strlen(body);
 	}
 
-	new_response->body = calloc(new_response->body_len + 1, 1);
+	new_response->body = calloc(1, new_response->body_len + 1);
 	memcpy(new_response->body, body, new_response->body_len);
 	new_response->body[new_response->body_len] = '\0';
 	lua_pop(app->L, 1);
@@ -203,12 +203,12 @@ struct sh_response *sh_process_request(struct sh_app *app, const struct sh_reque
 	lua_gettable(app->L, -2);
 	ctype = lua_tostring(app->L, -1);
 	if (ctype) {
-		new_response->ctype = calloc(strlen(ctype) + 1, 1);
-		new_response->ctype_len = strlen(ctype);
-		strncpy(new_response->ctype, ctype, new_response->ctype_len + 1);
+		new_response->ctype = calloc(1, strnlen(ctype, 256) + 1);
+		new_response->ctype_len = strnlen(ctype, 256);
+		strncpy(new_response->ctype, ctype, new_response->ctype_len);
 	} else {
 		const char DEFAULT_CTYPE[] = "text/html; charset=utf-8";
-		new_response->ctype = calloc(strlen(DEFAULT_CTYPE) + 1, 1);
+		new_response->ctype = calloc(1, strlen(DEFAULT_CTYPE) + 1);
 		new_response->ctype_len = strlen(DEFAULT_CTYPE);
 		strncpy(new_response->ctype, DEFAULT_CTYPE, new_response->ctype_len + 1);
 	}
