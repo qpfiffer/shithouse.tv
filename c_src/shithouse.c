@@ -121,11 +121,13 @@ struct sh_app *sh_app(const char *entry_point) {
 
 	if (luaL_loadfile(L, entry_point)) {
 		luaL_error(L, "Cannot load %s: %s", entry_point, lua_tostring(L, -1));
+		free(new_app);
 		return NULL;
 	}
 
 	if (lua_pcall(L, 0, 1, 0)) {
 		luaL_error(L, "Cannot run main: %s", lua_tostring(L, -1));
+		free(new_app);
 		return NULL;
 	}
 
@@ -134,6 +136,7 @@ struct sh_app *sh_app(const char *entry_point) {
 
 	if (new_app->sh_lua_app_ref == LUA_REFNIL) {
 		luaL_error(L, "Reference to app is nil");
+		free(new_app);
 		return NULL;
 	}
 
