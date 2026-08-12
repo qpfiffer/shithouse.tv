@@ -3,6 +3,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
@@ -145,6 +146,8 @@ struct sh_app *sh_app(const char *entry_point) {
 }
 
 struct sh_response *sh_process_request(struct sh_app *app, const struct sh_request *req) {
+	const int base = lua_gettop(app->L);
+
 	/* Push the app onto the stack */
 	lua_rawgeti(app->L, LUA_REGISTRYINDEX, app->sh_lua_app_ref);
 	/* Push the function we're calling */
@@ -156,11 +159,17 @@ struct sh_response *sh_process_request(struct sh_app *app, const struct sh_reque
 	lua_pushstring(app->L, req->verb);
 	lua_pushstring(app->L, req->post_data_json);
 
-	/* Call "handle_request" */
 	if (lua_pcall(app->L, 5, 1, 0)) {
-		luaL_error(app->L, "Cannot run view: %s", lua_tostring(app->L, -1));
-		lua_pop(app->L, 1);
-		return NULL;
+		fprintf(stderr, "Cannot run view: %s\n", lua_tostring(app->L, -1));
+		lua_settop(app->L, base);
+
+		struct sh_response *err_response = calloc(1, sizeof(struct sh_response));
+		err_response->status_code = 500;
+		err_response->body = NULL;
+		err_response->body_len = 0;
+		err_response->ctype = NULL;
+		err_response->ctype_len = 0;
+		return err_response;
 	}
 
 	struct sh_response *new_response = calloc(1, sizeof(struct sh_response));
@@ -179,11 +188,12 @@ struct sh_response *sh_process_request(struct sh_app *app, const struct sh_reque
 	lua_gettable(app->L, -2);
 	body = lua_tostring(app->L, -1);
 	if (!body) {
-		lua_pop(app->L, 1);
+		lua_settop(app->L, base);
 		new_response->body = NULL;
 		new_response->status_code = 500;
 		new_response->body_len = 0;
 		new_response->ctype = NULL;
+		new_response->ctype_len = 0;
 		return new_response;
 	}
 
@@ -217,7 +227,7 @@ struct sh_response *sh_process_request(struct sh_app *app, const struct sh_reque
 		strncpy(new_response->ctype, DEFAULT_CTYPE, new_response->ctype_len + 1);
 	}
 
-	lua_pop(app->L, 1);
+	lua_settop(app->L, base);
 	return new_response;
 }
 
