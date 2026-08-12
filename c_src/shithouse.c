@@ -206,9 +206,10 @@ struct sh_response *sh_process_request(struct sh_app *app, const struct sh_reque
 	lua_gettable(app->L, -2);
 	ctype = lua_tostring(app->L, -1);
 	if (ctype) {
-		new_response->ctype = calloc(1, strnlen(ctype, 256) + 1);
-		new_response->ctype_len = strnlen(ctype, 256);
-		strncpy(new_response->ctype, ctype, new_response->ctype_len);
+		const size_t ctype_len = strnlen(ctype, 256);
+		new_response->ctype = calloc(1, ctype_len + 1);
+		new_response->ctype_len = ctype_len;
+		strncpy(new_response->ctype, ctype, ctype_len + 1);
 	} else {
 		const char DEFAULT_CTYPE[] = "text/html; charset=utf-8";
 		new_response->ctype = calloc(1, strlen(DEFAULT_CTYPE) + 1);
