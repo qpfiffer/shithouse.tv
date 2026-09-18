@@ -105,8 +105,15 @@ static int dir_gc(lua_State *L) {
 
 struct sh_app *sh_app(const char *entry_point) {
 	struct sh_app *new_app = calloc(1, sizeof(struct sh_app));
+	if (!new_app)
+		return NULL;
 
 	lua_State *L = lua_open();
+	if (!L) {
+		fprintf(stderr, "Cannot create Lua state\n");
+		free(new_app);
+		return NULL;
+	}
 	luaL_openlibs(L);
 
 	luaL_newmetatable(L, "LuaBook.dir");
@@ -121,28 +128,38 @@ struct sh_app *sh_app(const char *entry_point) {
 	lua_setglobal(L, "dir");
 
 	if (luaL_loadfile(L, entry_point)) {
-		luaL_error(L, "Cannot load %s: %s", entry_point, lua_tostring(L, -1));
-		free(new_app);
-		return NULL;
+		fprintf(stderr, "Cannot load %s: %s\n", entry_point, lua_tostring(L, -1));
+		goto error;
 	}
 
 	if (lua_pcall(L, 0, 1, 0)) {
-		luaL_error(L, "Cannot run main: %s", lua_tostring(L, -1));
-		free(new_app);
-		return NULL;
+		fprintf(stderr, "Cannot run main: %s\n", lua_tostring(L, -1));
+		goto error;
+	}
+
+	if (!lua_istable(L, -1)) {
+		fprintf(stderr, "%s returned a %s, expected the app table\n",
+				entry_point, luaL_typename(L, -1));
+		goto error;
 	}
 
 	new_app->L = L;
 	new_app->sh_lua_app_ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
-	if (new_app->sh_lua_app_ref == LUA_REFNIL) {
-		luaL_error(L, "Reference to app is nil");
-		free(new_app);
-		return NULL;
-	}
-
 	return new_app;
 
+error:
+	lua_close(L);
+	free(new_app);
+	return NULL;
+}
+
+static struct sh_response *sh_error_response(void) {
+	struct sh_response *err_response = calloc(1, sizeof(struct sh_response));
+	if (!err_response)
+		return NULL;
+	err_response->status_code = 500;
+	return err_response;
 }
 
 struct sh_response *sh_process_request(struct sh_app *app, const struct sh_request *req) {
@@ -162,46 +179,39 @@ struct sh_response *sh_process_request(struct sh_app *app, const struct sh_reque
 	if (lua_pcall(app->L, 5, 1, 0)) {
 		fprintf(stderr, "Cannot run view: %s\n", lua_tostring(app->L, -1));
 		lua_settop(app->L, base);
-
-		struct sh_response *err_response = calloc(1, sizeof(struct sh_response));
-		err_response->status_code = 500;
-		err_response->body = NULL;
-		err_response->body_len = 0;
-		err_response->ctype = NULL;
-		err_response->ctype_len = 0;
-		return err_response;
+		return sh_error_response();
 	}
 
-	struct sh_response *new_response = calloc(1, sizeof(struct sh_response));
+	if (!lua_istable(app->L, -1)) {
+		fprintf(stderr, "View returned a %s, expected a Response\n",
+				luaL_typename(app->L, -1));
+		lua_settop(app->L, base);
+		return sh_error_response();
+	}
+
+	struct sh_response *new_response = sh_error_response();
+	if (!new_response) {
+		lua_settop(app->L, base);
+		return NULL;
+	}
 	const char *body, *ctype = NULL;
-
-	lua_pushstring(app->L, "body_len");
-	lua_gettable(app->L, -2);
-	int64_t possible_body_len = lua_tointeger(app->L, -1);
-	if (possible_body_len > 0) {
-		new_response->body_len = possible_body_len;
-	}
-	lua_pop(app->L, 1);
 
 	/* Get body response */
 	lua_pushstring(app->L, "body");
 	lua_gettable(app->L, -2);
-	body = lua_tostring(app->L, -1);
+	body = lua_tolstring(app->L, -1, &new_response->body_len);
 	if (!body) {
 		lua_settop(app->L, base);
-		new_response->body = NULL;
-		new_response->status_code = 500;
 		new_response->body_len = 0;
-		new_response->ctype = NULL;
-		new_response->ctype_len = 0;
 		return new_response;
 	}
 
-	if (!new_response->body_len) {
-		new_response->body_len = strlen(body);
-	}
-
 	new_response->body = calloc(1, new_response->body_len + 1);
+	if (!new_response->body) {
+		lua_settop(app->L, base);
+		new_response->body_len = 0;
+		return new_response;
+	}
 	memcpy(new_response->body, body, new_response->body_len);
 	new_response->body[new_response->body_len] = '\0';
 	lua_pop(app->L, 1);
