@@ -10,7 +10,9 @@ import threading
 from ctypes import (CDLL, POINTER, Structure, byref, c_char, c_char_p, c_int64,
                     c_size_t, c_void_p)
 
-from bottle import HTTPResponse, error, get, post, request, run
+from bottle import BaseRequest, HTTPResponse, error, get, post, request, run
+
+BaseRequest.MEMFILE_MAX = 4 * 1024 * 1024
 
 TMPFILE_LOC = "/tmp/"
 SRV_DIR = "./"
