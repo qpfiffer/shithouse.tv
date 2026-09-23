@@ -15,7 +15,7 @@ local Tag = require("src/views/Tag")
 function main()
     local app = App:init()
 
-    app.router:add_route(Static:init("*", "^/([a-zA-Z0-9_-]+%.[a-zA-Z]+)$"))
+    app.router:add_route(Static:init("*", "^/([a-zA-Z0-9_-]+%.[a-zA-Z0-9]+)$"))
     app.router:add_route(Bump:init("*", "/"))
 
     app.router:add_route(BumpTag:init(config.HOST, "^/tag/" .. Utils.subdomain_match .."$"))

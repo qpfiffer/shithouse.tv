@@ -40,6 +40,14 @@ function Static:_get_ctype_from_filename(filename)
         ctype = "image/png"
     elseif lowered:match(".webm$") then
         ctype = "video/webm"
+    elseif lowered:match(".m4a$") then
+        ctype = "audio/mp4"
+    elseif lowered:match(".mp3$") then
+        ctype = "audio/mpeg"
+    elseif lowered:match(".ogg$") then
+        ctype = "audio/ogg"
+    elseif lowered:match(".wav$") then
+        ctype = "audio/wav"
     end
 
     return ctype
@@ -108,7 +116,7 @@ function Static:get(request, file)
     -- requested, otherwise 404.
     local decoded = fuck_json.decode(meta_data:read("*all"))
     meta_data:close()
-    if filename == decoded["image"] or filename == decoded["webm"] or filename == decoded["imageRepeat"] then
+    if filename == decoded["image"] or filename == decoded["webm"] or filename == decoded["imageRepeat"] or filename == decoded["music"] then
         local path = Utils.build_bump_path(subdomain_arg)
         local f = assert(io.open(path .. "/" .. filename))
         local bytes = f:read("*all")

@@ -21,7 +21,12 @@ function utils_module.check_for_bump(name)
 end
 
 function utils_module.get_file_name_from_path(path)
-    return path:match("([a-zA-Z0-9-]*.[a-zA-Z]*)$")
+    return path:match("([a-zA-Z0-9-]*.[a-zA-Z0-9]*)$")
+end
+
+-- Single-quote a string for use in an io.popen() command.
+function utils_module.shell_quote(s)
+    return "'" .. string.gsub(s, "'", "'\\''") .. "'"
 end
 
 function utils_module.error404()

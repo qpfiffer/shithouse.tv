@@ -154,6 +154,7 @@ function Filters.all_bumps_json(text, ctext)
         local text = ""
         local video = ""
         local image = ""
+        local music = ""
 
         if bump_cache[line] then
             local cached_bump = bump_cache[line]
@@ -161,11 +162,12 @@ function Filters.all_bumps_json(text, ctext)
             is_nsfw = cached_bump["is_nsfw"]
             video = cached_bump["video"]
             image = cached_bump["image"]
+            music = cached_bump["music"]
         else
             local meta_data = Utils.check_for_bump(line)
             if meta_data then
                 local ctext = fuck_json.decode(meta_data:read("*all"))
-                bump_cache[line] = {text = "", is_nsfw = false, video = "", image = ""}
+                bump_cache[line] = {text = "", is_nsfw = false, video = "", image = "", music = ""}
                 if ctext["nsfw"] then
                     is_nsfw = ctext["nsfw"]
                     bump_cache[line]["nsfw"] = is_nsfw
@@ -184,6 +186,10 @@ function Filters.all_bumps_json(text, ctext)
                 elseif ctext["imageRepeat"] then
                     image = ctext["imageRepeat"]
                     bump_cache[line]["image"] = image
+                end
+                if ctext["music"] then
+                    music = ctext["music"]
+                    bump_cache[line]["music"] = music
                 end
                 meta_data:close()
             end
@@ -207,6 +213,8 @@ function Filters.all_bumps_json(text, ctext)
         to_return[#to_return + 1] = string.gsub(video, "\"", "\\\"")
         to_return[#to_return + 1] = "\", \"image\": \""
         to_return[#to_return + 1] = string.gsub(image, "\"", "\\\"")
+        to_return[#to_return + 1] = "\", \"music\": \""
+        to_return[#to_return + 1] = string.gsub(music, "\"", "\\\"")
         to_return[#to_return + 1] = "\"}"
     end
 

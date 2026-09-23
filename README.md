@@ -8,7 +8,7 @@ Serves up basic pages which consist of a single image, some text and some music.
 Thats it. Bumps man, bumps.
 
 # TODO
-* Proper music support
+* ~~Proper music support~~ ☑️
 * List of recent bumps
 * Auto-increment visits per bump?
 * ~~List of all bumps~~ ☑️

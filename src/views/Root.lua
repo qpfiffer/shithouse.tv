@@ -48,7 +48,7 @@ function Root:post(request)
         -- Make sure there is at least an image
         local v_image = decoded["image"]
         if not v_image then
-            return root("You need image")
+            return self:get(request, "You need image")
         end
 
         -- Create bump dir
@@ -70,13 +70,23 @@ function Root:post(request)
 
         local v_music = decoded["music"]
         if v_music and v_music ~= "" then
-            local music_name = Utils.get_file_name_from_path(v_music)
-            local out_name = bump_dir .. "/" .. music_name
-            -- Truncate music to keep the size down.
-            local ffmpeg_f = io.popen("ffmpeg -i " .. v_music .. " -t " .. config.TRUNCATE_LENGTH_S .. "s " .. out_name)
-            ffmpeg_f:flush()
-            io.close()
-            verified["music"] = Utils.get_file_name_from_path(out_name)
+            local out_name = bump_dir .. "/" .. config.MUSIC_NAME
+            local cmd = "ffmpeg -y -v error -i " .. Utils.shell_quote(v_music)
+                .. " -vn -codec:a aac -b:a 128k "
+                .. Utils.shell_quote(out_name) .. " 2>&1; echo \"__ffmpeg_exit=$?\""
+            local ffmpeg_f = io.popen(cmd)
+            local ffmpeg_output = ffmpeg_f:read("*all")
+            ffmpeg_f:close()
+            os.remove(v_music)
+            local exit_code = ffmpeg_output:match("__ffmpeg_exit=(%d+)%s*$")
+            if exit_code ~= "0" then
+                os.remove(out_name)
+                os.remove(bump_dir .. "/" .. image_name)
+                os.remove(bump_dir)
+                local reason = ffmpeg_output:gsub("__ffmpeg_exit=%d+%s*$", "")
+                return self:get(request, "Could not process music (is it actually audio?): " .. reason)
+            end
+            verified["music"] = config.MUSIC_NAME
         end
 
         local v_imageRepeat = decoded["imageRepeat"]

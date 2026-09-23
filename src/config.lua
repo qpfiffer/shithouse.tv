@@ -15,6 +15,6 @@ config_module["API_URL"] = API_URL
 config_module["TAGS"] = "./tags"
 config_module["BUMPS"] = "./tv"
 config_module["MD_NAME"] = "meta.json"
-config_module["TRUNCATE_LENGTH_S"] = "20"
+config_module["MUSIC_NAME"] = "music.m4a"
 
 return config_module

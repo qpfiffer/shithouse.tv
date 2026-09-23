@@ -2,14 +2,6 @@
 <html>
     <head>
         <title>xXx subdomain xXx</title>
-        <script type="text/javascript"> yYy unless not MUSIC_SRC yYy
-        xXx ~same~ xXx    myAudio = new Audio('xXx MUSIC_SRC xXx');
-        xXx ~same~ xXx    myAudio.addEventListener('ended', function() {
-        xXx ~same~ xXx        this.currentTime = 0;
-        xXx ~same~ xXx        this.play();
-        xXx ~same~ xXx    }, false);
-        xXx ~same~ xXx    myAudio.play();
-        xXx ~same~ xXx</script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />yYy unless not image yYy
         <meta name="twitter:card" content="summary_large_image">xXx ~same~ xXx
         <meta name="og:title" content="xXx subdomain xXx">xXx ~same~ xXx
@@ -167,6 +159,19 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
                 width: 632px;
                 height: 60px;
             }
+            #jams-hint {
+                display: none;
+                position: fixed;
+                bottom: 8px;
+                right: 8px;
+                padding: 4px 8px;
+                color: #fff;
+                background-color: rgba(0, 0, 0, 0.6);
+                font-family: monospace;
+                font-size: 14px;
+                cursor: pointer;
+                z-index: 100;
+            }
         </style>
     </head>
     <body>
@@ -180,5 +185,27 @@ src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAIOMABMAAAA
         <div id="bullens"></div><!-- xXx bullens xXx -->
         <div id="skelly"></div><!-- xXx skelly xXx -->
         <div id="unreg"></div><!-- xXx unreg xXx -->
+        <audio id="jams" loop src="xXx music xXx"></audio>
+        <div id="jams-hint">&#9834; click, cretin</div>
+        <script type="text/javascript">
+            (function() {
+                var jams = document.getElementById("jams");
+                if (!jams) { return; }
+                var hint = document.getElementById("jams-hint");
+                var events = ["click", "keydown", "touchstart"];
+                var startJams = function() {
+                    jams.play();
+                    hint.style.display = "none";
+                    events.forEach(function(ev) { document.removeEventListener(ev, startJams); });
+                };
+                var attempt = jams.play();
+                if (attempt && attempt.catch) {
+                    attempt.catch(function() {
+                        hint.style.display = "block";
+                        events.forEach(function(ev) { document.addEventListener(ev, startJams); });
+                    });
+                }
+            })();
+        </script>
     </body>
 </html>
