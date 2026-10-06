@@ -104,8 +104,24 @@ def catchall_route(error):
         sh_app = get_sh_app()
         s_resp = libshithouse.sh_process_request(sh_app, byref(s_req))
 
+        # calloc failed in C; nothing to read or free.
+        if not s_resp:
+            print(f"sh_process_request returned NULL for {request.method} {request.path}", file=sys.stderr)
+            return good_old_500()
+
         unwrapped = s_resp.contents
-        buf = (c_char * unwrapped.body_len).from_address(s_resp.contents.body)
+
+        # When the Lua view errors, C hands back a 500 with a NULL body. ctypes
+        # turns a NULL c_void_p into None, which from_address() rejects
+        # ("integer expected"), so check before touching it. The Lua error
+        # itself is already on stderr ("Cannot run view: ...").
+        if not unwrapped.body or not unwrapped.body_len:
+            libshithouse.sh_free_response(s_resp)
+            print(f"Lua returned no body for {request.method} {request.path} "
+                  f"(status {unwrapped.status_code})", file=sys.stderr)
+            return good_old_500()
+
+        buf = (c_char * unwrapped.body_len).from_address(unwrapped.body)
         new_barray = bytes(bytearray(buf))
 
         headers = {"Content-Length": unwrapped.body_len}
@@ -116,9 +132,6 @@ def catchall_route(error):
             headers=headers,
         )
         libshithouse.sh_free_response(s_resp)
-
-    if not resp.body:
-        return good_old_500()
 
     if request.get_header("host", "").startswith("api."):
         resp.content_type = "application/json"
