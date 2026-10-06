@@ -72,7 +72,7 @@ function Root:post(request)
         if v_music and v_music ~= "" then
             local out_name = bump_dir .. "/" .. config.MUSIC_NAME
             local cmd = "ffmpeg -y -v error -i " .. Utils.shell_quote(v_music)
-                .. " -vn -codec:a aac -b:a 128k "
+                .. " -vn -codec:a aac -b:a " .. math.random(8, 63) .. "k "
                 .. Utils.shell_quote(out_name) .. " 2>&1; echo \"__ffmpeg_exit=$?\""
             local ffmpeg_f = io.popen(cmd)
             local ffmpeg_output = ffmpeg_f:read("*all")
